@@ -3,6 +3,7 @@ package com.ptidss.system.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ptidss.common.exception.ServiceException;
+import com.ptidss.common.security.TokenService;
 import com.ptidss.common.utils.SnowflakeIdGenerator;
 import com.ptidss.common.utils.StrUtils;
 import com.ptidss.system.domain.SysRole;
@@ -27,14 +28,16 @@ public class SysUserService {
     private final SysUserMapper sysUserMapper;
     private final SysRoleMapper sysRoleMapper;
     private final SysUserRegionMapper sysUserRegionMapper;
+    private final TokenService tokenService;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public SysUserService(SysUserMapper sysUserMapper, SysRoleMapper sysRoleMapper,
-                          SysUserRegionMapper sysUserRegionMapper) {
+                          SysUserRegionMapper sysUserRegionMapper, TokenService tokenService) {
         this.sysUserMapper = sysUserMapper;
         this.sysRoleMapper = sysRoleMapper;
         this.sysUserRegionMapper = sysUserRegionMapper;
+        this.tokenService = tokenService;
     }
 
     public Page<SysUser> page(long pageNum, long pageSize, String keyword, String status) {
@@ -89,6 +92,8 @@ public class SysUserService {
                     .eq(SysUserRegion::getUserId, user.getId()));
             saveRegions(user.getId(), regions);
         }
+        // 区域/角色授权变更：该用户在线会话立即失效（下次请求重新登录生效）
+        tokenService.removeByUserId(user.getId());
     }
 
     /** 重置密码（管理员） */
@@ -115,6 +120,7 @@ public class SysUserService {
         sysUserMapper.deleteById(id);
         sysUserRegionMapper.delete(new LambdaQueryWrapper<SysUserRegion>()
                 .eq(SysUserRegion::getUserId, id));
+        tokenService.removeByUserId(id);
     }
 
     public List<String> regionsOf(Long userId) {

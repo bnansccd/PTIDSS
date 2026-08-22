@@ -6,6 +6,7 @@
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/model/spi/impl/SettlementExecutor.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/auth/service/CaptchaService.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/domain/AuditLog.java
+/home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/mapper/SysRoleRegionMapper.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/review/mapper/StrategyFeedbackMapper.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/intel/domain/IntelNews.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/mapper/SysRoleMapper.java
@@ -171,6 +172,7 @@
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/settlement/domain/SettlementTicket.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/trade/controller/TradeController.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/data/mapper/DataQualityRuleMapper.java
+/home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/domain/SysRoleRegion.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/model/spi/impl/MarketAnalysisExecutor.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/common/config/JsonStringListTypeHandler.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/report/controller/ReportController.java

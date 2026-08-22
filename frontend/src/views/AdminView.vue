@@ -122,13 +122,14 @@
         </div>
         <table>
           <thead>
-            <tr><th>角色编码</th><th>角色名称</th><th>描述</th><th>状态</th><th>操作</th></tr>
+            <tr><th>角色编码</th><th>角色名称</th><th>授权区域</th><th>描述</th><th>状态</th><th>操作</th></tr>
           </thead>
           <tbody>
-            <tr v-if="roles.length === 0"><td colspan="5" class="muted">暂无角色</td></tr>
+            <tr v-if="roles.length === 0"><td colspan="6" class="muted">暂无角色</td></tr>
             <tr v-for="r in roles" :key="r.id">
               <td class="mono">{{ r.roleCode }}</td>
               <td>{{ r.roleName }}</td>
+              <td class="muted">{{ regionNames(r.regionCodes) }}</td>
               <td class="muted">{{ r.description || '-' }}</td>
               <td><span class="badge" :class="r.status === 'active' ? 'badge-green' : 'badge-gray'">{{ r.status === 'active' ? '启用' : '停用' }}</span></td>
               <td>
@@ -156,6 +157,12 @@
           <div class="form-row">
             <label class="f">描述</label>
             <input v-model="roleForm.description" style="flex: 1" />
+          </div>
+          <div class="form-row">
+            <label class="f">授权区域（多省，角色 × 区域双重授权取交集）</label>
+            <select v-model="roleForm.regionCodes" multiple size="2" style="flex: 1">
+              <option v-for="rg in regions" :key="rg.regionCode" :value="rg.regionCode">{{ rg.regionName }}（{{ rg.regionCode }}）</option>
+            </select>
           </div>
           <div class="form-row">
             <label class="f">状态</label>
@@ -489,6 +496,10 @@ function roleNames(ids?: number[]): string {
   return (ids || []).map((id) => roles.value.find((r) => r.id === id)?.roleName || String(id)).join(' / ') || '-'
 }
 
+function regionNames(codes?: string[]): string {
+  return (codes || []).map((c) => regions.value.find((rg) => rg.regionCode === c)?.regionName || c).join(' / ') || '-'
+}
+
 async function loadUsers(page: number) {
   try {
     const res = await getAdminUsers({ pageNum: page, pageSize: 10, ...userQuery })
@@ -610,7 +621,7 @@ function onDeleteUser(u: AdminUser) {
 // ── Tab2 角色权限 ──
 const roleQuery = reactive({ keyword: '' })
 const roleDialog = ref(false)
-const roleForm = reactive({ id: null as number | null, roleCode: '', roleName: '', description: '', status: 'active' })
+const roleForm = reactive({ id: null as number | null, roleCode: '', roleName: '', description: '', status: 'active', regionCodes: [] as string[] })
 
 async function loadRoles() {
   try {
@@ -621,14 +632,18 @@ async function loadRoles() {
 }
 
 function resetRoleForm() {
-  Object.assign(roleForm, { id: null, roleCode: '', roleName: '', description: '', status: 'active' })
+  Object.assign(roleForm, { id: null, roleCode: '', roleName: '', description: '', status: 'active', regionCodes: [] })
 }
 function openRoleCreate() {
   resetRoleForm()
   roleDialog.value = true
 }
 function openRoleEdit(r: AdminRole) {
-  Object.assign(roleForm, { id: r.id, roleCode: r.roleCode, roleName: r.roleName, description: r.description || '', status: r.status })
+  Object.assign(roleForm, {
+    id: r.id, roleCode: r.roleCode, roleName: r.roleName,
+    description: r.description || '', status: r.status,
+    regionCodes: [...(r.regionCodes || [])],
+  })
   roleDialog.value = true
 }
 
@@ -638,7 +653,7 @@ async function submitRole() {
     return
   }
   try {
-    const payload: Record<string, unknown> = { roleCode: roleForm.roleCode, roleName: roleForm.roleName, description: roleForm.description, status: roleForm.status }
+    const payload: Record<string, unknown> = { roleCode: roleForm.roleCode, roleName: roleForm.roleName, description: roleForm.description, status: roleForm.status, regionCodes: roleForm.regionCodes }
     if (roleForm.id) {
       payload.id = roleForm.id
       await updateAdminRole(payload)

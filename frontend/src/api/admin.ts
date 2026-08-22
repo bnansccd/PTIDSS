@@ -59,6 +59,7 @@ export interface AdminRole {
   roleName: string
   description?: string
   status: string
+  regionCodes?: string[]
 }
 
 export function getAdminRoles(params?: { keyword?: string; status?: string }) {
@@ -71,6 +72,10 @@ export function getAdminRole(id: number) {
 
 export function getAdminRolePermissions(id: number) {
   return request<number[]>({ url: `/admin/roles/${id}/permissions`, method: 'get' })
+}
+
+export function getAdminRoleRegions(id: number) {
+  return request<string[]>({ url: `/admin/roles/${id}/regions`, method: 'get' })
 }
 
 export function saveAdminRolePermissions(id: number, permissionIds: number[]) {

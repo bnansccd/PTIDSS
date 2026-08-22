@@ -2,20 +2,28 @@ package com.ptidss.system.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ptidss.common.exception.ServiceException;
+import com.ptidss.common.security.TokenService;
+import com.ptidss.common.utils.SnowflakeIdGenerator;
 import com.ptidss.common.utils.StrUtils;
 import com.ptidss.system.domain.SysPermission;
 import com.ptidss.system.domain.SysRole;
+import com.ptidss.system.domain.SysRoleRegion;
 import com.ptidss.system.domain.SysUser;
 import com.ptidss.system.mapper.SysPermissionMapper;
 import com.ptidss.system.mapper.SysRoleMapper;
+import com.ptidss.system.mapper.SysRoleRegionMapper;
 import com.ptidss.system.mapper.SysUserMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
- * 角色管理（DDL 10.2 sys_role + sys_role_permission；固定 7 类角色：评审决议）
+ * 角色管理（DDL 10.2 sys_role + sys_role_permission + sys_role_region；
+ * 固定 7 类角色：评审决议）
  */
 @Service
 public class SysRoleService {
@@ -27,12 +35,17 @@ public class SysRoleService {
     private final SysRoleMapper sysRoleMapper;
     private final SysPermissionMapper sysPermissionMapper;
     private final SysUserMapper sysUserMapper;
+    private final SysRoleRegionMapper sysRoleRegionMapper;
+    private final TokenService tokenService;
 
     public SysRoleService(SysRoleMapper sysRoleMapper, SysPermissionMapper sysPermissionMapper,
-                          SysUserMapper sysUserMapper) {
+                          SysUserMapper sysUserMapper, SysRoleRegionMapper sysRoleRegionMapper,
+                          TokenService tokenService) {
         this.sysRoleMapper = sysRoleMapper;
         this.sysPermissionMapper = sysPermissionMapper;
         this.sysUserMapper = sysUserMapper;
+        this.sysRoleRegionMapper = sysRoleRegionMapper;
+        this.tokenService = tokenService;
     }
 
     public List<SysRole> list(String keyword, String status) {
@@ -40,7 +53,9 @@ public class SysRoleService {
         qw.like(StrUtils.isNotBlank(keyword), SysRole::getRoleName, keyword)
                 .eq(StrUtils.isNotBlank(status), SysRole::getStatus, status)
                 .orderByAsc(SysRole::getId);
-        return sysRoleMapper.selectList(qw);
+        List<SysRole> roles = sysRoleMapper.selectList(qw);
+        fillRegionCodes(roles);
+        return roles;
     }
 
     public SysRole getById(Long id) {
@@ -48,9 +63,11 @@ public class SysRoleService {
         if (role == null) {
             throw new ServiceException("角色不存在");
         }
+        role.setRegionCodes(regionsOf(id));
         return role;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void create(SysRole role) {
         checkRoleCode(role);
         Long count = sysRoleMapper.selectCount(new LambdaQueryWrapper<SysRole>()
@@ -58,12 +75,22 @@ public class SysRoleService {
         if (count != null && count > 0) {
             throw new ServiceException("角色编码已存在：" + role.getRoleCode());
         }
+        role.setId(SnowflakeIdGenerator.nextId());
         sysRoleMapper.insert(role);
+        saveRegions(role.getId(), role.getRegionCodes());
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void update(SysRole role) {
         checkRoleCode(role);
         sysRoleMapper.updateById(role);
+        if (role.getRegionCodes() != null) {
+            sysRoleRegionMapper.delete(new LambdaQueryWrapper<SysRoleRegion>()
+                    .eq(SysRoleRegion::getRoleId, role.getId()));
+            saveRegions(role.getId(), role.getRegionCodes());
+        }
+        // 区域授权变更：持有该角色的在线会话立即失效（下次请求重新登录生效）
+        tokenService.removeByRole(role.getRoleCode());
     }
 
     /** 固定 7 类角色（DDL CHECK 约束前置校验，返回友好提示） */
@@ -92,6 +119,9 @@ public class SysRoleService {
         }
         sysRoleMapper.deleteById(id);
         sysRoleMapper.deleteRolePermission(id);
+        sysRoleRegionMapper.delete(new LambdaQueryWrapper<SysRoleRegion>()
+                .eq(SysRoleRegion::getRoleId, id));
+        tokenService.removeByRole(role.getRoleCode());
     }
 
     /** 查询角色已分配权限 ID 列表 */
@@ -107,6 +137,38 @@ public class SysRoleService {
             for (Long permId : permissionIds) {
                 sysRoleMapper.insertRolePermission(roleId, permId);
             }
+        }
+    }
+
+    /** 查询角色已授权区域编码 */
+    public List<String> regionsOf(Long roleId) {
+        return sysRoleRegionMapper.selectList(new LambdaQueryWrapper<SysRoleRegion>()
+                        .eq(SysRoleRegion::getRoleId, roleId))
+                .stream().map(SysRoleRegion::getRegionCode).collect(Collectors.toList());
+    }
+
+    /** 角色列表批量填充授权区域（角色量小，按角色分组一次查询） */
+    private void fillRegionCodes(List<SysRole> roles) {
+        if (roles == null || roles.isEmpty()) {
+            return;
+        }
+        Map<Long, List<String>> byRole = sysRoleRegionMapper.selectList(null).stream()
+                .collect(Collectors.groupingBy(SysRoleRegion::getRoleId,
+                        Collectors.mapping(SysRoleRegion::getRegionCode, Collectors.toList())));
+        for (SysRole role : roles) {
+            role.setRegionCodes(byRole.getOrDefault(role.getId(), Collections.emptyList()));
+        }
+    }
+
+    private void saveRegions(Long roleId, List<String> regions) {
+        if (regions == null || regions.isEmpty()) {
+            return;
+        }
+        for (String code : regions) {
+            SysRoleRegion rr = new SysRoleRegion();
+            rr.setRoleId(roleId);
+            rr.setRegionCode(code);
+            sysRoleRegionMapper.insert(rr);
         }
     }
 }

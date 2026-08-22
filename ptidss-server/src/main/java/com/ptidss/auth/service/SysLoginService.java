@@ -13,11 +13,13 @@ import com.ptidss.common.utils.StrUtils;
 import com.ptidss.system.domain.SysPermission;
 import com.ptidss.system.domain.SysRegion;
 import com.ptidss.system.domain.SysRole;
+import com.ptidss.system.domain.SysRoleRegion;
 import com.ptidss.system.domain.SysUser;
 import com.ptidss.system.domain.SysUserRegion;
 import com.ptidss.system.mapper.SysPermissionMapper;
 import com.ptidss.system.mapper.SysRegionMapper;
 import com.ptidss.system.mapper.SysRoleMapper;
+import com.ptidss.system.mapper.SysRoleRegionMapper;
 import com.ptidss.system.mapper.SysUserMapper;
 import com.ptidss.system.mapper.SysUserRegionMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -45,18 +47,21 @@ public class SysLoginService {
     private final SysPermissionMapper sysPermissionMapper;
     private final SysRegionMapper sysRegionMapper;
     private final SysUserRegionMapper sysUserRegionMapper;
+    private final SysRoleRegionMapper sysRoleRegionMapper;
     private final TokenService tokenService;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public SysLoginService(SysUserMapper sysUserMapper, SysRoleMapper sysRoleMapper,
                            SysPermissionMapper sysPermissionMapper, SysRegionMapper sysRegionMapper,
-                           SysUserRegionMapper sysUserRegionMapper, TokenService tokenService) {
+                           SysUserRegionMapper sysUserRegionMapper, SysRoleRegionMapper sysRoleRegionMapper,
+                           TokenService tokenService) {
         this.sysUserMapper = sysUserMapper;
         this.sysRoleMapper = sysRoleMapper;
         this.sysPermissionMapper = sysPermissionMapper;
         this.sysRegionMapper = sysRegionMapper;
         this.sysUserRegionMapper = sysUserRegionMapper;
+        this.sysRoleRegionMapper = sysRoleRegionMapper;
         this.tokenService = tokenService;
     }
 
@@ -181,10 +186,22 @@ public class SysLoginService {
         loginUser.setRoles(roles);
         loginUser.setPermissions(permissions);
 
-        // 授权区域（角色 × 区域双重授权）
+        // 授权区域（角色 × 区域双重授权：有效区域 = 用户授权区域 ∩ 角色授权区域；
+        // 角色未配置区域时以用户授权区域为准（兼容存量）；管理员角色不受区域限制）
         Set<String> regions = sysUserRegionMapper.selectList(
                         new LambdaQueryWrapper<SysUserRegion>().eq(SysUserRegion::getUserId, user.getId()))
                 .stream().map(SysUserRegion::getRegionCode).collect(Collectors.toSet());
+        if (!roles.contains("admin") && !regions.isEmpty() && roleList != null) {
+            Set<String> roleRegions = new HashSet<>();
+            for (SysRole role : roleList) {
+                roleRegions.addAll(sysRoleRegionMapper.selectList(
+                                new LambdaQueryWrapper<SysRoleRegion>().eq(SysRoleRegion::getRoleId, role.getId()))
+                        .stream().map(SysRoleRegion::getRegionCode).collect(Collectors.toSet()));
+            }
+            if (!roleRegions.isEmpty()) {
+                regions.retainAll(roleRegions);
+            }
+        }
         loginUser.setRegions(regions);
 
         // 默认会话区域：首个授权区域（且区域有效）

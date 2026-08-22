@@ -49,6 +49,12 @@ public class SysRoleController {
         return Result.success(sysRoleService.permissionsOf(id));
     }
 
+    /** 查询角色已授权区域（评审决议⑤：角色 × 区域双重授权） */
+    @GetMapping("/{id}/regions")
+    public Result<List<String>> regions(@PathVariable Long id) {
+        return Result.success(sysRoleService.regionsOf(id));
+    }
+
     @Log(action = "role_create", targetType = "sys_role")
     @PostMapping
     public Result<Void> create(@RequestBody SysRole role) {

@@ -105,6 +105,23 @@ public class TokenService {
         }
     }
 
+    /** 按用户清除全部在线会话（用户/角色区域授权变更后立即生效） */
+    public void removeByUserId(Long userId) {
+        if (userId == null) {
+            return;
+        }
+        tokenCache.asMap().entrySet().removeIf(e -> e.getValue() != null && userId.equals(e.getValue().getUserid()));
+    }
+
+    /** 按角色编码清除全部在线会话（角色区域授权变更后，持有该角色的会话失效） */
+    public void removeByRole(String roleCode) {
+        if (StrUtils.isBlank(roleCode)) {
+            return;
+        }
+        tokenCache.asMap().entrySet().removeIf(e -> e.getValue() != null && e.getValue().getRoles() != null
+                && e.getValue().getRoles().contains(roleCode));
+    }
+
     /**
      * 滑动续期：剩余有效期不足阈值时刷新缓存过期时间并重签 JWT（新 token 写入
      * loginUser.newToken，由拦截器经 X-New-Token 响应头回传前端替换），返回新 JWT；

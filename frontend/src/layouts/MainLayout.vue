@@ -4,8 +4,11 @@
       <div class="brand">⚡ PTIDSS 电力交易决策</div>
       <nav class="nav">
         <template v-for="g in visibleGroups" :key="g.group">
-          <div class="nav-group">{{ g.group }}</div>
-          <router-link v-for="m in g.items" :key="m.path" :to="m.path">{{ m.title }}</router-link>
+          <div class="nav-group" :class="{ expanded: !isCollapsed(g.group) }" @click="toggleGroup(g.group)">
+            <span>{{ g.group }}</span>
+            <span class="nav-arrow">{{ isCollapsed(g.group) ? '▸' : '▾' }}</span>
+          </div>
+          <router-link v-if="!isCollapsed(g.group)" v-for="m in g.items" :key="m.path" :to="m.path">{{ m.title }}</router-link>
         </template>
       </nav>
     </aside>
@@ -36,7 +39,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, reactive } from 'vue'
+import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useRegionStore } from '@/stores/region'
 import * as authApi from '@/api/auth'
@@ -44,6 +48,20 @@ import { canAccess } from '@/utils/permission'
 
 const auth = useAuthStore()
 const region = useRegionStore()
+const route = useRoute()
+
+// 分组折叠：默认全部收起（标题点击展开/收起）；进入页面时自动展开当前路由所在分组
+const collapsed = reactive<Record<string, boolean>>({})
+function isCollapsed(group: string): boolean {
+  return collapsed[group] !== false
+}
+function toggleGroup(group: string) {
+  collapsed[group] = isCollapsed(group) ? false : true
+}
+onMounted(() => {
+  const cur = menuGroups.find((g) => g.items.some((m) => route.path === m.path || route.path.startsWith(m.path + '/')))
+  if (cur) collapsed[cur.group] = false
+})
 
 // 菜单（对齐前端原型 dashboard.html 左侧 5 分组：总览/行情与预测/决策与交易/结算与复盘/政策与系统；
 // 19 项功能全部保留，仅按原型分组归位；可见性按登录权限码过滤，见 utils/permission.ts）

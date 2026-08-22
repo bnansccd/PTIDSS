@@ -800,6 +800,14 @@ CREATE TABLE sys_user_region (
   PRIMARY KEY (user_id, region_code)
 );
 
+-- 角色-区域授权（评审决议⑤：有效区域 = 用户授权区域 ∩ 角色授权区域，
+-- 角色未配置区域时以用户授权区域为准，向后兼容存量数据）
+CREATE TABLE sys_role_region (
+  role_id             BIGINT NOT NULL REFERENCES sys_role(id),
+  region_code         VARCHAR(16) NOT NULL,                 -- 多省编码
+  PRIMARY KEY (role_id, region_code)
+);
+
 -- 10.3 审计日志（按月分区；关键操作前后快照）
 CREATE TABLE audit_log (
   id                  BIGINT NOT NULL,

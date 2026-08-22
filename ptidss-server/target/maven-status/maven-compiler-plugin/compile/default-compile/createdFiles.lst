@@ -115,6 +115,7 @@ com/ptidss/agent/mapper/AgentRunMapper.class
 com/ptidss/flow/service/FlowService.class
 com/ptidss/review/domain/ReviewReport.class
 com/ptidss/common/config/JacksonConfig.class
+com/ptidss/system/mapper/SysRoleRegionMapper.class
 com/ptidss/trade/service/TradeService$2.class
 com/ptidss/auth/dto/CurrentUser.class
 com/ptidss/trade/dto/TradeDeclarationRequest.class
@@ -169,6 +170,7 @@ com/ptidss/common/config/WebMvcConfig.class
 com/ptidss/settlement/domain/OcrTask.class
 com/ptidss/system/mapper/SysRegionMapper.class
 com/ptidss/policy/domain/PolicyDocument.class
+com/ptidss/system/domain/SysRoleRegion.class
 com/ptidss/common/utils/IdUtils.class
 com/ptidss/trade/domain/Declaration.class
 com/ptidss/model/mapper/ModelTaskMapper.class
