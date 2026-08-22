@@ -1,0 +1,401 @@
+nohup: 忽略输入
+
+  VITE v6.4.3  ready in 267 ms
+
+  ➜  Local:   http://localhost:30001/
+  ➜  Network: http://10.0.0.34:30001/
+21:08:31 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:08:48 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:09:23 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:12:09 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:12:48 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:12:51 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:12:51 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:12:51 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:12:52 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:12:53 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:12:53 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:12:53 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:12:54 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:12:55 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:12:56 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:16:52 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:19:12 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:20:32 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:21:24 [vite] Internal server error: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:1)
+  Plugin: vite:vue
+  File: /home/odoo/workspace/PTIDSS/frontend/src/views/DashboardView.vue:9:48
+  7  |          <span class="muted">角色：{{ (auth.user?.roles ?? []).join(', ') || '—' }}</span>
+  8  |          <span class="muted">授权区域：{{ (auth.user?.regions ?? []).join(', ') || '—' }}</span>
+  9  |          <span class="badge badge-green">已连接 {{ import.meta.env.VITE_API_BASE }}</span>
+     |                                                  ^
+  10 |        </div>
+  11 |      </div>
+      at createCompilerError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1378:17)
+      at emitError (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3035:5)
+      at createExp (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3028:7)
+      at Object.oninterpolation (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:2372:16)
+      at Tokenizer.stateInterpolationClose (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:596:18)
+      at Tokenizer.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:1097:16)
+      at Object.baseParse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-core/dist/compiler-core.cjs.js:3074:13)
+      at Object.parse (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-dom/dist/compiler-dom.cjs.js:913:23)
+      at Object.parse$1 [as parse] (/home/odoo/workspace/PTIDSS/frontend/node_modules/@vue/compiler-sfc/dist/compiler-sfc.cjs.js:1849:24)
+      at createDescriptor (file:///home/odoo/workspace/PTIDSS/frontend/node_modules/@vitejs/plugin-vue/dist/index.mjs:71:43)
+21:23:29 [vite] (client) hmr update /src/views/IntelView.vue
+22:37:53 [vite] (client) hmr update /src/assets/main.css
+22:38:43 [vite] (client) hmr update /src/views/AdminView.vue
+22:39:20 [vite] (client) hmr update /src/views/DataPlatformView.vue
+22:39:31 [vite] (client) hmr update /src/views/PolicyView.vue
+22:39:32 [vite] (client) hmr update /src/views/IntelView.vue
+22:40:17 [vite] (client) hmr update /src/views/DataPlatformView.vue
+22:40:36 [vite] (client) hmr update /src/views/IntelView.vue
+22:40:51 [vite] (client) hmr update /src/views/PolicyView.vue
+22:42:46 [vite] (client) hmr update /src/views/DashboardView.vue
+22:43:00 [vite] (client) hmr update /src/views/DashboardView.vue
+22:44:20 [vite] (client) hmr update /src/views/DashboardView.vue
+07:29:27 [vite] (client) page reload src/utils/permission.ts
+07:29:28 [vite] (client) page reload src/router/index.ts
+07:29:29 [vite] (client) hmr update /src/layouts/MainLayout.vue
+07:31:03 [vite] (client) hmr update /src/assets/main.css
+07:31:20 [vite] (client) hmr update /src/views/MarketView.vue
+07:31:34 [vite] (client) hmr update /src/views/MarketView.vue
+07:31:44 [vite] (client) hmr update /src/views/MarketView.vue
+07:32:00 [vite] (client) hmr update /src/views/ForecastView.vue
+07:32:23 [vite] (client) hmr update /src/views/TradeView.vue
+07:32:36 [vite] (client) hmr update /src/views/TradeView.vue
+07:32:53 [vite] (client) hmr update /src/views/SettlementView.vue
+07:34:31 [vite] (client) hmr update /src/views/DecisionView.vue
+07:34:55 [vite] (client) hmr update /src/views/DecisionView.vue
+07:36:14 [vite] (client) hmr update /src/views/DecisionView.vue
+07:36:26 [vite] (client) hmr update /src/views/SettlementView.vue
+07:36:26 [vite] (client) hmr update /src/views/TradeView.vue
+07:36:42 [vite] (client) hmr update /src/views/SettlementView.vue
+07:47:51 [vite] (client) hmr update /src/views/ReviewView.vue, /src/views/AssessView.vue
+07:47:52 [vite] (client) hmr update /src/views/ReviewView.vue
+07:48:07 [vite] (client) hmr update /src/views/TradeView.vue
+07:51:41 [vite] (client) hmr update /src/views/TradeView.vue
+07:51:42 [vite] (client) hmr update /src/views/ReviewView.vue

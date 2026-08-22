@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>复盘分析 · 电力交易智能辅助决策系统</title>
+<link rel="stylesheet" href="assets/wireframe.css">
+</head>
+<body>
+<!-- 复盘分析（对应 4.7：复盘域；周/月复盘、三层归因、策略回流、报告生成） -->
+<div class="wf-topbar">
+  <div class="wf-logo">⚡ 电力交易智能辅助决策 <span class="wf-logo-en">PTIDSS</span></div>
+  <div class="wf-nav">
+    <a href="dashboard.html">工作台</a>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <a href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a class="active" href="review-dashboard.html">复盘分析</a>
+    <a href="policy-detail.html">政策研判</a>
+  </div>
+  <div class="wf-user"><span class="wf-avatar">复</span> 交易主管·刘工 <span class="wf-badge b-primary">P0</span></div>
+</div>
+
+<div class="wf-layout">
+  <div class="wf-sidebar">
+    <div class="wf-group">总览</div>
+    <a href="dashboard.html">首页工作台</a>
+    <div class="wf-group">行情与预测</div>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <div class="wf-group">决策与交易</div>
+    <a href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <div class="wf-group">结算与复盘</div>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a class="active" href="review-dashboard.html">复盘分析</a>
+    <div class="wf-group">政策与系统</div>
+    <a href="policy-detail.html">政策研判</a>
+    <a href="#">系统管理</a>
+  </div>
+
+  <div class="wf-main">
+    <div class="wf-page-head">
+      <div>
+        <h1>复盘分析</h1>
+        <div class="wf-sub">当前：周复盘 2026-07-27 ~ 08-02｜自动生成于 08-03 06:00</div>
+      </div>
+      <div class="wf-actions">
+        <a class="wf-btn" href="#">新建专项复盘</a>
+        <a class="wf-btn primary" href="#">导出报告（PDF/Word）</a>
+      </div>
+    </div>
+
+    <div class="wf-tabs">
+      <a class="active" href="#">周复盘</a>
+      <a href="#">月复盘</a>
+      <a href="#">专项复盘</a>
+      <a href="#">策略评估</a>
+    </div>
+
+    <div class="wf-grid wf-grid-4 mb">
+      <div class="wf-card"><div class="wf-stat"><span class="k">期间收益</span><span class="v">+ 2.86 万</span><span class="d down">目标完成率 108%</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">偏差考核金额</span><span class="v">- 8,640</span><span class="d up">元（较上周 -18%）</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">偏差电量</span><span class="v">1,240</span><span class="d">MWh（占比 1.2%）</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">策略胜率</span><span class="v">71.4%</span><span class="d">5/7 策略有效</span></div></div>
+    </div>
+
+    <div class="wf-grid wf-grid-2-1">
+      <div class="wf-card">
+        <div class="wf-card-title">偏差三层归因（金额占比）</div>
+        <div class="wf-placeholder wf-ph-chart">ECharts：环形图——预测层 46% / 决策层 32% / 执行层 22%<br><small>点击扇区下钻明细</small></div>
+        <table class="wf-table mt">
+          <tr><th>归因层</th><th>主要偏差项</th><th>收益影响（元）</th><th>改进建议</th></tr>
+          <tr><td>预测层</td><td>午间电价预测偏高</td><td class="num">- 12,600</td><td class="wf-sm">增加新能源渗透率特征</td></tr>
+          <tr><td>决策层</td><td>高价段申报量不足</td><td class="num">- 8,400</td><td class="wf-sm">激进情景纳入主方案评估</td></tr>
+          <tr><td>执行层</td><td>1 次申报延迟（人工）</td><td class="num">- 4,200</td><td class="wf-sm">设置截止前 30 分钟提醒</td></tr>
+        </table>
+      </div>
+
+      <div class="wf-card">
+        <div class="wf-card-title">策略评估与回流</div>
+        <table class="wf-table">
+          <tr><th>策略</th><th>胜率</th><th>收益增量</th><th>状态</th><th>回流</th></tr>
+          <tr><td>峰段增持策略 v3</td><td class="num">78%</td><td class="num">+18,200</td><td><span class="wf-badge b-ok">有效</span></td><td><a class="wf-sm" href="#">保持</a></td></tr>
+          <tr><td>午间避峰策略 v1</td><td class="num">42%</td><td class="num">- 6,300</td><td><span class="wf-badge b-danger">失效</span></td><td><a class="wf-sm" href="#">调整参数</a></td></tr>
+          <tr><td>谷段买入策略 v2</td><td class="num">86%</td><td class="num">+ 9,800</td><td><span class="wf-badge b-ok">有效</span></td><td><a class="wf-sm" href="#">保持</a></td></tr>
+          <tr><td>实时滚动修正 v1</td><td class="num">62%</td><td class="num">+ 3,100</td><td><span class="wf-badge b-warn">评估中</span></td><td><a class="wf-sm" href="#">观察</a></td></tr>
+        </table>
+        <div class="wf-sm wf-muted mt">策略回流结论将同步至决策编排（agent 参数），需主管确认后生效</div>
+      </div>
+    </div>
+
+    <div class="wf-card">
+      <div class="wf-card-title">复盘报告摘要（自动生成）</div>
+      <div class="wf-row" style="line-height:1.9">
+        <span class="wf-tag">收益分析</span><span class="wf-sm wf-muted">现货收益 +2.86 万，中长期合约收益 +1.12 万，偏差考核 -0.86 万</span><br>
+        <span class="wf-tag">偏差分析</span><span class="wf-sm wf-muted">总偏差 1.2%，主因午间现货价格预测偏高（占比 46%）</span><br>
+        <span class="wf-tag">合规回顾</span><span class="wf-sm wf-muted">全部申报合规通过，无违规项</span><br>
+        <span class="wf-tag">改进建议</span><span class="wf-sm wf-muted">① 预测模型加入新能源渗透特征；② 申报截止前 30 分钟自动提醒；③ 午间时段启用避峰策略 v2（参数已更新）</span>
+      </div>
+      <div class="wf-row mt">
+        <button class="wf-btn" type="button">编辑报告</button>
+        <button class="wf-btn primary" type="button">确认并发布</button>
+        <span class="wf-sm wf-muted">发布后推送至消息中心并归档</span>
+      </div>
+    </div>
+
+    <div class="wf-footer">线框原型 V1.0 · 对应 4.7 页面清单：复盘看板 / 归因分析 / 策略评估 / 报告中心</div>
+  </div>
+</div>
+</body>
+</html>

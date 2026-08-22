@@ -1,0 +1,93 @@
+package ${packageName}.service;
+
+import java.util.List;
+import ${packageName}.domain.DTO.${ClassName}SearchDTO;
+import com.troy.common.core.domain.ResultVO;
+import ${packageName}.domain.VO.${ClassName}VO;
+import ${packageName}.domain.DTO.${ClassName}DTO;
+#if($table.crud || $table.sub)
+import com.troy.common.core.web.VO.PageVO;
+#end
+
+/**
+ * @Auther: ${author}
+ * @Date: ${datetime}
+ * @Description: ${functionName}Service接口
+ * @Version: 1.0.0
+ */
+public interface ${ClassName}Service {
+    /**
+     * 通过主键查询${functionName}
+     * 
+     * @param ${pkColumn.javaField} 主键
+     * @return ${functionName}
+     */
+     ${ClassName}VO select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField});
+
+    /**
+     * 查询${functionName}列表
+     * 
+     * @param dto
+     * @return ${functionName}集合
+     */
+#if($table.crud || $table.sub)
+    PageVO<${ClassName}VO> select${ClassName}Page(${ClassName}SearchDTO dto);
+#elseif($table.tree)
+    List<${ClassName}VO> select${ClassName}List(${ClassName}SearchDTO dto);
+#end
+
+    /**
+     * 导出${functionName}列表
+     *
+     * @param dto
+     * @return ${functionName}集合
+     */
+    List<${ClassName}VO> export${ClassName}(${ClassName}SearchDTO dto);
+
+    /**
+     * 新增${functionName}
+     * 
+     * @param dto
+     * @return 结果
+     */
+    ResultVO insert${ClassName}(${ClassName}DTO dto);
+
+    /**
+     * 修改${functionName}
+     * 
+     * @param ${pkColumn.javaField}
+     * @param dto
+     * @return 结果
+     */
+    ResultVO update${ClassName}(${pkColumn.javaType} ${pkColumn.javaField},${ClassName}DTO dto);
+
+    /**
+     * 批量删除${functionName}
+     * 
+     * @param ${pkColumn.javaField}s
+     * @return 结果
+     */
+    ResultVO delete${ClassName}By${pkColumn.capJavaField}s(List<${pkColumn.javaType}> ${pkColumn.javaField}s);
+
+
+#if($table.main)
+#foreach($mainTable in $main)
+    /**
+     * 根据${mainTable.functionName} id 查询 ${functionName}
+     *
+     * @param ${mainTable.subTableFkclassName}
+     * @return 结果
+     */
+    List<${ClassName}VO> findBy${mainTable.subTableFkClassName}(${mainTable.pkColumn.javaType} ${mainTable.subTableFkclassName});
+
+    /**
+     * 根据一批${mainTable.functionName} id 查询 ${functionName}
+     *
+     * @param ${mainTable.subTableFkclassName}
+     * @return 结果
+     */
+    List<${ClassName}VO> findBy${mainTable.subTableFkClassName}s(List<${mainTable.pkColumn.javaType}> ${mainTable.subTableFkclassName}s);
+#end
+#end
+
+}

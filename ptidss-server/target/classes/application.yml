@@ -1,0 +1,61 @@
+server:
+  port: 9080
+  servlet:
+    context-path: /ptidss
+
+spring:
+  application:
+    name: ptidss-server
+  profiles:
+    active: dev
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 100MB
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  global-config:
+    banner: false
+    db-config:
+      id-type: none          # 雪花 ID 由应用层生成（数据字典通用约定）
+      logic-delete-field: deleted
+      logic-delete-value: true
+      logic-not-delete-value: false
+
+logging:
+  level:
+    com.ptidss: debug
+    com.ptidss.system.mapper: debug
+
+# ── PTIDSS 应用配置 ──────────────────────────────────────────
+ptidss:
+  # 令牌（JWT + 本地缓存；生产可切换 Redis）
+  token:
+    secret: ptidss-jwt-secret-key-2026-change-me-in-production
+    expire-minutes: 120          # 访问令牌有效期（分钟）
+    refresh-threshold-minutes: 10  # 剩余不足该值时自动续期
+  # 初始账号密码初始化（DDL 07 约定：PLACEHOLDER:APP_INIT 占位符由应用首次启动重置）
+  init:
+    default-password: Ptidss@2026
+  # 验证码开关（交付态开启；测试态由测试脚本说明置 false）
+  captcha:
+    enabled: true
+  # 本地文件存储根目录（政策原文/算法包等上传文件落盘位置）
+  storage:
+    path: ./data/ptidss
+  # LLM 推理网关（P2 真实 HTTP 通道）：开启后 endpoint+apiKeyRef 就绪的模型走 OpenAI 兼容真实调用
+  llm:
+    gateway-enabled: true
+    # 密钥配置（生产经环境变量 LLM_API_KEY_* 注入优先；此处仅供内网/联调回退）：
+    # 引用名 → 密钥值；LLM_API_KEY_MOCK 为网关联调占位（测试用例用），生产删除
+    api-keys:
+      LLM_API_KEY_MOCK: mock-key-for-gateway-test
+  # 连接参数字段级加密（P2）：密钥派生种子，生产部署必须替换为独立随机串
+  security:
+    config-secret-key: ptidss-config-secret-key-2026-dev-change-in-production

@@ -1,0 +1,112 @@
+nohup: 忽略输入
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.ptidss:ptidss-server >----------------------
+[INFO] Building ptidss-server 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot-maven-plugin:2.7.13:run (default-cli) > test-compile @ ptidss-server >>>
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:resources (default-resources) @ ptidss-server ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 2 resources
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:compile (default-compile) @ ptidss-server ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:testResources (default-testResources) @ ptidss-server ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] skip non existing resourceDirectory /home/odoo/workspace/PTIDSS/ptidss-server/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:testCompile (default-testCompile) @ ptidss-server ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] <<< spring-boot-maven-plugin:2.7.13:run (default-cli) < test-compile @ ptidss-server <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:2.7.13:run (default-cli) @ ptidss-server ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.13)
+
+2026-08-20 20:34:09.042  INFO 42669 --- [           main] com.ptidss.PtidssApplication             : Starting PtidssApplication using Java 1.8.0_502 on odoo-pc with PID 42669 (/home/odoo/workspace/PTIDSS/ptidss-server/target/classes started by odoo in /home/odoo/workspace/PTIDSS/ptidss-server)
+2026-08-20 20:34:09.043 DEBUG 42669 --- [           main] com.ptidss.PtidssApplication             : Running with Spring Boot v2.7.13, Spring v5.3.28
+2026-08-20 20:34:09.044  INFO 42669 --- [           main] com.ptidss.PtidssApplication             : The following 1 profile is active: "dev"
+2026-08-20 20:34:10.043  INFO 42669 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9080 (http)
+2026-08-20 20:34:10.050  INFO 42669 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-08-20 20:34:10.051  INFO 42669 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.76]
+2026-08-20 20:34:10.107  INFO 42669 --- [           main] o.a.c.c.C.[.[localhost].[/ptidss]        : Initializing Spring embedded WebApplicationContext
+2026-08-20 20:34:10.108  INFO 42669 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1025 ms
+2026-08-20 20:34:10.572  WARN 42669 --- [           main] c.b.m.core.metadata.TableInfoHelper      : Can not find table primary key in Class: "com.ptidss.system.domain.SysUserRegion".
+2026-08-20 20:34:10.572  WARN 42669 --- [           main] c.b.m.core.injector.DefaultSqlInjector   : class com.ptidss.system.domain.SysUserRegion ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2026-08-20 20:34:10.602  INFO 42669 --- [           main] com.ptidss.common.security.TokenService  : TokenService 初始化完成：expire=120min, refreshThreshold=10min
+2026-08-20 20:34:10.651  INFO 42669 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-08-20 20:34:10.705  INFO 42669 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-08-20 20:34:10.711 DEBUG 42669 --- [           main] c.p.s.mapper.SysUserMapper.selectList    : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (password_hash LIKE ?)
+2026-08-20 20:34:10.719 DEBUG 42669 --- [           main] c.p.s.mapper.SysUserMapper.selectList    : ==> Parameters: %PLACEHOLDER%(String)
+2026-08-20 20:34:10.732 DEBUG 42669 --- [           main] c.p.s.mapper.SysUserMapper.selectList    : <==      Total: 0
+2026-08-20 20:34:12.032  INFO 42669 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9080 (http) with context path '/ptidss'
+2026-08-20 20:34:12.039  INFO 42669 --- [           main] com.ptidss.PtidssApplication             : Started PtidssApplication in 3.321 seconds (JVM running for 3.582)
+===============================================
+  PTIDSS Server 启动成功: http://localhost:9080/ptidss
+===============================================
+2026-08-20 20:34:36.516  INFO 42669 --- [nio-9080-exec-1] o.a.c.c.C.[.[localhost].[/ptidss]        : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-20 20:34:36.517  INFO 42669 --- [nio-9080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-08-20 20:34:36.518  INFO 42669 --- [nio-9080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-08-20 20:34:40.154 DEBUG 42669 --- [nio-9080-exec-2] c.p.s.mapper.SysUserMapper.selectList    : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (username = ?)
+2026-08-20 20:34:40.154 DEBUG 42669 --- [nio-9080-exec-2] c.p.s.mapper.SysUserMapper.selectList    : ==> Parameters: admin(String)
+2026-08-20 20:34:40.195 DEBUG 42669 --- [nio-9080-exec-2] c.p.s.mapper.SysUserMapper.selectList    : <==      Total: 1
+2026-08-20 20:34:40.289 DEBUG 42669 --- [nio-9080-exec-2] c.p.s.m.SysRoleMapper.selectBatchIds     : ==>  Preparing: SELECT id,role_code,role_name,description,status,version,deleted,created_at,updated_at FROM sys_role WHERE id IN ( ? ) AND deleted=false
+2026-08-20 20:34:40.290 DEBUG 42669 --- [nio-9080-exec-2] c.p.s.m.SysRoleMapper.selectBatchIds     : ==> Parameters: 4(Long)
+2026-08-20 20:34:40.292 DEBUG 42669 --- [nio-9080-exec-2] c.p.s.m.SysRoleMapper.selectBatchIds     : <==      Total: 1
+2026-08-20 20:34:40.295 DEBUG 42669 --- [nio-9080-exec-2] c.p.s.m.SysPermissionMapper.selectList   : ==>  Preparing: SELECT id,perm_code,perm_name,resource_type,resource_pattern,status,version,deleted,created_at,updated_at FROM sys_permission WHERE deleted=false AND (status = ? AND EXISTS (SELECT 1 FROM sys_role_permission rp WHERE rp.permission_id = sys_permission.id AND rp.role_id = ?))
+2026-08-20 20:34:40.295 DEBUG 42669 --- [nio-9080-exec-2] c.p.s.m.SysPermissionMapper.selectList   : ==> Parameters: active(String), 4(Long)
+2026-08-20 20:34:40.304 DEBUG 42669 --- [nio-9080-exec-2] c.p.s.m.SysPermissionMapper.selectList   : <==      Total: 18
+2026-08-20 20:34:40.306 DEBUG 42669 --- [nio-9080-exec-2] c.p.s.m.SysUserRegionMapper.selectList   : ==>  Preparing: SELECT user_id,region_code FROM sys_user_region WHERE (user_id = ?)
+2026-08-20 20:34:40.307 DEBUG 42669 --- [nio-9080-exec-2] c.p.s.m.SysUserRegionMapper.selectList   : ==> Parameters: 1(Long)
+2026-08-20 20:34:40.308 DEBUG 42669 --- [nio-9080-exec-2] c.p.s.m.SysUserRegionMapper.selectList   : <==      Total: 4
+2026-08-20 20:34:40.310 DEBUG 42669 --- [nio-9080-exec-2] c.p.s.mapper.SysRegionMapper.selectList  : ==>  Preparing: SELECT id,region_code,region_name,market_support,exchange_channel,settlement_period,status,launch_order,version,deleted,created_at,updated_at FROM sys_region WHERE deleted=false AND (region_code = ? AND status = ?)
+2026-08-20 20:34:40.310 DEBUG 42669 --- [nio-9080-exec-2] c.p.s.mapper.SysRegionMapper.selectList  : ==> Parameters: CN-31(String), enabled(String)
+2026-08-20 20:34:40.312 DEBUG 42669 --- [nio-9080-exec-2] c.p.s.mapper.SysRegionMapper.selectList  : <==      Total: 1
+2026-08-20 20:34:40.342 DEBUG 42669 --- [nio-9080-exec-2] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET last_login_at=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-20 20:34:40.343 DEBUG 42669 --- [nio-9080-exec-2] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: 2026-08-20 20:34:40.337(Timestamp), 2026-08-20 20:34:40.34(Timestamp), 1(Long)
+2026-08-20 20:34:40.346 DEBUG 42669 --- [nio-9080-exec-2] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-20 20:34:40.350 DEBUG 42669 --- [nio-9080-exec-2] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, ip, user_agent, result, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-20 20:34:40.351 DEBUG 42669 --- [nio-9080-exec-2] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 216173087438278656(Long), 47e2d04ca9f24c09(String), 0(Long), admin(String), login(String), auth(String), LoginBody(username=admin, password=Ptidss@2026, captchaKey=null,(String), 127.0.0.1(String), python-requests/2.31.0(String), success(String), 2026-08-20 20:34:40.347(Timestamp)
+2026-08-20 20:34:40.353 DEBUG 42669 --- [nio-9080-exec-2] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-20 20:34:40.437 DEBUG 42669 --- [nio-9080-exec-5] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, before_snapshot, ip, user_agent, result, region_code, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-20 20:34:40.438 DEBUG 42669 --- [nio-9080-exec-5] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 216173087715102720(Long), fe2dda6c62eb41df(String), 1(Long), admin(String), role_create(String), sys_role(String), SysRole(id=null, roleCode=TEST_ROLE29280, roleName=测试角色, descrip(String), [{"roleCode":"TEST_ROLE29280","roleName":"测试角色","status":"enabled"}](String), 127.0.0.1(String), python-requests/2.31.0(String), fail(String), CN-32(String), 2026-08-20 20:34:40.413(Timestamp)
+2026-08-20 20:34:40.440 DEBUG 42669 --- [nio-9080-exec-5] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-20 20:34:40.452 DEBUG 42669 --- [nio-9080-exec-7] c.p.s.mapper.SysPermissionMapper.insert  : ==>  Preparing: INSERT INTO sys_permission ( id, perm_code, perm_name, resource_type, resource_pattern, version, deleted, created_at, updated_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-20 20:34:40.452 DEBUG 42669 --- [nio-9080-exec-7] c.p.s.mapper.SysPermissionMapper.insert  : ==> Parameters: 216173087874486272(Long), menu:test_29280(String), 测试权限(String), menu(String), /test/**(String), 1(Integer), false(Boolean), 2026-08-20 20:34:40.451(Timestamp), 2026-08-20 20:34:40.451(Timestamp)
+2026-08-20 20:34:40.453 DEBUG 42669 --- [nio-9080-exec-7] c.p.s.mapper.SysPermissionMapper.insert  : <==    Updates: 1
+2026-08-20 20:34:40.461 DEBUG 42669 --- [nio-9080-exec-7] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, after_snapshot, ip, user_agent, result, region_code, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-20 20:34:40.461 DEBUG 42669 --- [nio-9080-exec-7] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 216173087887069184(Long), fed9f537869f4fba(String), 1(Long), admin(String), permission_create(String), sys_permission(String), SysPermission(id=216173087874486272, permCode=menu:test_29280, p(String), [{"createdAt":"2026-08-20T20:34:40.451+08:00","deleted":false,"id":216173087874486272,"permCode":"menu:test_29280","permName":"测试权限","resourcePattern":"/test/**","resourceType":"menu","updatedAt":"2026-08-20T20:34:40.451+08:00","version":1}](String), 127.0.0.1(String), python-requests/2.31.0(String), success(String), CN-32(String), 2026-08-20 20:34:40.455(Timestamp)
+2026-08-20 20:34:40.462 DEBUG 42669 --- [nio-9080-exec-7] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-20 20:34:40.472 DEBUG 42669 --- [nio-9080-exec-9] c.p.s.m.SysPermissionMapper.selectList   : ==>  Preparing: SELECT id,perm_code,perm_name,resource_type,resource_pattern,status,version,deleted,created_at,updated_at FROM sys_permission WHERE deleted=false ORDER BY id ASC
+2026-08-20 20:34:40.472 DEBUG 42669 --- [nio-9080-exec-9] c.p.s.m.SysPermissionMapper.selectList   : ==> Parameters: 
+2026-08-20 20:34:40.475 DEBUG 42669 --- [nio-9080-exec-9] c.p.s.m.SysPermissionMapper.selectList   : <==      Total: 19
+2026-08-20 20:34:40.487 DEBUG 42669 --- [nio-9080-exec-1] c.p.s.m.SysPermissionMapper.updateById   : ==>  Preparing: UPDATE sys_permission SET perm_code=?, perm_name=?, resource_type=?, resource_pattern=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-20 20:34:40.488 DEBUG 42669 --- [nio-9080-exec-1] c.p.s.m.SysPermissionMapper.updateById   : ==> Parameters: menu:test_29280(String), 测试权限改(String), menu(String), /test/**(String), 2026-08-20 20:34:40.487(Timestamp), 216173087874486272(Long)
+2026-08-20 20:34:40.489 DEBUG 42669 --- [nio-9080-exec-1] c.p.s.m.SysPermissionMapper.updateById   : <==    Updates: 1
+2026-08-20 20:34:40.491 DEBUG 42669 --- [nio-9080-exec-1] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, after_snapshot, ip, user_agent, result, region_code, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-20 20:34:40.491 DEBUG 42669 --- [nio-9080-exec-1] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 216173088038064128(Long), 42ea62fb3cc24b19(String), 1(Long), admin(String), permission_update(String), sys_permission(String), SysPermission(id=216173087874486272, permCode=menu:test_29280, p(String), [{"id":216173087874486272,"permCode":"menu:test_29280","permName":"测试权限改","resourcePattern":"/test/**","resourceType":"menu","updatedAt":"2026-08-20T20:34:40.487+08:00"}](String), 127.0.0.1(String), python-requests/2.31.0(String), success(String), CN-32(String), 2026-08-20 20:34:40.49(Timestamp)
+2026-08-20 20:34:40.493 DEBUG 42669 --- [nio-9080-exec-1] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-20 20:34:40.502 DEBUG 42669 --- [nio-9080-exec-3] c.p.s.m.SysPermissionMapper.deleteById   : ==>  Preparing: UPDATE sys_permission SET deleted=true WHERE id=? AND deleted=false
+2026-08-20 20:34:40.502 DEBUG 42669 --- [nio-9080-exec-3] c.p.s.m.SysPermissionMapper.deleteById   : ==> Parameters: 216173087874486272(Long)
+2026-08-20 20:34:40.503 DEBUG 42669 --- [nio-9080-exec-3] c.p.s.m.SysPermissionMapper.deleteById   : <==    Updates: 1
+2026-08-20 20:34:40.506 DEBUG 42669 --- [nio-9080-exec-3] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, after_snapshot, ip, user_agent, result, region_code, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-20 20:34:40.507 DEBUG 42669 --- [nio-9080-exec-3] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 216173088096784384(Long), 3b36a9e9ba024f52(String), 1(Long), admin(String), permission_delete(String), sys_permission(String), 216173087874486272(String), [216173087874486272](String), 127.0.0.1(String), python-requests/2.31.0(String), success(String), CN-32(String), 2026-08-20 20:34:40.504(Timestamp)
+2026-08-20 20:34:40.508 DEBUG 42669 --- [nio-9080-exec-3] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-20 20:35:20.156  INFO 42669 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-08-20 20:35:20.158  INFO 42669 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

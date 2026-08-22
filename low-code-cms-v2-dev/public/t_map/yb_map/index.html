@@ -1,0 +1,605 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+    <title>地图显示</title>
+    <style>
+        html,
+        body,
+        #container {
+          width: 100%;
+          height: 100%;
+        }
+                    .amap-info-window{
+            width: 150px;
+            background: #fff;
+            border-radius: 3px;
+            padding: 3px 7px;
+            box-shadow: 0 2px 6px 0 rgba(114, 124, 245, .5);
+            position: relative;
+        }
+        .amap-info-sharp{
+            position: absolute;
+            top: 21px;
+            bottom: 0;
+            left: 50%;
+            margin-left: -8px;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #fff;
+        }
+
+        /* 覆盖窗体样式 */
+        .amap-info-content {
+
+            background: linear-gradient(360deg, #FFFFFF 0%, #F2FBF6 100%);
+            box-shadow: 0px 5px 8px 1px rgba(50,190,115,0.18);
+            border-radius: 10px 10px 10px 10px;
+            opacity: 1;
+            padding: 20px;
+        }
+        .amap-info-close {
+
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            color: #41C980;
+            text-decoration: none;
+            font: 500 18px/16px Tahoma,Verdana,sans-serif;
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+        }
+        .amap-info-sharp {
+            bottom:0 !important;
+            position:absolute;
+            top: auto;
+        }
+        .amap-window-info{
+
+            width: 320px;
+            min-height: 222px;
+
+        }
+        .amap-window-info-title{
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            font-family: Source Han Sans CN-Medium, Source Han Sans CN;
+            font-weight: 500;
+            color: #41C980;
+            padding: 3px 0 15px 0;
+        }
+        .top-main-box{
+            width: 100%;
+            height: 60px;
+            background: #E8F8EF;
+            border-radius: 10px 10px 10px 10px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .top-left-box{
+            width: 50%;
+            height: 35px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-right: 1px solid #93E0B7;
+        }
+        .top-right-box{
+            width: 50%;
+            height: 35px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .top-all-box{
+            width: 100%;
+            height: 35px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .top-box-val{
+            font-size: 20px;
+            font-family: Source Han Sans CN-Bold, Source Han Sans CN;
+            font-weight: bold;
+            color: #41C980;
+        }
+        .top-box-label{
+            font-size: 14px;
+            font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+            font-weight: 400;
+            color: #051838;
+        }
+        .desc-label{
+            font-size: 14px;
+            font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+            font-weight: 400;
+            color: #89909D;
+            line-height: 22px;
+        }
+        .desc-val{
+            font-size: 14px;
+            font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+            font-weight: 400;
+            color: #051838;
+            line-height: 22px;
+        }
+        .btn-box{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .amap-info-btn{
+            width: 100px;
+            height: 36px;
+            background: #41C980;
+            border-radius: 18px 18px 18px 18px;
+            font-size: 14px;
+            font-family: Source Han Sans CN-Regular, Source Han Sans CN;
+            font-weight: 400;
+            color: #FFFFFF;
+            line-height: 36px;
+            text-align: center;
+            margin-top: 22px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="container"></div>
+
+<!-- <div class="amap-window-info">
+    <div class="amap-window-info-title">川Q079Y5</div>
+    <div class="top-main-box">
+        <div class="top-left-box">
+            <div class="top-box-val">2</div>
+            <div class="top-box-label">主防摄像头</div>
+        </div>
+        <div class="top-right-box">
+            <div class="top-box-val">2</div>
+            <div class="top-box-label">高清相机</div>
+        </div>
+    </div>
+    <div class="desc-label">所属出租车公司：<span class="desc-val">宜宾宜行</span></div>
+    <div class="desc-label">编号：<span class="desc-val">230524001</span></div>
+    <div class="desc-label">管理单位：<span class="desc-val">宜宾宜行汽车科技有限公司</span></div>
+    <div class="btn-box">
+        <div class="amap-info-btn">查看监控</div>
+    </div>
+</div> -->
+<!-- 加载地图JSAPI脚本 -->
+<script src="https://webapi.amap.com/maps?v=2.0&key=ca46ee3e8e7540b7c7c1e78b04abc597"></script>
+
+<!-- 海量点数据 -->
+<!-- <script type="text/javascript" src="https://a.amap.com/jsapi_demos/static/demo-center/data/mock_position.js"></script> -->
+<script>
+    const arr = [];
+    var infoWindowNum = "";
+    var layer1;
+    var layer2;
+    var layer3;
+    var layer4;
+    var map = new AMap.Map('container', {
+        viewMode: '2D', // 默认使用 2D 模式，如果希望使用带有俯仰角的 3D 模式，请设置 viewMode: '3D'
+        zoom:14, // 初始化地图层级
+        center: [104.646274, 28.753176] // 初始化地图中心点
+    });
+
+
+
+        // 创建点覆盖物
+        // let marker = new AMap.Marker({
+        //     position: new AMap.LngLat(104.646274, 28.753176),
+        //     icon: './imgs/充电站.png',
+
+        //     offset: new AMap.Pixel(-13, -30)
+        // });
+
+        // map.add(marker);
+
+     map.on('complete', function () {
+           console.log("地图图块加载完毕！当前地图中心点为：" + map.getCenter());
+
+        //    let positions = [["104.623872", "28.745312"], ["104.629451", "28.74456"], ["104.632369", "28.740948"], ["104.644686", "28.743506"], ["104.697231", "28.750467"], ["104.695416", "28.743043"], ["104.655195", "28.787314"], ["104.659732", "28.776712"], ["104.600161", "28.774566"], ["104.581688", "28.776038"], ["104.562544", "28.774418"], ["104.541887", "28.764261"], ["104.616955", "28.801941"], ["104.649871", "28.809594"], ["104.70042", "28.781631"], ["104.716552", "28.750654"], ["104.71879", "28.736099"], ["104.709837", "28.719743"], ["104.708376", "28.703162"], ["104.668802", "28.697309"], ["104.773418", "28.708181"], ["104.651043", "28.678395"], ["104.557457", "28.680923"], ["104.513239", "28.735359"]];
+        //    addMakers(positions);
+
+        //    let positions2 = [["104.619152", "28.737561"], ["104.633571", "28.737109"], ["104.638893", "28.75058"], ["104.639408", "28.755923"], ["104.640609", "28.763071"], ["104.644386", "28.7645"], ["104.646274", "28.758932"], ["104.649879", "28.758782"], ["104.646617", "28.775635"], ["104.65211", "28.774507"], ["104.664041", "28.769165"], ["104.666873", "28.764952"], ["104.620439", "28.768262"], ["104.597351", "28.765403"], ["104.591171", "28.762318"], ["104.700074", "28.768642"], ["104.708904", "28.751614"], ["104.70471", "28.737486"], ["104.738923", "28.730518"], ["104.758568", "28.740389"], ["104.748414", "28.76245"], ["104.721927", "28.795146"], ["104.751283", "28.792438"], ["104.532474", "28.736114"], ["104.601906", "28.693369"], ["104.624164", "28.68642"], ["104.637772", "28.710294"], ["104.659848", "28.732571"], ["104.639587", "28.807589"], ["104.635655", "28.799109"]];
+
+        //     addMakers2(positions2);
+
+        //     let positions3 = [["104.599638", "28.715577"], ["104.600218", "28.714941"], ["104.616319", "28.715068"], ["104.624297", "28.730206"], ["104.614869", "28.745596"], ["104.626328", "28.753863"], ["104.587453", "28.753608"], ["104.580055", "28.747758"], ["104.625458", "28.789846"], ["104.634887", "28.791626"], ["104.688993", "28.740255"], ["104.671006", "28.74"], ["104.677679", "28.724864"], ["104.68029", "28.712778"], ["104.69407", "28.72321"], ["104.707996", "28.730969"], ["104.727143", "28.7901"], ["104.574108", "28.780311"], ["104.532476", "28.759204"], ["104.520871", "28.749666"], ["104.520871", "28.733005"], ["104.539004", "28.725627"]];
+        //      addMakers3(positions3);
+
+           //  createInfoWindow({lng: 104.623872 ,lat: 28.745312 });
+        });
+
+    map.on('click',function(e){
+
+        // arr.push([e.lnglat.getLng()+'', e.lnglat.getLat()+''])
+        // console.log(JSON.stringify(arr))
+    })
+
+    function onLook(){
+        console.log('onLook:');
+        console.log(infoWindowNum);
+         window.parent.postMessage({
+            command: "handleClick",
+            data: infoWindowNum,
+        });
+    }
+
+    // 创建信息窗体 出租车
+    function createInfoWindow(lnglat){
+        let carNo = "川Q079Y5";
+        let num1 = "3";
+        let num2 = "1";
+        let companyName = "宜宾宜行";
+        let companyNo = "230524001";
+        let companyDw = "宜宾宜行汽车科技有限公司";
+        infoWindowNum = lnglat.lng+','+ lnglat.lat;
+        let position = new AMap.LngLat(lnglat.lng,lnglat.lat);
+        let infoWindowContent = '<div class="amap-window-info">' +
+                                  '<div class="amap-window-info-title">'+carNo+'</div>' +
+                                  '<div class="top-main-box">'+
+                                        '<div class="top-left-box">'+
+                                            '<div class="top-box-val">'+num1+'</div>'+
+                                            '<div class="top-box-label">主防摄像头</div>'+
+                                            ' </div>'+
+                                            ' <div class="top-right-box">'+
+                                            ' <div class="top-box-val">'+num2+'</div>'+
+                                            ' <div class="top-box-label">高清相机</div>'+
+                                        ' </div>'+
+                                  ' </div>'+
+                                  '  <div class="desc-label">所属出租车公司：<span class="desc-val">'+companyName+'</span></div>'+
+                                  ' <div class="desc-label">编号：<span class="desc-val">'+companyNo+'</span></div>'+
+                                  '    <div class="desc-label">管理单位：<span class="desc-val">'+companyDw+'</span></div>'+
+                                  ' <div class="btn-box"><div div class="amap-info-btn" onClick="onLook()"> 查看监控</div > </div > '+
+                                '</div>';
+          // 创建一个自定义内容的 infowindow 实例
+        let infoWindow = new AMap.InfoWindow({
+             anchor: 'bottom-center',
+            position: position,
+            offset: new AMap.Pixel(0, -35),
+            content: infoWindowContent
+        });
+        infoWindow.open(map);
+    }
+    // 创建信息窗体 充电站
+    function createInfoWindow2(lnglat) {
+        let carNo = "市委大院充电站";
+        let num1 = "3";
+        let num2 = "1";
+        let companyName = "宜宾宜行1号市委大院充电站";
+        let companyNo = "230524001";
+        let companyDw = "宜宾宜行汽车科技有限公司";
+        infoWindowNum = lnglat.lng + ',' + lnglat.lat;
+        let position = new AMap.LngLat(lnglat.lng, lnglat.lat);
+        let infoWindowContent = '<div class="amap-window-info">' +
+            '<div class="amap-window-info-title">' + carNo + '</div>' +
+            '<div class="top-main-box">' +
+            '<div class="top-left-box">' +
+            '<div class="top-box-val">' + num1 + '</div>' +
+            '<div class="top-box-label">火灾相机</div>' +
+            ' </div>' +
+            ' <div class="top-right-box">' +
+            ' <div class="top-box-val">' + num2 + '</div>' +
+            ' <div class="top-box-label">高清相机</div>' +
+            ' </div>' +
+            ' </div>' +
+            '  <div class="desc-label">名称：<span class="desc-val">' + companyName + '</span></div>' +
+            ' <div class="desc-label">编号：<span class="desc-val">' + companyNo + '</span></div>' +
+             ' <div class="desc-label">经纬度：<span class="desc-val">' + infoWindowNum + '</span></div>' +
+            '    <div class="desc-label">管理单位：<span class="desc-val">' + companyDw + '</span></div>' +
+              '<div class="top-main-box" style="margin-top:20px;">' +
+            '<div class="top-left-box">' +
+            '<div class="top-box-val">' + num1 + '</div>' +
+            '<div class="top-box-label">360V慢充</div>' +
+            ' </div>' +
+            ' <div class="top-right-box">' +
+            ' <div class="top-box-val">' + num2 + '</div>' +
+            ' <div class="top-box-label">480V快充</div>' +
+            ' </div>' +
+            ' </div>' +
+              '  <div class="desc-label">场站负责人: <span class="desc-val">' + companyName + '</span></div>' +
+            ' <div class="desc-label">负责人联系方式：<span class="desc-val">' + companyNo + '</span></div>' +
+            ' <div class="btn-box"><div div class="amap-info-btn" onClick="onLook()"> 查看监控</div > </div > ' +
+            '</div>';
+        // 创建一个自定义内容的 infowindow 实例
+        let infoWindow = new AMap.InfoWindow({
+            anchor: 'bottom-center',
+            position: position,
+            offset: new AMap.Pixel(0, -35),
+            content: infoWindowContent
+        });
+        infoWindow.open(map);
+    }
+
+    // 创建信息窗体 场站
+    function createInfoWindow3(lnglat) {
+        let carNo = "东郊出租车场站";
+        let num1 = "3";
+        let num2 = "1";
+        let companyName = "宜宾宜行";
+        let companyNo = "230524001";
+        let companyDw = "宜宾宜行汽车科技有限公司";
+        infoWindowNum = lnglat.lng + ',' + lnglat.lat;
+        let position = new AMap.LngLat(lnglat.lng, lnglat.lat);
+        let infoWindowContent = '<div class="amap-window-info">' +
+            '<div class="amap-window-info-title">' + carNo + '</div>' +
+            '<div class="top-main-box">' +
+            ' <div class="top-all-box">' +
+            ' <div class="top-box-val">' + num2 + '</div>' +
+            ' <div class="top-box-label">高清相机</div>' +
+            ' </div>' +
+            ' </div>' +
+            '  <div class="desc-label">名称：<span class="desc-val">' + companyName + '</span></div>' +
+            ' <div class="desc-label">编号：<span class="desc-val">' + companyNo + '</span></div>' +
+              ' <div class="desc-label">经纬度：<span class="desc-val">' + infoWindowNum + '</span></div>' +
+            '    <div class="desc-label">管理单位：<span class="desc-val">' + companyDw + '</span></div>' +
+             '<div class="top-main-box" style="margin-top:20px;">' +
+            ' <div class="top-all-box">' +
+            ' <div class="top-box-val">' + num2 + '</div>' +
+            ' <div class="top-box-label">高清相机</div>' +
+            ' </div>' +
+            ' </div>' +
+              '  <div class="desc-label">场站负责人: <span class="desc-val">' + companyName + '</span></div>' +
+            ' <div class="desc-label">联系方式: <span class="desc-val">' + companyNo + '</span></div>' +
+            ' <div class="btn-box"><div div class="amap-info-btn" onClick="onLook()"> 查看监控</div > </div > ' +
+            '</div>';
+        // 创建一个自定义内容的 infowindow 实例
+        let infoWindow = new AMap.InfoWindow({
+            anchor: 'bottom-center',
+            position: position,
+            offset: new AMap.Pixel(0, -35),
+            content: infoWindowContent
+        });
+        infoWindow.open(map);
+    }
+
+// 创建信息窗体 监控
+    function createInfoWindow4(lnglat) {
+        let carNo = "高清摄像头";
+        let num1 = "3";
+        let num2 = "1";
+        let companyName = "宜宾宜行";
+        let companyNo = "230524001";
+        let companyDw = "宜宾宜行汽车科技有限公司";
+        infoWindowNum = lnglat.lng + ',' + lnglat.lat;
+        let position = new AMap.LngLat(lnglat.lng, lnglat.lat);
+        let infoWindowContent = '<div class="amap-window-info">' +
+            '<div class="amap-window-info-title">' + carNo + '</div>' +
+
+            '  <div class="desc-label">所属车辆：<span class="desc-val">' + companyName + '</span></div>' +
+            ' <div class="desc-label">摄像头名称：<span class="desc-val">' + companyNo + '</span></div>' +
+            ' <div class="desc-label">摄像头型号：<span class="desc-val">' + infoWindowNum + '</span></div>' +
+            '    <div class="desc-label">P地址：<span class="desc-val">' + companyDw + '</span></div>' +
+            '  <div class="desc-label">状态: <span class="desc-val">' + companyName + '</span></div>' +
+            ' <div class="desc-label">管理单位: <span class="desc-val">' + companyNo + '</span></div>' +
+            ' <div class="btn-box"><div  class="amap-info-btn" onClick="onLook()"> 查看监控</div ><div style="margin-left:16px;" class="amap-info-btn" onClick="onLook()"> 回放</div > </div > ' +
+            '</div>';
+        // 创建一个自定义内容的 infowindow 实例
+        let infoWindow = new AMap.InfoWindow({
+            anchor: 'bottom-center',
+            position: position,
+            offset: new AMap.Pixel(0, -35),
+            content: infoWindowContent
+        });
+        infoWindow.open(map);
+    }
+
+    // 添加海量数据点
+    function addMakers(positions){
+        // 创建 AMap.LabelsLayer 图层
+         layer1 = new AMap.LabelsLayer({
+            zooms: [3, 20],
+            zIndex: 1000,
+            collision: false
+        });
+
+        // 将图层添加到地图
+        map.add(layer1);
+
+        let markers = [];
+        //  let positions = Positions.slice(0, 3E4);
+
+
+        let icon = {
+            type: 'image',
+            image: './imgs/充电场站.png',
+            size: [26, 31],
+            anchor: 'bottom-center',
+        };
+
+        for (let i = 0; i < positions.length; i++) {
+            let curPosition = positions[i];
+            let curData = {
+                position: curPosition,
+                icon
+            };
+
+            let labelMarker = new AMap.LabelMarker(curData);
+
+            markers.push(labelMarker);
+
+            // 给marker绑定事件
+            labelMarker.on('click', function (e) {
+                // console.log(e)
+                let position = e.data.data && e.data.data.position;
+
+                if (position) {
+
+                      createInfoWindow({lng:position[0],lat:position[1]});
+                }
+            });
+        }
+
+        // 一次性将海量点添加到图层
+        layer1.add(markers);
+    }
+
+     function addMakers3(positions) {
+            // 创建 AMap.LabelsLayer 图层
+            layer3 = new AMap.LabelsLayer({
+                zooms: [3, 20],
+                zIndex: 1000,
+                collision: false
+            });
+
+            // 将图层添加到地图
+            map.add(layer3);
+
+            let markers = [];
+            //  let positions = Positions.slice(0, 3E4);
+
+
+            let icon = {
+                type: 'image',
+                image: './imgs/出租车场站.png',
+                size: [26, 31],
+                anchor: 'bottom-center',
+            };
+
+            for (let i = 0; i < positions.length; i++) {
+                let curPosition = positions[i];
+                let curData = {
+                    position: curPosition,
+                    icon
+                };
+
+                let labelMarker = new AMap.LabelMarker(curData);
+
+                markers.push(labelMarker);
+
+                // 给marker绑定事件
+                labelMarker.on('click', function (e) {
+                    let position = e.data.data && e.data.data.position;
+
+                    if (position) {
+                        createInfoWindow2({ lng: position[0], lat: position[1] });
+                    }
+                });
+
+
+            }
+
+            // 一次性将海量点添加到图层
+            layer3.add(markers);
+        }
+    function addMakers2(positions) {
+        // 创建 AMap.LabelsLayer 图层
+        layer2 = new AMap.LabelsLayer({
+            zooms: [3, 20],
+            zIndex: 1000,
+            collision: false
+        });
+
+        // 将图层添加到地图
+        map.add(layer2);
+
+        let markers = [];
+        //  let positions = Positions.slice(0, 3E4);
+
+
+        let icon = {
+            type: 'image',
+            image: './imgs/出租车.png',
+            size: [26, 31],
+            anchor: 'bottom-center',
+        };
+
+        for (let i = 0; i < positions.length; i++) {
+            let curPosition = positions[i];
+            let curData = {
+                position: curPosition,
+                icon
+            };
+
+            let labelMarker = new AMap.LabelMarker(curData);
+
+            markers.push(labelMarker);
+
+            // 给marker绑定事件
+            labelMarker.on('click', function (e) {
+                let position = e.data.data && e.data.data.position;
+
+                if (position) {
+                    createInfoWindow3({ lng: position[0], lat: position[1] });
+                }
+            });
+
+
+        }
+
+        // 一次性将海量点添加到图层
+        layer2.add(markers);
+
+    }
+
+    // 添加监控点
+    function addMakers4(positions) {
+        // 创建 AMap.LabelsLayer 图层
+        layer2 = new AMap.LabelsLayer({
+            zooms: [3, 20],
+            zIndex: 1000,
+            collision: false
+        });
+
+        // 将图层添加到地图
+        map.add(layer2);
+
+        let markers = [];
+        //  let positions = Positions.slice(0, 3E4);
+
+
+        let icon = {
+            type: 'image',
+            image: './imgs/监控.png',
+            size: [26, 31],
+            anchor: 'bottom-center',
+        };
+
+        for (let i = 0; i < positions.length; i++) {
+            let curPosition = positions[i];
+            let curData = {
+                position: curPosition,
+                icon
+            };
+
+            let labelMarker = new AMap.LabelMarker(curData);
+
+            markers.push(labelMarker);
+
+            // 给marker绑定事件
+            labelMarker.on('click', function (e) {
+                let position = e.data.data && e.data.data.position;
+
+                if (position) {
+                    createInfoWindow4({ lng: position[0], lat: position[1] });
+                }
+            });
+
+
+        }
+
+        // 一次性将海量点添加到图层
+        layer2.add(markers);
+
+    }
+
+    function removeLayer(){
+        map.clearMap();
+    }
+</script>
+</body>
+</html>

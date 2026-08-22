@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>电力交易智能辅助决策系统 · 原型地图</title>
+<link rel="stylesheet" href="assets/wireframe.css">
+</head>
+<body>
+<!-- ============================================================
+  原型索引页：页面地图（对应开发基线 4.7 页面信息架构清单）
+  V1.1 覆盖 14 个代表性核心页面，其余页面按同模板扩展
+============================================================ -->
+<div class="wf-topbar">
+  <div class="wf-logo">PTIDSS 原型地图 <span class="wf-logo-en">WIREFRAME INDEX</span></div>
+  <div class="wf-nav">
+    <a class="active" href="index.html">原型地图</a>
+    <a href="dashboard.html">首页工作台</a>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <a href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">申报管理</a>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘看板</a>
+    <a href="policy-detail.html">政策研判</a>
+  </div>
+  <div class="wf-user"><span class="wf-avatar">原</span> 原型模式</div>
+</div>
+
+<div class="wf-layout">
+  <div class="wf-main">
+    <div class="wf-page-head">
+      <div>
+        <h1>前端线框原型 · 页面地图</h1>
+        <div class="wf-sub">配套开发基线 4.7 页面信息架构清单（57 页）｜灰白线框 V1.1（10+4 页）｜可静态预览，交互由 Vue3 实现阶段落地</div>
+      </div>
+      <div class="wf-actions"><a class="wf-btn primary" href="login.html">登录页预览 →</a></div>
+    </div>
+
+    <div class="wf-grid wf-grid-3">
+      <div class="wf-card">
+        <div class="wf-card-title">📊 行情与预测域 <span class="wf-tag">对应 4.7 页面分组 1-2</span></div>
+        <table class="wf-table">
+          <tr><th>原型页</th><th>覆盖页面</th><th>优先级</th></tr>
+          <tr><td><a href="market-dashboard.html">行情看板</a></td><td>现货/中长期/供需/热力图</td><td><span class="wf-badge b-primary">P0</span></td></tr>
+          <tr><td><a href="forecast-overview.html">预测总览</a></td><td>电价/负荷/新能源预测</td><td><span class="wf-badge b-primary">P0</span></td></tr>
+          <tr><td><a href="dashboard.html">首页工作台</a></td><td>行情速览+预测摘要+待办</td><td><span class="wf-badge b-primary">P0</span></td></tr>
+        </table>
+      </div>
+      <div class="wf-card">
+        <div class="wf-card-title">🧭 决策与交易域 <span class="wf-tag">对应 4.7 页面分组 3-5</span></div>
+        <table class="wf-table">
+          <tr><th>原型页</th><th>覆盖页面</th><th>优先级</th></tr>
+          <tr><td><a href="workspace.html">决策工作台</a></td><td>多智能体编排/方案对比/依据链</td><td><span class="wf-badge b-primary">P0</span></td></tr>
+          <tr><td><a href="optimize-joint.html">联合优化</a></td><td>任务中心/求解器对比/约束监控</td><td><span class="wf-badge b-primary">P0</span></td></tr>
+          <tr><td><a href="backtest.html">策略回测</a></td><td>回测任务/样本库/收益评估</td><td><span class="wf-badge b-primary">P0</span></td></tr>
+          <tr><td><a href="trade-declarations.html">申报管理</a></td><td>日滚动/申报单/成交/持仓</td><td><span class="wf-badge b-primary">P0</span></td></tr>
+        </table>
+      </div>
+      <div class="wf-card">
+        <div class="wf-card-title">🧾 结算与复盘域 <span class="wf-tag">对应 4.7 页面分组 6-7</span></div>
+        <table class="wf-table">
+          <tr><th>原型页</th><th>覆盖页面</th><th>优先级</th></tr>
+          <tr><td><a href="settlement-reconcile.html">结算核对</a></td><td>OCR 识别/科目核对/差异工单</td><td><span class="wf-badge b-primary">P0</span></td></tr>
+          <tr><td><a href="review-dashboard.html">复盘看板</a></td><td>三层归因/策略回流/报告</td><td><span class="wf-badge b-primary">P0</span></td></tr>
+          <tr><td>—</td><td>成效考核、报表中心（按 review 模板扩展）</td><td><span class="wf-badge">P0/P1</span></td></tr>
+        </table>
+      </div>
+      <div class="wf-card">
+        <div class="wf-card-title">📜 政策与情报域 <span class="wf-tag">对应 4.7 页面分组 8 + RE-01</span></div>
+        <table class="wf-table">
+          <tr><th>原型页</th><th>覆盖页面</th><th>优先级</th></tr>
+          <tr><td><a href="policy-detail.html">政策研判</a></td><td>原文/解析条款双屏+规则联动</td><td><span class="wf-badge b-primary">P0</span></td></tr>
+          <tr><td><a href="intel-center.html">情报中心</a></td><td>情报流/情报源/推送规则（RE-01）</td><td><span class="wf-badge b-primary">P0 正式</span></td></tr>
+        </table>
+      </div>
+      <div class="wf-card">
+        <div class="wf-card-title">🔐 平台域 <span class="wf-tag">对应 4.7 页面分组 9-10</span></div>
+        <table class="wf-table">
+          <tr><th>原型页</th><th>覆盖页面</th><th>优先级</th></tr>
+          <tr><td><a href="login.html">登录页</a></td><td>登录/SSO/验证码</td><td><span class="wf-badge b-primary">P0</span></td></tr>
+          <tr><td><a href="admin-system.html">系统管理</a></td><td>用户/角色权限/审计/数据源/系统配置</td><td><span class="wf-badge b-primary">P0</span></td></tr>
+        </table>
+      </div>
+      <div class="wf-card">
+        <div class="wf-card-title">📏 原型规范</div>
+        <ul class="wf-sm" style="line-height:2;color:var(--wf-sub);list-style:none">
+          <li>· 布局：顶栏 56px + 左侧 208px 菜单 + 内容区，响应式 1100px 断点</li>
+          <li>· 图表区以虚线占位符标注（ECharts 实现阶段替换）</li>
+          <li>· 状态色：主色 #2F6FED / 成功 #2E9E5B / 警告 #D9911A / 危险 #D64545</li>
+          <li>· 页面右上角标注「P0/P1 优先级」徽章</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="wf-footer">电力交易智能辅助决策系统 · 前端线框原型 V1.1 · 与 OpenAPI 契约 V1.0 / SRS V1.1 同步基线</div>
+  </div>
+</div>
+</body>
+</html>

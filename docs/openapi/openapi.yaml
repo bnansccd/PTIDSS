@@ -1,0 +1,2342 @@
+openapi: 3.0.3
+info:
+  title: 电力交易智能辅助决策系统 API
+  description: |
+    配套开发基线 5.5 API 目录总表。统一响应封装 ApiResponse；分页用 PageResult；
+    鉴权 JWT Bearer；错误码分段见 README 第 4 条。所有路径省略网关前缀 /api/v1。
+  version: 1.0.0
+  license:
+    name: 项目内部使用
+    url: https://api.ptidss.example.com/license
+  contact:
+    name: PTIDSS 架构组
+servers:
+  - url: https://api.ptidss.example.com/api/v1
+    description: 生产（示例域名）
+  - url: https://api-test.ptidss.example.com/api/v1
+    description: 测试
+tags:
+  - { name: auth, description: 认证授权 }
+  - { name: policy, description: 政策服务 }
+  - { name: market, description: 行情服务 }
+  - { name: forecast, description: 预测服务 }
+  - { name: decision, description: 决策编排 }
+  - { name: optimize, description: 联合优化/回测 }
+  - { name: trade, description: 交易服务 }
+  - { name: settlement, description: 结算服务 }
+  - { name: ocr, description: 单据识别 }
+  - { name: review, description: 复盘服务 }
+  - { name: assessment, description: 成效考核 }
+  - { name: report, description: 报表服务 }
+  - { name: data, description: 数据管理 }
+  - { name: message, description: 消息服务 }
+  - { name: flow, description: 流程引擎 }
+  - { name: model, description: 模型平台 }
+  - { name: intel, description: 情报中心 }
+security:
+  - bearerAuth: []
+paths:
+  # ==================== auth ====================
+  /auth/captcha:
+    get:
+      operationId: getAuthCaptcha
+      summary: 获取验证码（图片 Base64 + 键）
+      tags: [auth]
+      security: []
+      responses:
+        '200':
+          description: 验证码
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        required: [captchaKey, image]
+                        properties:
+                          captchaKey: { type: string, description: 登录时回传 }
+                          image: { type: string, description: 'data:image/png;base64, 前缀' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /auth/login:
+    post:
+      operationId: postAuthLogin
+      summary: 账号密码登录（或 SSO 回调）
+      tags: [auth]
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username: { type: string, example: trader01 }
+                password: { type: string, format: password }
+                captcha: { type: string, description: 验证码（连续失败后必填） }
+      responses:
+        '200':
+          description: 登录成功
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data: { $ref: '#/components/schemas/LoginResult' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+        '5XX': { $ref: '#/components/responses/ServerError' }
+  /auth/refresh:
+    post:
+      operationId: postAuthRefresh
+      summary: 刷新 Token（续期换新）
+      description: >
+        refreshToken 传当前有效 accessToken（JWT 自校验 + 服务端会话缓存校验）；
+        剩余有效期不足阈值（默认 10min）时自动续期并重新签发新令牌；
+        旧令牌宽限期内仍可用（滑动续期语义）。响应结构与 /auth/login 一致。
+      tags: [auth]
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties:
+                refreshToken: { type: string }
+      responses:
+        '200':
+          description: 新 Token
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          accessToken: { type: string }
+                          expiresIn: { type: integer, example: 7200 }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /auth/current:
+    get:
+      operationId: getAuthCurrent
+      summary: 当前用户信息与权限
+      tags: [auth]
+      responses:
+        '200':
+          description: 用户信息
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data: { $ref: '#/components/schemas/CurrentUser' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /auth/logout:
+    post:
+      operationId: postAuthLogout
+      summary: 登出（吊销 Token）
+      tags: [auth]
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+
+  # ==================== admin（系统管理，V1.1 落地同步） ====================
+  /admin/regions:
+    get:
+      operationId: getAdminRegions
+      summary: 区域列表（多省配置化，评审决议⑤）
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - { name: keyword, in: query, schema: { type: string } }
+        - { name: status, in: query, schema: { type: string, enum: [enabled, disabled, pending] } }
+      responses:
+        '200':
+          description: 区域列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/SysRegion' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    post:
+      operationId: postAdminRegions
+      summary: 新建区域
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SysRegion' }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    put:
+      operationId: putAdminRegions
+      summary: 更新区域
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SysRegion' }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /admin/regions/{id}:
+    get:
+      operationId: getAdminRegionsDetail
+      summary: 区域详情
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 区域
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/SysRegion' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    delete:
+      operationId: deleteAdminRegions
+      summary: 删除区域（软删）
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /admin/users:
+    get:
+      operationId: getAdminUsers
+      summary: 用户分页
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - { $ref: '#/components/parameters/PageParam' }
+        - { name: keyword, in: query, schema: { type: string } }
+        - { name: status, in: query, schema: { type: string, enum: [active, disabled, locked] } }
+      responses:
+        '200':
+          description: 分页
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/PageResult' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    post:
+      operationId: postAdminUsers
+      summary: 新建用户
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password, roleIds]
+              properties:
+                username: { type: string }
+                password: { type: string, format: password }
+                displayName: { type: string }
+                roleIds: { type: array, items: { type: integer } }
+                regionCodes: { type: array, items: { type: string } }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    put:
+      operationId: putAdminUsers
+      summary: 更新用户
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id: { type: string, description: 雪花 ID（JSON 序列化为字符串） }
+                displayName: { type: string }
+                roleIds: { type: array, items: { type: integer } }
+                regionCodes: { type: array, items: { type: string } }
+                status: { type: string }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /admin/users/{id}:
+    get:
+      operationId: getAdminUsersDetail
+      summary: 用户详情
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 用户
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/SysUser' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    delete:
+      operationId: deleteAdminUsers
+      summary: 删除用户（软删）
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /admin/users/{id}/regions:
+    get:
+      operationId: getAdminUsersRegions
+      summary: 用户已授权区域
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 区域编码列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data: { type: array, items: { type: string } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /admin/users/{id}/password:
+    put:
+      operationId: putAdminUsersPassword
+      summary: 重置密码
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [password]
+              properties:
+                password: { type: string, format: password }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /admin/roles:
+    get:
+      operationId: getAdminRoles
+      summary: 角色列表（固定 7 类编码）
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - { name: keyword, in: query, schema: { type: string } }
+      responses:
+        '200':
+          description: 角色列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/SysRole' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    post:
+      operationId: postAdminRoles
+      summary: 新建角色
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SysRole' }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    put:
+      operationId: putAdminRoles
+      summary: 更新角色
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SysRole' }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /admin/roles/{id}:
+    get:
+      operationId: getAdminRolesDetail
+      summary: 角色详情
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 角色
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/SysRole' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    delete:
+      operationId: deleteAdminRoles
+      summary: 删除角色（软删）
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /admin/roles/{id}/permissions:
+    get:
+      operationId: getAdminRolesPermissions
+      summary: 角色已授权限
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 权限 ID 列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data: { type: array, items: { type: integer } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    put:
+      operationId: putAdminRolesPermissions
+      summary: 保存角色权限（全量覆盖）
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                permissionIds: { type: array, items: { type: integer } }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /admin/permissions:
+    get:
+      operationId: getAdminPermissions
+      summary: 权限列表（三级权限：menu/api/data）
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - { name: keyword, in: query, schema: { type: string } }
+        - { name: resourceType, in: query, schema: { type: string, enum: [menu, api, data] } }
+      responses:
+        '200':
+          description: 权限列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/SysPermission' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    post:
+      operationId: postAdminPermissions
+      summary: 新建权限
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SysPermission' }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    put:
+      operationId: putAdminPermissions
+      summary: 更新权限
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SysPermission' }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /admin/permissions/{id}:
+    delete:
+      operationId: deleteAdminPermissions
+      summary: 删除权限（软删）
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /admin/logs:
+    get:
+      operationId: getAdminLogs
+      summary: 审计日志分页（等保三级）
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - { $ref: '#/components/parameters/PageParam' }
+        - { name: action, in: query, schema: { type: string } }
+        - { name: username, in: query, schema: { type: string } }
+        - { name: regionCode, in: query, schema: { type: string } }
+        - { name: result, in: query, schema: { type: string, enum: [success, fail] } }
+      responses:
+        '200':
+          description: 分页
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/PageResult' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /admin/logs/{id}:
+    get:
+      operationId: getAdminLogsDetail
+      summary: 审计日志详情（前后快照）
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 详情
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/AuditLog' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== policy ====================
+  /policy/list:
+    get:
+      operationId: getPolicyList
+      summary: 政策文件分页列表（多维筛选）
+      tags: [policy]
+      parameters:
+        - { $ref: '#/components/parameters/PageParam' }
+        - { name: category, in: query, schema: { type: string, enum: [national, regional, provincial] } }
+        - { name: keyword, in: query, schema: { type: string, description: 标题模糊搜索 } }
+        - { name: status, in: query, schema: { type: string, enum: [draft, published, expired] } }
+      responses:
+        '200':
+          description: 列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/PageResult' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /policy/{id}:
+    get:
+      operationId: getPolicy
+      summary: 政策详情（含附件、多版本）
+      tags: [policy]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        '200':
+          description: 详情
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/PolicyDetail' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /policy/parse:
+    post:
+      operationId: postPolicyParse
+      summary: 解析政策文档（LLM 抽取条款→结构化规则候选）
+      tags: [policy]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [policyId]
+              properties:
+                policyId: { type: integer }
+                reparse: { type: boolean, default: false, description: 是否强制重解析 }
+      responses:
+        '200':
+          description: 解析任务结果（异步任务返回 taskId 轮询）
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          taskId: { type: string }
+                          articlesParsed: { type: integer, example: 32 }
+                          ruleCandidates: { type: integer, example: 5 }
+                          avgConfidence: { type: number, example: 0.91 }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /policy/{id}/brief:
+    get:
+      operationId: getPolicyBrief
+      summary: 政策研判简报（PDF/Word 导出）
+      tags: [policy]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        '200':
+          description: 文件（application/pdf 或 octet-stream）
+          content:
+            application/pdf: {}
+            application/octet-stream: {}
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== market ====================
+  /market/price/spot:
+    get:
+      operationId: getMarketPriceSpot
+      summary: 现货价格时序查询（96 点/区间）
+      tags: [market]
+      parameters:
+        - { name: marketType, in: query, required: true, schema: { type: string, enum: [intra_province, inter_province] } }
+        - { name: stage, in: query, required: true, schema: { type: string, enum: [day_ahead, real_time] } }
+        - { name: startAt, in: query, required: true, schema: { type: string, pattern: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$', description: '格式 yyyy-MM-dd HH:mm:ss' } }
+        - { name: endAt, in: query, required: true, schema: { type: string, pattern: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$', description: '格式 yyyy-MM-dd HH:mm:ss' } }
+      responses:
+        '200':
+          description: 价格曲线
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/PricePoint' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /market/price/midlong:
+    get:
+      operationId: getMarketPriceMidlong
+      summary: 中长期成交价格
+      tags: [market]
+      parameters:
+        - { name: variety, in: query, schema: { type: string, enum: [annual, monthly, intra_month, rolling, transfer] } }
+        - { name: startAt, in: query, schema: { type: string, pattern: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$', description: '格式 yyyy-MM-dd HH:mm:ss' } }
+        - { name: endAt, in: query, schema: { type: string, pattern: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$', description: '格式 yyyy-MM-dd HH:mm:ss' } }
+      responses:
+        '200':
+          description: 价格序列
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/PricePoint' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /market/supply-demand:
+    get:
+      operationId: getMarketSupplyDemand
+      summary: 供需形势（负荷/可用能力/新能源）
+      tags: [market]
+      parameters:
+        - { name: startAt, in: query, required: true, schema: { type: string, pattern: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$', description: '格式 yyyy-MM-dd HH:mm:ss' } }
+        - { name: endAt, in: query, required: true, schema: { type: string, pattern: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$', description: '格式 yyyy-MM-dd HH:mm:ss' } }
+      responses:
+        '200':
+          description: 供需曲线
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            ts: { type: string, format: date-time }
+                            loadValue: { type: number }
+                            availableCapacity: { type: number }
+                            renewableOutput: { type: number }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /market/heatmap:
+    get:
+      operationId: getMarketHeatmap
+      summary: 量价热力图（日期×时段）
+      tags: [market]
+      parameters:
+        - { name: startDate, in: query, required: true, schema: { type: string, format: date } }
+        - { name: endDate, in: query, required: true, schema: { type: string, format: date } }
+      responses:
+        '200':
+          description: 热力图矩阵
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          dates: { type: array, items: { type: string, format: date } }
+                          points: { type: array, items: { type: integer }, description: 96×N 展平矩阵 }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== forecast ====================
+  /forecast/tasks:
+    post:
+      operationId: postForecastTasks
+      summary: 创建预测任务（电价/负荷/新能源）
+      tags: [forecast]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [modelCode, predictDate]
+              properties:
+                modelCode: { type: string, enum: [price, load, generation] }
+                predictDate: { type: string, format: date }
+                marketType: { type: string, enum: [intra_province, inter_province], description: 电价预测必填 }
+                regionCode: { type: string, description: 负荷/新能源必填 }
+      responses:
+        '200':
+          description: 任务已创建（异步）
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          taskId: { type: string }
+                          status: { type: string, example: queued }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /forecast/tasks/{taskId}:
+    get:
+      operationId: getForecastTasks
+      summary: 查询预测任务状态
+      tags: [forecast]
+      parameters:
+        - { name: taskId, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 任务状态
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          taskId: { type: string }
+                          status: { type: string, enum: [queued, running, success, failed, degraded] }
+                          modelVersion: { type: string }
+                          elapsedMs: { type: integer }
+                          errorMsg: { type: string }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /forecast/results:
+    get:
+      operationId: getForecastResults
+      summary: 预测结果（含置信区间）
+      tags: [forecast]
+      parameters:
+        - { name: predictType, in: query, required: true, schema: { type: string, enum: [price, load, generation] } }
+        - { name: tradeDate, in: query, required: true, schema: { type: string, format: date } }
+        - { name: modelVersion, in: query, schema: { type: string } }
+      responses:
+        '200':
+          description: 96 点预测
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/ForecastPoint' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /forecast/models:
+    get:
+      operationId: getForecastModels
+      summary: 模型注册列表与在线状态
+      tags: [forecast]
+      responses:
+        '200':
+          description: 模型列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/ModelInfo' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /forecast/models/train:
+    post:
+      operationId: postForecastModelsTrain
+      summary: 触发模型训练（增量/全量）
+      tags: [forecast]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [modelCode]
+              properties:
+                modelCode: { type: string, enum: [price, load, generation] }
+                mode: { type: string, enum: [daily_increment, weekly_full], default: daily_increment }
+      responses:
+        '200':
+          description: 训练任务已创建
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties: { taskId: { type: string } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== decision ====================
+  /decision/sessions:
+    post:
+      operationId: postDecisionSessions
+      summary: 发起决策会话（日滚动/现货报价/联合优化）
+      tags: [decision]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [sessionType, tradeDate]
+              properties:
+                sessionType: { type: string, enum: [rolling, spot_quote, joint_optimize] }
+                tradeDate: { type: string, format: date }
+                scenario: { type: string, enum: [baseline, conservative, aggressive], default: baseline }
+                agents: { type: array, items: { type: string }, description: 指定参与智能体，缺省全量 }
+      responses:
+        '200':
+          description: 会话已创建（编排异步执行）
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          sessionId: { type: string }
+                          status: { type: string, example: orchestrating }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /decision/sessions/{sessionId}:
+    get:
+      operationId: getDecisionSessions
+      summary: 会话详情（策略/状态/阶段）
+      tags: [decision]
+      parameters:
+        - { name: sessionId, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 会话详情
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/DecisionSession' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /decision/sessions/{sessionId}/confirm:
+    post:
+      operationId: postDecisionSessionsConfirm
+      summary: 交易员确认策略（写入申报准备）
+      tags: [decision]
+      parameters:
+        - { name: sessionId, in: path, required: true, schema: { type: string } }
+        - { name: X-Role-Check, in: header, schema: { type: boolean }, description: 角色与数据权限校验 }
+      responses:
+        '200':
+          description: 已确认
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /decision/sessions/{sessionId}/modify:
+    post:
+      operationId: postDecisionSessionsModify
+      summary: 交易员修改策略（必须记录修改依据，双人复核）
+      tags: [decision]
+      parameters:
+        - { name: sessionId, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [modifications, reason]
+              properties:
+                modifications: { type: array, items: { type: object }, description: 修改明细（时段/量/价） }
+                reason: { type: string, description: 修改依据（必填） }
+                secondReviewer: { type: string, description: 复核人（超阈值必填） }
+      responses:
+        '200':
+          description: 修改生效
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /decision/sessions/{sessionId}/evidence:
+    get:
+      operationId: getDecisionSessionsEvidence
+      summary: 依据链全量回溯（Agent 输入/输出/冲突仲裁）
+      tags: [decision]
+      parameters:
+        - { name: sessionId, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 依据链
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          agents: { type: array, items: { $ref: '#/components/schemas/AgentRun' } }
+                          conflicts: { type: array, items: { type: object } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== optimize ====================
+  /optimize/joint-tasks:
+    post:
+      operationId: postOptimizeJointTasks
+      summary: 创建联合优化任务（MILP 求解）
+      tags: [optimize]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [taskType]
+              properties:
+                taskType: { type: string, enum: [daily, rolling_N, backtest] }
+                horizonDays: { type: integer, minimum: 1, maximum: 7, default: 1 }
+                scenarioCount: { type: integer, minimum: 10, maximum: 500, default: 100 }
+                objectiveWeights: { type: object, description: 收益/CVaR/偏差权重 }
+                constraints: { type: object, description: 申报段数/限价/持仓约束 }
+      responses:
+        '200':
+          description: 任务已创建
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties: { taskId: { type: string } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /optimize/joint-tasks/{taskId}:
+    get:
+      operationId: getOptimizeJointTasks
+      summary: 优化任务状态与结果摘要
+      tags: [optimize]
+      parameters:
+        - { name: taskId, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 结果
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          taskId: { type: string }
+                          status: { type: string, enum: [queued, running, success, suboptimal, failed] }
+                          expectedRevenue: { type: number }
+                          cvar: { type: number }
+                          solver: { type: string }
+                          elapsedMs: { type: integer }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /optimize/backtests:
+    post:
+      operationId: postOptimizeBacktests
+      summary: 发起策略回测（分步决策 + 收益增量）
+      tags: [optimize]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [strategyCode, startDate, endDate]
+              properties:
+                strategyCode: { type: string }
+                startDate: { type: string, format: date }
+                endDate: { type: string, format: date }
+                marketDataVersion: { type: string, description: 缺省锁定最新基线版本 }
+      responses:
+        '200':
+          description: 回测已启动
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties: { runId: { type: string } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /optimize/strategies:
+    get:
+      operationId: getOptimizeStrategies
+      summary: 策略库列表（含历史绩效）
+      tags: [optimize]
+      responses:
+        '200':
+          description: 策略列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/StrategyInfo' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  # ==================== trade ====================
+  /trade/rolling-plans:
+    get:
+      operationId: getTradeRollingPlans
+      summary: 日滚动方案列表（多情景）
+      tags: [trade]
+      parameters:
+        - { name: tradeDate, in: query, schema: { type: string, format: date } }
+        - { name: scenario, in: query, schema: { type: string, enum: [baseline, conservative, aggressive] } }
+        - { name: status, in: query, schema: { type: string, enum: [generated, confirmed, modified, rejected, executed] } }
+      responses:
+        '200':
+          description: 方案列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/RollingPlan' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /trade/rolling-plans/{planId}/confirm:
+    post:
+      operationId: postTradeRollingPlansConfirm
+      summary: 确认日滚动方案（进入申报）
+      tags: [trade]
+      parameters:
+        - { name: planId, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 已确认
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /trade/declarations:
+    post:
+      operationId: postTradeDeclarations
+      summary: 创建申报单（含合规预检）
+      tags: [trade]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [tradeDate, marketType, stage, items]
+              properties:
+                tradeDate: { type: string, format: date }
+                marketType: { type: string, enum: [intra_province, inter_province] }
+                stage: { type: string, enum: [day_ahead, real_time, rolling] }
+                items: { type: array, items: { type: object }, description: 申报段（时段/量/价） }
+                sourcePlanId: { type: string, description: 来源方案/会话 }
+      responses:
+        '200':
+          description: 创建成功（含合规校验结果）
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          declarationId: { type: string }
+                          complianceCheck: { type: object, description: 段数/限价/持仓校验结果 }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    get:
+      operationId: getTradeDeclarations
+      summary: 申报单列表（状态/日期筛选）
+      tags: [trade]
+      parameters:
+        - { name: tradeDate, in: query, schema: { type: string, format: date } }
+        - { name: status, in: query, schema: { type: string, enum: [draft, pending_submit, submitted, receipted, partially_matched] } }
+        - { $ref: '#/components/parameters/PageParam' }
+      responses:
+        '200':
+          description: 列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/PageResult' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /trade/declarations/{id}/submit:
+    post:
+      operationId: postTradeDeclarationsSubmit
+      summary: 提交申报至交易中心
+      tags: [trade]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 提交成功（回执号）
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties: { receiptNo: { type: string } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /trade/results:
+    get:
+      operationId: getTradeResults
+      summary: 成交结果查询（按日/市场）
+      tags: [trade]
+      parameters:
+        - { name: tradeDate, in: query, required: true, schema: { type: string, format: date } }
+        - { name: marketType, in: query, schema: { type: string, enum: [intra_province, inter_province] } }
+      responses:
+        '200':
+          description: 成交明细
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/TradeResult' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /trade/positions:
+    get:
+      operationId: getTradePositions
+      summary: 持仓曲线（中长期+现货合成视图）
+      tags: [trade]
+      parameters:
+        - { name: tradeDate, in: query, required: true, schema: { type: string, format: date } }
+      responses:
+        '200':
+          description: 持仓曲线
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          longTerm: { type: array, items: { type: number }, description: 96 点中长期持仓 }
+                          spot: { type: array, items: { type: number } }
+                          net: { type: array, items: { type: number } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== settlement / ocr ====================
+  /settlement/records:
+    get:
+      operationId: getSettlementRecords
+      summary: 结算记录列表（周期/来源）
+      tags: [settlement]
+      parameters:
+        - { name: period, in: query, required: true, schema: { type: string, example: '2026-08' } }
+        - { name: source, in: query, schema: { type: string, enum: [system, exchange] } }
+        - { $ref: '#/components/parameters/PageParam' }
+      responses:
+        '200':
+          description: 列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/PageResult' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /settlement/records/{id}/reconcile:
+    post:
+      operationId: postSettlementRecordsReconcile
+      summary: 发起结算核对（自动比对，差异≥95% 通过）
+      tags: [settlement]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 核对结果
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data: { $ref: '#/components/schemas/ReconcileResult' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /settlement/tickets:
+    get:
+      operationId: getSettlementTickets
+      summary: 差异工单列表
+      tags: [settlement]
+      parameters:
+        - { name: status, in: query, schema: { type: string, enum: [pending, processing, reviewed, closed] } }
+        - { $ref: '#/components/parameters/PageParam' }
+      responses:
+        '200':
+          description: 工单列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/PageResult' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /settlement/tickets/{id}/process:
+    post:
+      operationId: postSettlementTicketsProcess
+      summary: 处理差异工单（流转/关闭，流程留痕）
+      tags: [settlement]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [action]
+              properties:
+                action: { type: string, enum: [assign, process, review, close] }
+                handler: { type: string }
+                comment: { type: string }
+      responses:
+        '200':
+          description: 处理成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /ocr/tasks:
+    get:
+      operationId: getOcrTasksList
+      summary: 识别任务列表（低置信人工复核队列，FR-DM-03）
+      tags: [ocr]
+      parameters:
+        - { name: status, in: query, schema: { type: string, enum: [pending, recognizing, success, low_confidence, failed] } }
+        - { name: reviewStatus, in: query, schema: { type: string, enum: [not_required, pending, reviewed] } }
+        - { $ref: '#/components/parameters/PageParam' }
+      responses:
+        '200':
+          description: 任务列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/PageResult' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    post:
+      operationId: postOcrTasks
+      summary: 上传结算单图片发起识别（multipart）
+      tags: [ocr]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file: { type: string, format: binary }
+                templateId: { type: integer, description: 指定模板，缺省自动匹配 }
+      responses:
+        '200':
+          description: 识别任务已创建
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties: { taskId: { type: string } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /ocr/tasks/{taskId}:
+    get:
+      operationId: getOcrTasks
+      summary: 识别结果与置信度（低置信进入人工复核）
+      tags: [ocr]
+      parameters:
+        - { name: taskId, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 识别结果
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          status: { type: string, enum: [pending, recognizing, success, low_confidence, failed] }
+                          confidence: { type: number, example: 0.983 }
+                          fields: { type: object, description: 电量/电价/费用/考核科目 }
+                          reviewStatus: { type: string }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  /ocr/tasks/{taskId}/review:
+    post:
+      operationId: postOcrTasksReview
+      summary: 人工复核提交（确认或修正识别字段，FR-DM-03 补录闭环）
+      tags: [ocr]
+      parameters:
+        - { name: taskId, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [approved]
+              properties:
+                approved: { type: boolean, description: true 确认通过 / false 字段修正 }
+                fields: { type: object, description: 修正后的字段（approved=false 时必填） }
+                comment: { type: string }
+      responses:
+        '200':
+          description: 复核完成
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== review ====================
+  /review/reports:
+    post:
+      operationId: postReviewReports
+      summary: 生成复盘报告（周/月/专项）
+      tags: [review]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reportType, startDate, endDate]
+              properties:
+                reportType: { type: string, enum: [weekly, monthly, special] }
+                startDate: { type: string, format: date }
+                endDate: { type: string, format: date }
+                focusTopics: { type: array, items: { type: string }, description: 专项主题 } 
+      responses:
+        '200':
+          description: 生成任务已创建
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties: { reportId: { type: string } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /review/reports/{id}:
+    get:
+      operationId: getReviewReports
+      summary: 复盘报告详情（三层归因/策略评估）
+      tags: [review]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 报告详情
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          id: { type: string }
+                          summary: { type: object }
+                          deviationAnalysis: { type: object, description: 预测/决策/执行三层归因 }
+                          strategyEval: { type: object }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /review/strategy-feedback:
+    post:
+      operationId: postReviewStrategyFeedback
+      summary: 策略回流（有效/失效/调整建议）
+      tags: [review]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [strategyCode, feedback]
+              properties:
+                strategyCode: { type: string }
+                feedback: { type: string, enum: [effective, invalid, adjust] }
+                updatedParams: { type: object }
+                reviewId: { type: string }
+      responses:
+        '200':
+          description: 回流已登记
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== assessment ====================
+  /assessment/indicators:
+    get:
+      operationId: getAssessmentIndicators
+      summary: 考核指标体系（权重/目标/评分规则）
+      tags: [assessment]
+      responses:
+        '200':
+          description: 指标列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { type: object, description: 指标编码/权重/公式/目标值 }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /assessment/results:
+    get:
+      operationId: getAssessmentResults
+      summary: 考核结果（周期/范围）
+      tags: [assessment]
+      parameters:
+        - { name: period, in: query, required: true, schema: { type: string, example: '2026-08' } }
+        - { name: scope, in: query, schema: { type: string, enum: [personal, team] } }
+      responses:
+        '200':
+          description: 结果列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { type: object, description: 总分/分项/排名 }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /assessment/appeals:
+    post:
+      operationId: postAssessmentAppeals
+      summary: 提交考核申诉
+      tags: [assessment]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [resultId, appealReason]
+              properties:
+                resultId: { type: integer }
+                appealReason: { type: string }
+                evidenceUrls: { type: array, items: { type: string } }
+      responses:
+        '200':
+          description: 申诉已登记（进入审核流程）
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties: { appealId: { type: string } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /assessment/appeals/{id}/process:
+    post:
+      operationId: postAssessmentAppealsProcess
+      summary: 审核申诉（批准/驳回，重算结果）
+      tags: [assessment]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [decision]
+              properties:
+                decision: { type: string, enum: [approved, rejected] }
+                comment: { type: string }
+      responses:
+        '200':
+          description: 处理成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== report ====================
+  /report/instances:
+    get:
+      operationId: getReportInstances
+      summary: 报表实例列表（按区域隔离）
+      tags: [report]
+      parameters:
+        - { name: period, in: query, schema: { type: string, example: '2026-08' } }
+      responses:
+        '200':
+          description: 实例列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { type: object }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    post:
+      operationId: postReportInstances
+      summary: 生成报表实例（模板+周期）
+      tags: [report]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [templateCode, period]
+              properties:
+                templateCode: { type: string }
+                period: { type: string, example: '2026-08' }
+                format: { type: string, enum: [excel, pdf, word], default: excel }
+      responses:
+        '200':
+          description: 实例已创建
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties: { instanceId: { type: string } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /report/instances/{id}/export:
+    get:
+      operationId: getReportInstancesExport
+      summary: 下载报表文件
+      tags: [report]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 文件流
+          content:
+            application/octet-stream: {}
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /report/templates:
+    get:
+      operationId: getReportTemplates
+      summary: 报表模板列表（含口径说明）
+      tags: [report]
+      responses:
+        '200':
+          description: 模板列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { type: object }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== data ====================
+  /data/sources:
+    get:
+      operationId: getDataSources
+      summary: 数据源列表与状态
+      tags: [data]
+      responses:
+        '200':
+          description: 数据源
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { type: object, description: 编码/类型/同步状态/最近运行 }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /data/collect-tasks:
+    post:
+      operationId: postDataCollectTasks
+      summary: 手动触发采集任务
+      tags: [data]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [taskType]
+              properties:
+                taskType: { type: string, enum: [market, trade, settlement, weather, intel] }
+                force: { type: boolean, default: false }
+      responses:
+        '200':
+          description: 已触发
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties: { taskId: { type: string } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /data/quality/report:
+    get:
+      operationId: getDataQualityReport
+      summary: 数据质量报告（完整率/准确率/及时率）
+      tags: [data]
+      parameters:
+        - { name: startDate, in: query, schema: { type: string, format: date } }
+        - { name: endDate, in: query, schema: { type: string, format: date } }
+      responses:
+        '200':
+          description: 质量报告
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          completeness: { type: number }
+                          accuracy: { type: number }
+                          timeliness: { type: number }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /data/lineage:
+    get:
+      operationId: getDataLineage
+      summary: 数据血缘查询（表/任务/报表/模型）
+      tags: [data]
+      parameters:
+        - { name: nodeId, in: query, schema: { type: string } }
+      responses:
+        '200':
+          description: 血缘图节点
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          upstream: { type: array, items: { type: object } }
+                          downstream: { type: array, items: { type: object } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== message / flow ====================
+  /message/list:
+    get:
+      operationId: getMessageList
+      summary: 我的消息（分类/未读）
+      tags: [message]
+      parameters:
+        - { name: msgType, in: query, schema: { type: string, enum: [forecast_summary, market_alert, decision_todo, settlement_diff, assess_reminder] } }
+        - { name: unreadOnly, in: query, schema: { type: boolean, default: false } }
+        - { $ref: '#/components/parameters/PageParam' }
+      responses:
+        '200':
+          description: 消息列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/PageResult' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /message/{id}/read:
+    post:
+      operationId: postMessageRead
+      summary: 标记已读
+      tags: [message]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+  /flow/start:
+    post:
+      operationId: postFlowStart
+      summary: 启动流程实例（复核/审批/申诉）
+      tags: [flow]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [processKey, bizId]
+              properties:
+                processKey: { type: string, example: settlement_ticket_review }
+                bizId: { type: string }
+                variables: { type: object }
+      responses:
+        '200':
+          description: 流程已启动
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties: { instanceId: { type: string } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /flow/instances/{instanceId}:
+    get:
+      operationId: getFlowInstances
+      summary: 流程实例状态与任务列表
+      tags: [flow]
+      parameters:
+        - { name: instanceId, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 流程详情
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          status: { type: string }
+                          currentTasks: { type: array, items: { type: object } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== model-platform ====================
+  /model/registry:
+    get:
+      operationId: getModelRegistry
+      summary: 模型注册表（版本/指标/状态）
+      tags: [model]
+      responses:
+        '200':
+          description: 模型列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/ModelInfo' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /model/inference:
+    post:
+      operationId: postModelInference
+      summary: 模型在线推理（LLM 问答/预测增强）
+      tags: [model]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [modelCode, input]
+              properties:
+                modelCode: { type: string }
+                input: { type: object }
+                temperature: { type: number, maximum: 1 }
+      responses:
+        '200':
+          description: 推理结果
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          output: { type: object }
+                          latencyMs: { type: integer }
+                          modelVersion: { type: string }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /model/evaluate:
+    post:
+      operationId: postModelEvaluate
+      summary: 模型离线评估（锁定测试集）
+      tags: [model]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [modelVersion, testSetVersion]
+              properties:
+                modelVersion: { type: string }
+                testSetVersion: { type: string }
+      responses:
+        '200':
+          description: 评估结果
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          mape: { type: number }
+                          directionAccuracy: { type: number }
+                          passed: { type: boolean }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== intel（情报中心，V1.1/RE-01） ====================
+  /intel/news:
+    get:
+      operationId: getIntelNews
+      summary: 情报流（归一化标签/重要度筛选）
+      tags: [intel]
+      parameters:
+        - { name: importance, in: query, schema: { type: string, enum: [high, medium, low] } }
+        - { name: intelType, in: query, schema: { type: string, enum: [price, weather, supply_demand, policy, announcement, opinion] } }
+        - { $ref: '#/components/parameters/PageParam' }
+      responses:
+        '200':
+          description: 情报列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/PageResult' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /intel/sources:
+    get:
+      operationId: getIntelSources
+      summary: 情报源配置与状态
+      tags: [intel]
+      responses:
+        '200':
+          description: 情报源
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { type: object }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /intel/push-rules:
+    get:
+      operationId: getIntelPushRules
+      summary: 推送规则列表
+      tags: [intel]
+      responses:
+        '200':
+          description: 规则列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { type: object }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    post:
+      operationId: postIntelPushRules
+      summary: 配置情报推送规则（标签+重要度→渠道/角色）
+      tags: [intel]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ruleName, matchTags, importance]
+              properties:
+                ruleName: { type: string }
+                matchTags: { type: array, items: { type: string } }
+                importance: { type: string, enum: [high, medium, low] }
+                targets: { type: array, items: { type: string }, description: 角色/用户编码 }
+      responses:
+        '200':
+          description: 规则已配置
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties: { ruleId: { type: string } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  /intel/push-rules/execute:
+    post:
+      operationId: postIntelPushRulesExecute
+      summary: 手动触发推送规则执行（情报→消息中心联动）
+      description: >
+        执行全部 active 推送规则：匹配未推送情报（标签交集 × 重要度一致）→ 按目标角色
+        派发个人消息（msg_type=intel_push）→ 更新情报推送状态。另有服务端定时 30s 自动执行兜底。
+      tags: [intel]
+      responses:
+        '200':
+          description: 推送执行完成
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          matchedNews: { type: integer, description: 匹配并推送的情报条数 }
+                          pushedMessages: { type: integer, description: 派发的个人消息条数 }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    PageParam:
+      name: pageNo
+      in: query
+      description: 分页参数（pageNo/pageSize，对齐后端 @RequestParam 实现）
+      schema:
+        type: object
+        properties:
+          pageNo: { type: integer, minimum: 1, default: 1 }
+          pageSize: { type: integer, maximum: 200, default: 20 }
+  responses:
+    BizError:
+      description: 业务错误（错误码分段见 README）
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    ServerError:
+      description: 服务端错误
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+  schemas:
+    ApiResponse:
+      type: object
+      required: [code, message, data, traceId]
+      properties:
+        code: { type: integer, description: 0 成功；非 0 见错误码分段表, example: 0 }
+        message: { type: string, example: success }
+        data: { type: object, nullable: true, description: 业务数据（随接口变化） }
+        traceId: { type: string, description: 全链路追踪 ID }
+    ErrorResponse:
+      type: object
+      properties:
+        code: { type: integer, example: 14001 }
+        message: { type: string }
+        traceId: { type: string }
+        detail: { type: object, nullable: true, description: 参数错误明细 }
+    PageResult:
+      type: object
+      properties:
+        list: { type: array, items: { type: object } }
+        pageNo: { type: integer }
+        pageSize: { type: integer }
+        total: { type: integer }
+    SysRegion:
+      type: object
+      properties:
+        id: { type: string, description: 雪花 ID（JSON 序列化为字符串） }
+        regionCode: { type: string }
+        regionName: { type: string }
+        status: { type: string, enum: [enabled, disabled, pending] }
+        launchOrder: { type: integer }
+    SysUser:
+      type: object
+      properties:
+        id: { type: string, description: 雪花 ID（JSON 序列化为字符串） }
+        username: { type: string }
+        displayName: { type: string }
+        status: { type: string }
+        roleIds: { type: array, items: { type: integer } }
+        regionCodes: { type: array, items: { type: string } }
+    SysRole:
+      type: object
+      description: 角色（编码固定 7 类，与 PRD 七类角色对齐；新建角色受服务端 DDL CHECK 约束，仅可更新 description/status）
+      properties:
+        id: { type: string, description: 雪花 ID（JSON 序列化为字符串） }
+        roleName: { type: string }
+        roleCode:
+          type: string
+          enum: [trader, analyst, settlement, admin, manager, compliance, mobile]
+        description: { type: string }
+        status: { type: string }
+    SysPermission:
+      type: object
+      properties:
+        id: { type: string, description: 雪花 ID（JSON 序列化为字符串） }
+        permName: { type: string }
+        permCode: { type: string }
+        resourceType: { type: string, enum: [menu, api, data] }
+        resourcePattern: { type: string }
+    AuditLog:
+      type: object
+      properties:
+        id: { type: string, description: 雪花 ID（JSON 序列化为字符串） }
+        traceId: { type: string }
+        userId: { type: integer }
+        username: { type: string }
+        action: { type: string }
+        targetType: { type: string }
+        targetId: { type: string }
+        beforeSnapshot: { type: object }
+        afterSnapshot: { type: object }
+        ip: { type: string }
+        result: { type: string, enum: [success, fail] }
+        regionCode: { type: string }
+        createdAt: { type: string, format: date-time }
+    LoginResult:
+      type: object
+      properties:
+        accessToken: { type: string }
+        refreshToken: { type: string }
+        expiresIn: { type: integer, example: 7200 }
+    CurrentUser:
+      type: object
+      properties:
+        userId: { type: integer }
+        username: { type: string }
+        displayName: { type: string }
+        roles: { type: array, items: { type: string } }
+        permissions: { type: array, items: { type: string }, description: 权限编码（三级权限） }
+        orgCode: { type: string }
+    PolicyDetail:
+      type: object
+      properties:
+        id: { type: string, description: 雪花 ID（JSON 序列化为字符串） }
+        title: { type: string }
+        issuingBody: { type: string }
+        category: { type: string }
+        tags: { type: array, items: { type: string } }
+        fileUrl: { type: string }
+        effectiveDate: { type: string, format: date }
+        articles: { type: array, items: { type: object }, description: 解析条款（置信度/人工确认状态） }
+    PricePoint:
+      type: object
+      properties:
+        ts: { type: string, format: date-time }
+        price: { type: number }
+        volume: { type: number }
+        stage: { type: string }
+    ForecastPoint:
+      type: object
+      properties:
+        pointTime: { type: string, format: date-time }
+        value: { type: number }
+        lowerBound: { type: number }
+        upperBound: { type: number }
+        confidence: { type: number }
+    ModelInfo:
+      type: object
+      properties:
+        modelCode: { type: string }
+        modelName: { type: string }
+        version: { type: string }
+        framework: { type: string }
+        metrics: { type: object }
+        status: { type: string, enum: [training, evaluating, online, rolled_back] }
+    DecisionSession:
+      type: object
+      properties:
+        sessionId: { type: string }
+        sessionType: { type: string }
+        tradeDate: { type: string, format: date }
+        status: { type: string }
+        finalStrategy: { type: object }
+        agents: { type: array, items: { type: string } }
+        humanReviewStatus: { type: string }
+        evidenceSummary: { type: object }
+    AgentRun:
+      type: object
+      properties:
+        agentCode: { type: string }
+        inputSnapshot: { type: object }
+        output: { type: object }
+        confidence: { type: number }
+        elapsedMs: { type: integer }
+        status: { type: string }
+    StrategyInfo:
+      type: object
+      properties:
+        strategyCode: { type: string }
+        strategyName: { type: string }
+        params: { type: object }
+        performance: { type: object, description: 收益/胜率/回撤 }
+        status: { type: string }
+    RollingPlan:
+      type: object
+      properties:
+        planId: { type: string }
+        tradeDate: { type: string, format: date }
+        scenario: { type: string }
+        expectedRevenue: { type: number }
+        riskMetrics: { type: object }
+        status: { type: string }
+        createdBy: { type: string }
+    TradeResult:
+      type: object
+      properties:
+        declarationId: { type: string }
+        matchedVolume: { type: number }
+        matchedPrice: { type: number }
+        matchedCurve: { type: array, items: { type: number } }
+        settlementImpact: { type: object }
+    ReconcileResult:
+      type: object
+      properties:
+        reconcileId: { type: string }
+        status: { type: string, enum: [consistent, diff, pending] }
+        checkItems: { type: array, items: { type: object } }
+        diffAmount: { type: number }
+        passRate: { type: number, description: ≥0.95 通过（结算核对指标） }

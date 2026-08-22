@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>登录 · 电力交易智能辅助决策系统</title>
+<link rel="stylesheet" href="assets/wireframe.css">
+<style>
+  body { background: linear-gradient(135deg,#1f2a44 0%,#2f6fed 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+  .login-box { width: 400px; background: #fff; border-radius: 12px; padding: 36px 32px; box-shadow: 0 12px 40px rgba(0,0,0,.25); }
+  .login-title { font-size: 20px; font-weight: 700; text-align: center; margin-bottom: 6px; }
+  .login-sub { font-size: 12px; color: var(--wf-sub); text-align: center; margin-bottom: 28px; }
+</style>
+</head>
+<body>
+<!-- 登录页（对应 4.7：平台域-登录；支持 SSO + 账号密码 + 验证码，等保三级要求） -->
+<div class="login-box">
+  <div class="login-title">电力交易智能辅助决策系统</div>
+  <div class="login-sub">Power Trading Intelligent Decision Support System</div>
+  <form class="wf-form">
+    <div class="wf-form-item">
+      <label>登录账号</label>
+      <input class="wf-input" type="text" placeholder="工号 / 统一身份账号" value="trader01">
+    </div>
+    <div class="wf-form-item">
+      <label>登录密码</label>
+      <input class="wf-input" type="password" placeholder="请输入密码" value="••••••••">
+    </div>
+    <div class="wf-form-item">
+      <label>验证码</label>
+      <input class="wf-input" type="text" placeholder="图形验证码" style="max-width:140px">
+      <span class="wf-placeholder wf-ph-sm" style="min-height:36px;flex:0 0 96px;padding:6px;font-size:12px">验证码图</span>
+    </div>
+    <div class="wf-row" style="justify-content:space-between">
+      <label class="wf-check"><input type="checkbox" checked> 记住登录状态</label>
+      <a class="wf-sm wf-muted" href="#">忘记密码？</a>
+    </div>
+    <button class="wf-btn primary" type="button" style="width:100%;padding:10px">登 录</button>
+  </form>
+  <div class="wf-row mt" style="justify-content:center">
+    <span class="wf-tag">SSO 统一身份登录</span>
+    <span class="wf-tag">密码强度策略</span>
+    <span class="wf-tag">登录审计</span>
+  </div>
+  <div class="wf-sm wf-muted" style="text-align:center;margin-top:18px">
+    安全提示：连续 5 次失败锁定 30 分钟｜支持短信/邮件二次认证（P1）｜本系统按等保三级建设
+  </div>
+</div>
+</body>
+</html>

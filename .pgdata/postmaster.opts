@@ -1,0 +1,1 @@
+/usr/lib/postgresql/18/bin/postgres "-D" "/home/odoo/workspace/PTIDSS/.pgdata" "-p" "5432" "-k" "/tmp"

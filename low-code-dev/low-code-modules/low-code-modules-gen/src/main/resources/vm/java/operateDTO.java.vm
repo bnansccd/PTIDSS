@@ -1,0 +1,46 @@
+package ${packageName}.domain.DTO;
+#foreach ($import in $importList)
+import ${import};
+#end
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+
+
+/**
+ * @Auther: ${author}
+ * @Date: ${datetime}
+ * @Description: ${functionName}操作对象 ${tableName}
+ * @Version: 1.0.0
+ */
+@Data
+@ApiModel(description = "${functionName}查操作对象 ${tableName}")
+public class ${ClassName}DTO implements Serializable {
+
+#foreach ($column in $columns)
+#if (!$table.isSuperColumn($column.javaField))
+#if($column.insert || $column.edit)
+#if($column.required)
+    @ApiModelProperty(value = "$column.columnComment",required = true)
+#if($column.javaType == 'String')
+    @NotBlank(message = "$column.columnComment不为空")
+#else
+    @NotNull(message = "$column.columnComment不为空")
+#end
+#else
+    @ApiModelProperty(value = "$column.columnComment")
+#end
+#if($column.javaType == 'Date')
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+#end
+    private $column.javaType $column.javaField;
+#end
+#end
+#end
+
+}

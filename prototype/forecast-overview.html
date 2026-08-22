@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>预测总览 · 电力交易智能辅助决策系统</title>
+<link rel="stylesheet" href="assets/wireframe.css">
+</head>
+<body>
+<!-- 预测总览（对应 4.7：预测域；电价/负荷/新能源，含置信区间与误差分析） -->
+<div class="wf-topbar">
+  <div class="wf-logo">⚡ 电力交易智能辅助决策 <span class="wf-logo-en">PTIDSS</span></div>
+  <div class="wf-nav">
+    <a href="dashboard.html">工作台</a>
+    <a href="market-dashboard.html">行情看板</a>
+    <a class="active" href="forecast-overview.html">预测总览</a>
+    <a href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <a href="policy-detail.html">政策研判</a>
+  </div>
+  <div class="wf-user"><span class="wf-avatar">分</span> 分析师·李工 <span class="wf-badge b-primary">P0</span></div>
+</div>
+
+<div class="wf-layout">
+  <div class="wf-sidebar">
+    <div class="wf-group">总览</div>
+    <a href="dashboard.html">首页工作台</a>
+    <div class="wf-group">行情与预测</div>
+    <a href="market-dashboard.html">行情看板</a>
+    <a class="active" href="forecast-overview.html">预测总览</a>
+    <div class="wf-group">决策与交易</div>
+    <a href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <div class="wf-group">结算与复盘</div>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <div class="wf-group">政策与系统</div>
+    <a href="policy-detail.html">政策研判</a>
+    <a href="#">系统管理</a>
+  </div>
+
+  <div class="wf-main">
+    <div class="wf-page-head">
+      <div>
+        <h1>预测总览</h1>
+        <div class="wf-sub">在线模型：电价 v2.4.1｜负荷 v1.8.0｜新能源 v1.3.2｜测试集锁定 v2026-07</div>
+      </div>
+      <div class="wf-actions">
+        <a class="wf-btn" href="#">发起预测任务</a>
+        <a class="wf-btn primary" href="#">模型管理 →</a>
+      </div>
+    </div>
+
+    <div class="wf-tabs">
+      <a class="active" href="#">电价预测</a>
+      <a href="#">负荷预测</a>
+      <a href="#">新能源出力</a>
+      <a href="#">误差分析</a>
+      <a href="#">模型管理</a>
+    </div>
+
+    <div class="wf-filter">
+      <input class="wf-input" type="date" value="2026-08-09">
+      <select class="wf-select" style="max-width:140px"><option>省内现货</option><option>省间现货</option></select>
+      <select class="wf-select" style="max-width:150px"><option>全时段</option><option>峰段</option><option>谷段</option><option>平段</option></select>
+      <button class="wf-btn primary" type="button">查询</button>
+      <span class="wf-sm wf-muted">预测生成时间 08-08 06:00｜耗时 42s（预算 ≤10min）</span>
+    </div>
+
+    <div class="wf-grid wf-grid-4 mb">
+      <div class="wf-card"><div class="wf-stat"><span class="k">当日预测均价</span><span class="v">412.6</span><span class="d">元/MWh</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">MAPE（近 30 日）</span><span class="v">9.8%</span><span class="d down">达标 ≤15%</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">峰谷方向准确率</span><span class="v">91.2%</span><span class="d down">达标 ≥90%</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">置信区间覆盖（90%）</span><span class="v">88.6%</span><span class="d">接近理论值</span></div></div>
+    </div>
+
+    <div class="wf-grid wf-grid-2-1">
+      <div class="wf-card">
+        <div class="wf-card-title">96 点预测曲线（含 90% 置信区间）</div>
+        <div class="wf-placeholder wf-ph-chart">ECharts：预测值实线 + 区间阴影 + 实际值（事后回填）对比<br><small>峰/谷/价差标注｜图例可切换模型版本</small></div>
+        <div class="wf-row mt">
+          <span class="wf-tag">预测值 412.6</span><span class="wf-tag">区间宽度均值 ±18%</span>
+          <span class="wf-tag b-warn">午间 11-14 时不确定性偏高（新能源渗透）</span>
+        </div>
+      </div>
+      <div class="wf-card">
+        <div class="wf-card-title">模型信息</div>
+        <table class="wf-table">
+          <tr><td>模型版本</td><td>v2.4.1（增量训练 08-08）</td></tr>
+          <tr><td>特征版本</td><td>feat-v2026-08-01</td></tr>
+          <tr><td>训练数据</td><td>2024-01 ~ 2026-07</td></tr>
+          <tr><td>评估方式</td><td>锁定测试集（滚动窗口）</td></tr>
+          <tr><td>下次训练</td><td>08-09 02:00（日增量）</td></tr>
+          <tr><td>降级策略</td><td>特征缺失 → 规则兜底 + 标记降级</td></tr>
+        </table>
+        <div class="wf-placeholder wf-ph-sm mt">最近 30 日误差分布直方图</div>
+      </div>
+    </div>
+
+    <div class="wf-card">
+      <div class="wf-card-title">分时段误差分析（近 30 日）</div>
+      <table class="wf-table">
+        <tr><th>时段</th><th>MAPE</th><th>方向准确率</th><th>偏差特征</th><th>改进措施（建议）</th></tr>
+        <tr><td>峰段 18-22</td><td class="num">11.2%</td><td class="num">89.3%</td><td class="wf-sm">系统偏低 2.1%</td><td class="wf-sm">增加晚间负荷特征权重</td></tr>
+        <tr><td>平段 08-17</td><td class="num">8.9%</td><td class="num">92.0%</td><td class="wf-sm">正常</td><td class="wf-sm">—</td></tr>
+        <tr><td>谷段 23-07</td><td class="num">9.4%</td><td class="num">91.8%</td><td class="wf-sm">正常</td><td class="wf-sm">—</td></tr>
+      </table>
+    </div>
+
+    <div class="wf-footer">线框原型 V1.0 · 对应 4.7 页面清单：预测总览 / 预测详情 / 误差分析 / 模型管理</div>
+  </div>
+</div>
+</body>
+</html>

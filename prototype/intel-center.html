@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>情报中心 · 电力交易智能辅助决策系统</title>
+<link rel="stylesheet" href="assets/wireframe.css">
+</head>
+<body>
+<!-- 情报中心（对应 4.7：情报域；情报流/情报源/推送规则，RE-01 P0 正式） -->
+<div class="wf-topbar">
+  <div class="wf-logo">⚡ 电力交易智能辅助决策 <span class="wf-logo-en">PTIDSS</span></div>
+  <div class="wf-nav">
+    <a href="dashboard.html">工作台</a>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <a href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <a href="policy-detail.html">政策研判</a>
+  </div>
+  <div class="wf-user"><span class="wf-avatar">情</span> 分析师·王工 <span class="wf-badge b-primary">RE-01 P0</span></div>
+</div>
+
+<div class="wf-layout">
+  <div class="wf-sidebar">
+    <div class="wf-group">总览</div>
+    <a href="dashboard.html">首页工作台</a>
+    <div class="wf-group">行情与预测</div>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <div class="wf-group">决策与交易</div>
+    <a href="workspace.html">决策工作台</a>
+    <a href="optimize-joint.html">联合优化</a>
+    <a href="backtest.html">策略回测</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <div class="wf-group">结算与复盘</div>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <div class="wf-group">政策与系统</div>
+    <a href="policy-detail.html">政策研判</a>
+    <a class="active" href="intel-center.html">情报中心</a>
+    <a href="admin-system.html">系统管理</a>
+  </div>
+
+  <div class="wf-main">
+    <div class="wf-page-head">
+      <div>
+        <h1>情报中心</h1>
+        <div class="wf-sub">RE-01 情报中心（P0 正式，2026-08-08 评审决议）｜60+ 情报源｜high 级实时推送 ≤30s</div>
+      </div>
+      <div class="wf-actions">
+        <a class="wf-btn primary" href="#">新增情报源</a>
+        <a class="wf-btn" href="#">订阅设置</a>
+      </div>
+    </div>
+
+    <div class="wf-filter">
+      <select class="wf-select" style="max-width:140px"><option>全部标签</option><option>行情</option><option>政策</option><option>供需</option><option>气象</option><option>舆情</option></select>
+      <select class="wf-select" style="max-width:130px"><option>全部重要度</option><option>high</option><option>medium</option><option>low</option></select>
+      <input class="wf-input" placeholder="关键词检索…">
+      <button class="wf-btn primary wf-right" type="button">查询</button>
+    </div>
+
+    <div class="wf-grid wf-grid-4 mb">
+      <div class="wf-card"><div class="wf-stat"><span class="k">情报源在线</span><span class="v">34</span><span class="d ok">目标 ≥30 类</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">今日情报</span><span class="v">186</span><span class="d">归一化后条目</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">high 级</span><span class="v">12</span><span class="d warn">实时推送 ≤30s</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">推送命中率</span><span class="v">96.8%</span><span class="d ok">目标 ≥95%</span></div></div>
+    </div>
+
+    <div class="wf-grid wf-grid-2-1">
+      <div class="wf-card">
+        <div class="wf-card-title">情报流（实时）</div>
+        <table class="wf-table">
+          <tr><th>时间</th><th>来源</th><th>标题</th><th>标签</th><th>重要度</th><th>推送</th></tr>
+          <tr><td>10:31</td><td class="wf-sm">省发改委</td><td>现货交易实施细则修订（征求意见）</td><td>政策</td><td><span class="wf-badge b-danger">high</span></td><td><span class="wf-badge b-ok">已推送</span></td></tr>
+          <tr><td>10:26</td><td class="wf-sm">国家气象局</td><td>台风路径更新：明日影响省内东部</td><td>气象</td><td><span class="wf-badge b-danger">high</span></td><td><span class="wf-badge b-ok">已推送</span></td></tr>
+          <tr><td>10:18</td><td class="wf-sm">交易中心公告</td><td>明日日前市场申报截止时间不变</td><td>行情</td><td><span class="wf-badge b-warn">medium</span></td><td><span class="wf-badge b-ok">已推送</span></td></tr>
+          <tr><td>09:52</td><td class="wf-sm">电力舆情</td><td>省内新能源装机超 4,000 万千瓦</td><td>供需</td><td><span class="wf-badge b-warn">medium</span></td><td>—</td></tr>
+          <tr><td>09:30</td><td class="wf-sm">营销平台</td><td>昨日负荷实际值更新（含 96 点）</td><td>行情</td><td><span class="wf-badge b-primary">low</span></td><td>—</td></tr>
+        </table>
+      </div>
+      <div class="wf-card">
+        <div class="wf-card-title">推送规则（标签 × 重要度 → 角色）</div>
+        <div class="wf-sm">
+          <div class="wf-mt"><span class="wf-badge b-danger">high</span> 政策/行情 → 交易员+管理层 实时（≤30s）</div>
+          <div class="mt"><span class="wf-badge b-warn">medium</span> 供需/气象 → 分析师 汇总推送（每 15min）</div>
+          <div>· 可配置角色、渠道（Web/小程序/短信）与静默时段（FR-INT-04）；</div>
+          <div>· high 级情报自动带入决策工作台会话（一键引入情报结论）。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wf-card mt">
+      <div class="wf-card-title">情报源管理（RE-01：60+ 源，首期 ≥30 类）</div>
+      <table class="wf-table">
+        <tr><th>源名称</th><th>类型</th><th>采集方式</th><th>状态</th><th>频率</th><th>上次采集</th><th>最近状态</th></tr>
+        <tr><td>省发改委政策</td><td>政策</td><td>爬虫+人工复核</td><td><span class="wf-badge b-ok">正常</span></td><td class="wf-sm">30min</td><td class="wf-sm">10:15</td><td class="wf-sm ok">解析 2 条</td></tr>
+        <tr><td>交易中心公告</td><td>行情</td><td>API</td><td><span class="wf-badge b-ok">正常</span></td><td class="wf-sm">10min</td><td class="wf-sm">10:20</td><td class="wf-sm ok">同步 1 条</td></tr>
+        <tr><td>GFS 气象预报</td><td>气象</td><td>文件（GRIB）</td><td><span class="wf-badge b-ok">正常</span></td><td class="wf-sm">6h</td><td class="wf-sm">09:00</td><td class="wf-sm ok">解析 96 点</td></tr>
+        <tr><td>电力舆情聚合</td><td>舆情</td><td>爬虫</td><td><span class="wf-badge b-warn">限流</span></td><td class="wf-sm">1h</td><td class="wf-sm">09:55</td><td class="wf-sm warn">目标站限流</td></tr>
+      </table>
+    </div>
+
+    <div class="wf-footer">线框原型 V1.1 · 对应 4.7 页面清单：情报中心 / 情报源管理 / 推送订阅（RE-01 P0 正式）</div>
+  </div>
+</div>
+</body>
+</html>

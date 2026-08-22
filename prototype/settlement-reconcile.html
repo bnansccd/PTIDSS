@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>结算核对 · 电力交易智能辅助决策系统</title>
+<link rel="stylesheet" href="assets/wireframe.css">
+</head>
+<body>
+<!-- 结算核对（对应 4.7：结算域；OCR 识别/科目核对/差异工单/台账） -->
+<div class="wf-topbar">
+  <div class="wf-logo">⚡ 电力交易智能辅助决策 <span class="wf-logo-en">PTIDSS</span></div>
+  <div class="wf-nav">
+    <a href="dashboard.html">工作台</a>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <a href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <a class="active" href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <a href="policy-detail.html">政策研判</a>
+  </div>
+  <div class="wf-user"><span class="wf-avatar">结</span> 结算员·王工 <span class="wf-badge b-primary">P0</span></div>
+</div>
+
+<div class="wf-layout">
+  <div class="wf-sidebar">
+    <div class="wf-group">总览</div>
+    <a href="dashboard.html">首页工作台</a>
+    <div class="wf-group">行情与预测</div>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <div class="wf-group">决策与交易</div>
+    <a href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <div class="wf-group">结算与复盘</div>
+    <a class="active" href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <div class="wf-group">政策与系统</div>
+    <a href="policy-detail.html">政策研判</a>
+    <a href="#">系统管理</a>
+  </div>
+
+  <div class="wf-main">
+    <div class="wf-page-head">
+      <div>
+        <h1>结算核对</h1>
+        <div class="wf-sub">结算周期 2026-07｜核对通过率 ≥95% 达标｜OCR 识别准确率 ≥98% 达标</div>
+      </div>
+      <div class="wf-actions">
+        <a class="wf-btn" href="#">上传结算单（OCR）</a>
+        <a class="wf-btn primary" href="#">发起全量核对</a>
+      </div>
+    </div>
+
+    <div class="wf-grid wf-grid-4 mb">
+      <div class="wf-card"><div class="wf-stat"><span class="k">核对通过率</span><span class="v">96.8%</span><span class="d down">达标 ≥95%</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">差异金额</span><span class="v">- 12,480</span><span class="d up">元（2 项差异）</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">待处理工单</span><span class="v">3</span><span class="d">1 项临近 SLA</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">OCR 平均置信度</span><span class="v">98.3%</span><span class="d down">达标 ≥98%</span></div></div>
+    </div>
+
+    <div class="wf-grid wf-grid-2-1">
+      <div class="wf-card">
+        <div class="wf-card-title">结算记录（2026-07）</div>
+        <table class="wf-table">
+          <tr><th>周期</th><th>来源</th><th>金额（元）</th><th>同步状态</th><th>核对</th><th>操作</th></tr>
+          <tr><td>2026-07</td><td>交易中心</td><td class="num">3,286,400</td><td><span class="wf-badge b-ok">已同步</span></td><td><span class="wf-badge b-ok">96.8% 通过</span></td><td><a class="wf-sm" href="#">详情</a></td></tr>
+          <tr><td>2026-07</td><td>系统自算</td><td class="num">3,273,920</td><td><span class="wf-badge b-ok">已同步</span></td><td><span class="wf-badge b-ok">96.8% 通过</span></td><td><a class="wf-sm" href="#">详情</a></td></tr>
+          <tr><td>2026-06</td><td>交易中心</td><td class="num">3,012,750</td><td><span class="wf-badge b-ok">已同步</span></td><td><span class="wf-badge b-ok">99.1% 通过</span></td><td><a class="wf-sm" href="#">详情</a></td></tr>
+          <tr><td>2026-06</td><td>系统自算</td><td class="num">3,011,900</td><td><span class="wf-badge b-ok">已同步</span></td><td><span class="wf-badge b-ok">99.1% 通过</span></td><td><a class="wf-sm" href="#">详情</a></td></tr>
+        </table>
+      </div>
+
+      <div class="wf-card">
+        <div class="wf-card-title">OCR 识别结果（2026-07 结算单）</div>
+        <div class="wf-placeholder wf-ph-sm">结算单原件（图片/PDF 预览）</div>
+        <table class="wf-table mt">
+          <tr><td>识别状态</td><td><span class="wf-badge b-ok">成功</span> 置信度 98.3%</td></tr>
+          <tr><td>电能量电费</td><td class="num">3,102,880 元</td></tr>
+          <tr><td>偏差考核</td><td class="num">- 86,400 元</td></tr>
+          <tr><td>辅助服务</td><td class="num">12,600 元</td></tr>
+          <tr><td>人工复核</td><td><span class="wf-badge">已完成</span></td></tr>
+        </table>
+        <div class="wf-row mt"><button class="wf-btn" type="button">重新识别</button><button class="wf-btn primary" type="button">人工修正</button></div>
+      </div>
+
+      <div class="wf-card">
+        <div class="wf-card-title">科目核对明细（2026-07）</div>
+        <table class="wf-table">
+          <tr><th>科目</th><th>系统自算</th><th>交易中心</th><th>差异</th></tr>
+          <tr><td>电能量电费</td><td class="num">3,102,880</td><td class="num">3,102,880</td><td class="num" style="color:var(--wf-ok)">0</td></tr>
+          <tr><td>偏差考核</td><td class="num">- 98,880</td><td class="num">- 86,400</td><td class="num" style="color:var(--wf-danger)">12,480</td></tr>
+          <tr><td>辅助服务</td><td class="num">12,600</td><td class="num">12,600</td><td class="num" style="color:var(--wf-ok)">0</td></tr>
+          <tr><td>输配电价</td><td class="num">257,320</td><td class="num">257,320</td><td class="num" style="color:var(--wf-ok)">0</td></tr>
+        </table>
+        <div class="wf-sm wf-muted mt">差异科目已自动生成工单 TD-202607-018，进入处理流程</div>
+      </div>
+
+      <div class="wf-card">
+        <div class="wf-card-title">差异工单</div>
+        <table class="wf-table">
+          <tr><th>工单号</th><th>类型</th><th>金额</th><th>状态</th><th>处理人</th></tr>
+          <tr><td>TD-202607-018</td><td>金额差异</td><td class="num">12,480</td><td><span class="wf-badge b-warn">处理中</span></td><td>王工</td></tr>
+          <tr><td>TD-202607-017</td><td>缺失记录</td><td class="num">—</td><td><span class="wf-badge b-ok">已关闭</span></td><td>李工</td></tr>
+          <tr><td>TD-202607-016</td><td>金额差异</td><td class="num">3,200</td><td><span class="wf-badge b-ok">已关闭</span></td><td>王工</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="wf-footer">线框原型 V1.0 · 对应 4.7 页面清单：结算核对 / OCR 识别 / 差异工单 / 结算台账</div>
+  </div>
+</div>
+</body>
+</html>

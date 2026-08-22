@@ -1,0 +1,31 @@
+package ${packageName}.entity;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import lombok.Data;
+import com.troy.common.datasource.entity.TBaseEntity;
+import com.mybatisflex.annotation.Column;
+import com.mybatisflex.annotation.Table;
+
+
+/**
+ * @Auther: ${author}
+ * @Date: ${datetime}
+ * @Description: ${functionName}对象 ${tableName}
+ * @Version: 1.0.0
+ */
+@Data
+@Table("${tableName}")
+public class ${ClassName}Entity extends TBaseEntity {
+    private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+#if(!$table.isSuperColumn($column.javaField))
+    /** $column.columnComment */
+    @Column("$column.columnName")
+    private $column.javaType $column.javaField;
+
+#end
+#end
+}

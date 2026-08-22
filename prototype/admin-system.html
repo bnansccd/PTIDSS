@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>系统管理 · 电力交易智能辅助决策系统</title>
+<link rel="stylesheet" href="assets/wireframe.css">
+</head>
+<body>
+<!-- 系统管理（对应 4.7：平台域；用户/角色权限/审计/数据源/系统配置） -->
+<div class="wf-topbar">
+  <div class="wf-logo">⚡ 电力交易智能辅助决策 <span class="wf-logo-en">PTIDSS</span></div>
+  <div class="wf-nav">
+    <a href="dashboard.html">工作台</a>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <a href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <a href="policy-detail.html">政策研判</a>
+  </div>
+  <div class="wf-user"><span class="wf-avatar">管</span> 系统管理员·赵工 <span class="wf-badge b-primary">P0</span></div>
+</div>
+
+<div class="wf-layout">
+  <div class="wf-sidebar">
+    <div class="wf-group">总览</div>
+    <a href="dashboard.html">首页工作台</a>
+    <div class="wf-group">行情与预测</div>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <div class="wf-group">决策与交易</div>
+    <a href="workspace.html">决策工作台</a>
+    <a href="optimize-joint.html">联合优化</a>
+    <a href="backtest.html">策略回测</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <div class="wf-group">结算与复盘</div>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <div class="wf-group">政策与系统</div>
+    <a href="policy-detail.html">政策研判</a>
+    <a href="intel-center.html">情报中心</a>
+    <a class="active" href="admin-system.html">系统管理</a>
+  </div>
+
+  <div class="wf-main">
+    <div class="wf-page-head">
+      <div>
+        <h1>系统管理</h1>
+        <div class="wf-sub">用户/角色权限/审计日志/数据源/系统配置｜等保三级｜操作全程审计留痕</div>
+      </div>
+      <div class="wf-actions">
+        <a class="wf-btn primary" href="#">新增用户</a>
+        <a class="wf-btn" href="#">导出审计日志</a>
+      </div>
+    </div>
+
+    <div class="wf-tabs mb">
+      <span class="tab active">用户管理</span>
+      <span class="tab">角色权限</span>
+      <span class="tab">审计日志</span>
+      <span class="tab">数据源</span>
+      <span class="tab">系统配置</span>
+    </div>
+
+    <div class="wf-card mb">
+      <div class="wf-card-title">用户管理</div>
+      <table class="wf-table">
+        <tr><th>用户</th><th>角色</th><th>所属机构</th><th>region</th><th>状态</th><th>最近登录</th><th>操作</th></tr>
+        <tr><td>张工（交易员）</td><td>交易员</td><td>现货交易部</td><td class="wf-sm">CN-32（江苏）</td><td><span class="wf-badge b-ok">启用</span></td><td class="wf-sm">08-08 09:12</td><td><a class="wf-sm" href="#">编辑</a></td></tr>
+        <tr><td>李工（策略分析）</td><td>分析师</td><td>策略研究部</td><td class="wf-sm">CN-32</td><td><span class="wf-badge b-ok">启用</span></td><td class="wf-sm">08-08 10:05</td><td><a class="wf-sm" href="#">编辑</a></td></tr>
+        <tr><td>王工（分析师）</td><td>分析师</td><td>情报分析组</td><td class="wf-sm">CN-32</td><td><span class="wf-badge b-ok">启用</span></td><td class="wf-sm">08-07 17:40</td><td><a class="wf-sm" href="#">编辑</a></td></tr>
+        <tr><td>陈工（新市场）</td><td>交易员（待审批）</td><td>华东筹备组</td><td class="wf-sm">CN-31（上海）</td><td><span class="wf-badge b-warn">待审批</span></td><td class="wf-sm">—</td><td><a class="wf-sm" href="#">审批</a></td></tr>
+      </table>
+      <div class="wf-sm wf-muted wf-mt">角色 × region 双重授权：多省扩展（评审决议 P0）下，用户可按 region_code 授权到省，支持全国推广。</div>
+    </div>
+
+    <div class="wf-card mb">
+      <div class="wf-card-title">审计日志（关键操作留痕）</div>
+      <table class="wf-table">
+        <tr><th>时间</th><th>用户</th><th>操作</th><th>对象</th><th>IP</th><th>结果</th></tr>
+        <tr><td>10:32:18</td><td>张工</td><td>提交申报单 DEC-20260808-01</td><td>省内现货 96 点</td><td>10.2.3.18</td><td><span class="wf-badge b-ok">成功</span></td></tr>
+        <tr><td>10:29:55</td><td>李工</td><td>确认联合优化方案 JO-009</td><td>决策会话 S-1024</td><td>10.2.3.21</td><td><span class="wf-badge b-ok">成功</span></td></tr>
+        <tr><td>09:47:02</td><td>赵工</td><td>修改系统配置 settlement.periodMode</td><td>系统配置</td><td>10.2.1.5</td><td><span class="wf-badge b-warn">待复核</span></td></tr>
+        <tr><td>09:15:00</td><td>system</td><td>定时同步 结算数据（exchange）</td><td>settlement_record</td><td>内网</td><td><span class="wf-badge b-ok">成功</span></td></tr>
+      </table>
+    </div>
+
+    <div class="wf-card">
+      <div class="wf-card-title">系统配置（2026-08-08 评审决议项）</div>
+      <div class="wf-grid wf-grid-2">
+        <div class="wf-card">
+          <div class="wf-card-title wf-sm">交易中心对接通道（决议 ①）</div>
+          <table class="wf-table">
+            <tr><th>配置项</th><th>当前值</th><th>说明</th></tr>
+            <tr><td>exchange.channel</td><td><select class="wf-select" style="max-width:150px"><option>REST（默认）</option><option>SFTP 文件</option></select></td><td class="wf-sm">REST 与文件交换双通道均保留</td></tr>
+            <tr><td>exchange.sftp.path</td><td class="wf-sm">/data/exchange/inbound</td><td class="wf-sm">文件通道目录（兜底）</td></tr>
+          </table>
+        </div>
+        <div class="wf-card">
+          <div class="wf-card-title wf-sm">结算周期口径（决议 ③）</div>
+          <table class="wf-table">
+            <tr><th>配置项</th><th>当前值</th><th>说明</th></tr>
+            <tr><td>settlement.periodMode</td><td><select class="wf-select" style="max-width:150px"><option>natural_month 自然月</option><option>trading_month 交易月</option></select></td><td class="wf-sm">双口径可选，生效后全局一致</td></tr>
+          </table>
+        </div>
+        <div class="wf-card">
+          <div class="wf-card-title wf-sm">多省与区域（决议 ⑤）</div>
+          <table class="wf-table">
+            <tr><th>配置项</th><th>当前值</th><th>说明</th></tr>
+            <tr><td>region.mode</td><td><select class="wf-select" style="max-width:150px"><option>single 单省</option><option>multi 多省（P0）</option></select></td><td class="wf-sm">多省配置化，支撑全国推广</td></tr>
+            <tr><td>region.codes</td><td class="wf-sm">CN-32, CN-31</td><td class="wf-sm">已纳管区域（可增）</td></tr>
+          </table>
+        </div>
+        <div class="wf-card">
+          <div class="wf-card-title wf-sm">模型与求解</div>
+          <table class="wf-table">
+            <tr><th>配置项</th><th>当前值</th><th>说明</th></tr>
+            <tr><td>optimize.solver</td><td class="wf-sm">HiGHS（Gurobi 兜底）</td><td class="wf-sm">切换自动/手动</td></tr>
+            <tr><td>optimize.cvar_limit</td><td class="wf-sm">-200,000 元</td><td class="wf-sm">CVaR(95%) 默认约束</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="wf-footer">线框原型 V1.1 · 对应 4.7 页面清单：用户管理 / 角色权限 / 审计日志 / 数据源 / 系统配置</div>
+  </div>
+</div>
+</body>
+</html>

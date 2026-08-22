@@ -1,0 +1,117 @@
+package ${packageName}.dao.impl;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.troy.common.datasource.service.impl.BaseServiceImpl;
+import ${packageName}.dao.${ClassName}Dao;
+import ${packageName}.entity.${ClassName};
+import ${packageName}.mapper.${ClassName}Mapper;
+import org.springframework.stereotype.Component;
+
+/**
+ * @Auther: ${author}
+ * @Date: ${datetime}
+ * @Description: ${functionName}DaoImpl业务层处理
+ * @Version: 1.0.0
+ */
+@Component
+public class  ${ClassName}DaoImpl extends BaseServiceImpl<${ClassName}Mapper, ${ClassName}> implements ${ClassName}Dao {
+
+#set($flag=false)
+#foreach ($column in $columns)
+#if($column.query)
+    #set($flag=true)
+#end
+#end
+    @Override
+    public Page<${ClassName}> findPage(${ClassName}SearchDTO dto){
+#if($flag)
+        Page<${ClassName}> page=super.page(
+            dto,
+            new QueryWrapper<${ClassName}>()
+                .lambda()
+#foreach($column in $columns)
+#if($column.query)
+#if($column.javaField.length() > 2 && $column.javaField.substring(1,2).matches("[A-Z]"))
+    #set($AttrName=$column.javaField)
+#else
+    #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
+#end
+#if($column.queryType == 'EQ')
+#if($column.javaType == 'String')
+                .eq(StringUtils.isNotBlank(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#else
+                .eq(StringUtils.isNotNull(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#end
+#elseif($column.queryType == 'NE')
+#if($column.javaType == 'String')
+                .ne(StringUtils.isNotBlank(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#else
+                .ne(StringUtils.isNotNull(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#end
+#elseif($column.queryType == 'GT')
+#if($column.javaType == 'String')
+                .gt(StringUtils.isNotBlank(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#else
+                .gt(StringUtils.isNotNull(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#end
+#elseif($column.queryType == 'GE')
+#if($column.javaType == 'String')
+                .ge(StringUtils.isNotBlank(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#else
+                .ge(StringUtils.isNotNull(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#end
+#elseif($column.queryType == 'LT')
+#if($column.javaType == 'String')
+                .lt(StringUtils.isNotBlank(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#else
+                .lt(StringUtils.isNotNull(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#end
+#elseif($column.queryType == 'LE')
+#if($column.javaType == 'String')
+                .le(StringUtils.isNotBlank(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#else
+                .le(StringUtils.isNotNull(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#end
+#elseif($column.queryType == 'LIKE')
+#if($column.javaType == 'String')
+                .like(StringUtils.isNotBlank(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#else
+                .like(StringUtils.isNotNull(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#end
+#elseif($column.queryType == 'BETWEEN' && $column.javaType == 'Date')
+                .between(StringUtils.isNotNull(dto.getStartTime())&&StringUtils.isNotNull(dto.getEndTime()),${ClassName}::get${AttrName},dto.getStartTime(),dto.getEndTime())
+#end
+#end
+#end
+
+        );
+#else
+        Page<${ClassName}> page=super.page(dto);
+#end
+        return page;
+    }
+
+
+
+#if($table.main)
+#foreach($mainTable in $main)
+    @Override
+    public List<${ClassName}> findBy${mainTable.subTableFkClassName}(${mainTable.pkColumn.javaType} ${mainTable.subTableFkclassName}){
+        return super.list(
+                new QueryWrapper<${ClassName}>()
+                        .lambda()
+                        .eq(${ClassName}::get${mainTable.subTableFkClassName},${mainTable.subTableFkclassName})
+        );
+    }
+
+    @Override
+    public List<${ClassName}> findBy${mainTable.subTableFkClassName}s(List<${mainTable.pkColumn.javaType}> ${mainTable.subTableFkclassName}s){
+        return super.list(
+                new QueryWrapper<${ClassName}>()
+                        .lambda()
+                        .in(${ClassName}::get${mainTable.subTableFkClassName},${mainTable.subTableFkclassName}s)
+        );
+    }
+#end
+#end
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>首页工作台 · 电力交易智能辅助决策系统</title>
+<link rel="stylesheet" href="assets/wireframe.css">
+</head>
+<body>
+<!-- 首页工作台（对应 4.7：工作台域；行情速览+预测摘要+待办+消息，多角色视图聚合） -->
+<div class="wf-topbar">
+  <div class="wf-logo">⚡ 电力交易智能辅助决策 <span class="wf-logo-en">PTIDSS</span></div>
+  <div class="wf-nav">
+    <a class="active" href="dashboard.html">工作台</a>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <a href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <a href="policy-detail.html">政策研判</a>
+  </div>
+  <div class="wf-user"><span class="wf-avatar">交</span> 交易员·张工 <span class="wf-badge b-primary">P0</span></div>
+</div>
+
+<div class="wf-layout">
+  <div class="wf-sidebar">
+    <div class="wf-group">总览</div>
+    <a class="active" href="dashboard.html">首页工作台</a>
+    <div class="wf-group">行情与预测</div>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <div class="wf-group">决策与交易</div>
+    <a href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <div class="wf-group">结算与复盘</div>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <div class="wf-group">政策与系统</div>
+    <a href="policy-detail.html">政策研判</a>
+    <a href="#">系统管理</a>
+  </div>
+
+  <div class="wf-main">
+    <div class="wf-page-head">
+      <div>
+        <h1>首页工作台</h1>
+        <div class="wf-sub">2026-08-08（周六）｜日前市场申报窗口：08-09 12:00 截止｜距离收盘 3 小时 24 分</div>
+      </div>
+      <div class="wf-actions">
+        <a class="wf-btn" href="workspace.html">发起决策会话</a>
+        <a class="wf-btn primary" href="trade-declarations.html">去申报 →</a>
+      </div>
+    </div>
+
+    <div class="wf-grid wf-grid-4 mb">
+      <div class="wf-card"><div class="wf-stat">
+        <span class="k">明日电价预测均价</span><span class="v">412.6 <small style="font-size:12px">元/MWh</small></span>
+        <span class="d down">↓ 较前日 -8.2%</span></div></div>
+      <div class="wf-card"><div class="wf-stat">
+        <span class="k">持仓电量（月度合约）</span><span class="v">126,480 <small style="font-size:12px">MWh</small></span>
+        <span class="d">执行率 68.4%</span></div></div>
+      <div class="wf-card"><div class="wf-stat">
+        <span class="k">待确认决策方案</span><span class="v">2 <small style="font-size:12px">项</small></span>
+        <span class="d up">1 项需在 12:00 前处理</span></div></div>
+      <div class="wf-card"><div class="wf-stat">
+        <span class="k">未读消息</span><span class="v">5 <small style="font-size:12px">条</small></span>
+        <span class="d">含 1 条市场预警（高重要度）</span></div></div>
+    </div>
+
+    <div class="wf-grid wf-grid-2-1">
+      <div class="wf-card">
+        <div class="wf-card-title">行情速览 <span class="wf-tag">现货日前 96 点</span><span class="wf-right"><a class="wf-sm" href="market-dashboard.html">详情 →</a></span></div>
+        <div class="wf-placeholder wf-ph-chart">ECharts：现货价格曲线（日前/实时对比）<br><small>峰：613.2（18:15）｜谷：121.5（04:00）｜峰谷价差 491.7</small></div>
+        <table class="wf-table mt">
+          <tr><th>指标</th><th>均价</th><th>最高</th><th>最低</th><th>峰谷价差</th><th>负荷预测</th></tr>
+          <tr><td>数值</td><td class="num">412.6</td><td class="num">613.2</td><td class="num">121.5</td><td class="num">491.7</td><td class="num">78,520 MW</td></tr>
+        </table>
+      </div>
+
+      <div class="wf-card">
+        <div class="wf-card-title">预测摘要 <span class="wf-right"><a class="wf-sm" href="forecast-overview.html">详情 →</a></span></div>
+        <div class="wf-placeholder wf-ph-sm">电价预测 96 点曲线（含 90% 置信区间）</div>
+        <table class="wf-table mt">
+          <tr><th>模型</th><th>版本</th><th>MAPE</th><th>方向准确率</th></tr>
+          <tr><td>电价预测</td><td>v2.4.1</td><td class="num">9.8%</td><td class="num">91.2%</td></tr>
+          <tr><td>负荷预测</td><td>v1.8.0</td><td class="num">2.1%</td><td class="num">—</td></tr>
+          <tr><td>新能源出力</td><td>v1.3.2</td><td class="num">4.6%</td><td class="num">—</td></tr>
+        </table>
+        <div class="wf-sm wf-muted mt">下次训练：08-09 02:00（日增量）｜测试集锁定 v2026-07</div>
+      </div>
+
+      <div class="wf-card">
+        <div class="wf-card-title">待办任务 <span class="wf-badge b-danger">2 项紧急</span></div>
+        <table class="wf-table">
+          <tr><th>事项</th><th>截止</th><th>优先级</th><th>入口</th></tr>
+          <tr><td>确认 08-09 日滚动方案（基线）</td><td>12:00</td><td><span class="wf-badge b-danger">高</span></td><td><a class="wf-sm" href="workspace.html">处理</a></td></tr>
+          <tr><td>日前申报单 D20260809-031 提交</td><td>12:00</td><td><span class="wf-badge b-danger">高</span></td><td><a class="wf-sm" href="trade-declarations.html">处理</a></td></tr>
+          <tr><td>7 月结算差异工单 TD-202607-018</td><td>08-10</td><td><span class="wf-badge b-warn">中</span></td><td><a class="wf-sm" href="settlement-reconcile.html">处理</a></td></tr>
+          <tr><td>周复盘报告确认（7/27-8/2）</td><td>08-09</td><td><span class="wf-badge b-warn">中</span></td><td><a class="wf-sm" href="review-dashboard.html">处理</a></td></tr>
+        </table>
+      </div>
+
+      <div class="wf-card">
+        <div class="wf-card-title">消息流 <span class="wf-right"><a class="wf-sm" href="#">全部 →</a></span></div>
+        <table class="wf-table">
+          <tr><th>类型</th><th>摘要</th><th>时间</th></tr>
+          <tr><td><span class="wf-badge b-danger">预警</span></td><td>明日午间新能源出力预增 15%，现货价格中枢下移</td><td class="wf-sm">09:24</td></tr>
+          <tr><td><span class="wf-badge b-primary">决策</span></td><td>08-09 日滚动方案已生成，请确认</td><td class="wf-sm">09:02</td></tr>
+          <tr><td><span class="wf-badge">情报</span></td><td>省交易中心发布 8 月现货结算新规（草稿）</td><td class="wf-sm">08:45</td></tr>
+          <tr><td><span class="wf-badge">考核</span></td><td>7 月成效考核结果已发布，可申诉</td><td class="wf-sm">08:10</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="wf-footer">线框原型 V1.0 · 对应 4.7 页面清单：工作台首页</div>
+  </div>
+</div>
+</body>
+</html>

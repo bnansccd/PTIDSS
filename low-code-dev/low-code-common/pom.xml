@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>low-code</artifactId>
+        <groupId>com.troy</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <modules>
+        <module>low-code-common-core</module>
+        <module>low-code-common-redis</module>
+        <module>low-code-common-security</module>
+        <module>low-code-common-log</module>
+        <module>low-code-common-oauth2</module>
+        <module>low-code-common-swagger</module>
+        <module>low-code-common-datasource</module>
+        <module>low-code-common-rocketmq</module>
+        <module>low-code-common-mongodb</module>
+        <module>low-code-common-file</module>
+        <module>low-code-common-kafka</module>
+        <module>low-code-system-datasource</module>
+    </modules>
+
+    <artifactId>low-code-common</artifactId>
+    <packaging>pom</packaging>
+
+    <description>
+        low-code-common 通用模块
+    </description>
+</project>

@@ -1,0 +1,1 @@
+import{D as t}from"./index-CUDlqHXT.js";function o(e){return t({url:"/market/price/spot",method:"get",params:e})}function p(e){return t({url:"/market/supply-demand",method:"get",params:e})}export{p as a,o as g};

@@ -1,0 +1,3 @@
+com.troy.common.redis.configure.RedisConfig
+com.troy.common.redis.service.RedisService
+com.troy.common.redis.configure.RedissonConfig

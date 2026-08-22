@@ -1,0 +1,87 @@
+nohup: 忽略输入
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.13)
+
+2026-08-20 22:34:21.394  INFO 53990 --- [           main] com.ptidss.PtidssApplication             : Starting PtidssApplication using Java 1.8.0_502 on odoo-pc with PID 53990 (/home/odoo/workspace/PTIDSS/ptidss-server/target/classes started by odoo in /home/odoo/workspace/PTIDSS/ptidss-server)
+2026-08-20 22:34:21.397 DEBUG 53990 --- [           main] com.ptidss.PtidssApplication             : Running with Spring Boot v2.7.13, Spring v5.3.28
+2026-08-20 22:34:21.397  INFO 53990 --- [           main] com.ptidss.PtidssApplication             : The following 1 profile is active: "dev"
+2026-08-20 22:34:22.573  INFO 53990 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9080 (http)
+2026-08-20 22:34:22.582  INFO 53990 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-08-20 22:34:22.583  INFO 53990 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.76]
+2026-08-20 22:34:22.650  INFO 53990 --- [           main] o.a.c.c.C.[.[localhost].[/ptidss]        : Initializing Spring embedded WebApplicationContext
+2026-08-20 22:34:22.650  INFO 53990 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1200 ms
+2026-08-20 22:34:23.182  WARN 53990 --- [           main] c.b.m.core.metadata.TableInfoHelper      : Can not find table primary key in Class: "com.ptidss.system.domain.SysUserRegion".
+2026-08-20 22:34:23.182  WARN 53990 --- [           main] c.b.m.core.injector.DefaultSqlInjector   : class com.ptidss.system.domain.SysUserRegion ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2026-08-20 22:34:23.217  INFO 53990 --- [           main] com.ptidss.common.security.TokenService  : TokenService 初始化完成：expire=120min, refreshThreshold=10min
+2026-08-20 22:34:23.278  INFO 53990 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-08-20 22:34:23.343  INFO 53990 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-08-20 22:34:23.349 DEBUG 53990 --- [           main] c.p.s.mapper.SysUserMapper.selectList    : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (password_hash LIKE ?)
+2026-08-20 22:34:23.359 DEBUG 53990 --- [           main] c.p.s.mapper.SysUserMapper.selectList    : ==> Parameters: %PLACEHOLDER%(String)
+2026-08-20 22:34:23.375 DEBUG 53990 --- [           main] c.p.s.mapper.SysUserMapper.selectList    : <==      Total: 0
+2026-08-20 22:34:24.939  INFO 53990 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9080 (http) with context path '/ptidss'
+2026-08-20 22:34:24.964  INFO 53990 --- [           main] com.ptidss.PtidssApplication             : Started PtidssApplication in 3.937 seconds (JVM running for 4.211)
+===============================================
+  PTIDSS Server 启动成功: http://localhost:9080/ptidss
+===============================================
+2026-08-20 22:34:34.967 DEBUG 53990 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-20 22:34:34.968 DEBUG 53990 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-20 22:34:34.975 DEBUG 53990 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 3
+2026-08-20 22:34:35.002 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-20 22:34:35.002 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-20 22:34:35.004 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-20 22:34:35.005 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-20 22:34:35.005 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-20 22:34:35.008 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-20 22:34:35.010 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-20 22:34:35.010 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-20 22:34:35.011 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-20 22:34:35.011  INFO 53990 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-20 22:34:44.950 DEBUG 53990 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==>  Preparing: SELECT id,source_id,task_type,cron_expr,last_run_time,last_status,records_count,error_log,version,deleted,created_at,updated_at FROM collect_task WHERE deleted=false AND (cron_expr IS NOT NULL)
+2026-08-20 22:34:44.952 DEBUG 53990 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==> Parameters: 
+2026-08-20 22:34:44.956 DEBUG 53990 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : <==      Total: 3
+2026-08-20 22:34:45.826  INFO 53990 --- [nio-9080-exec-1] o.a.c.c.C.[.[localhost].[/ptidss]        : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-20 22:34:45.827  INFO 53990 --- [nio-9080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-08-20 22:34:45.828  INFO 53990 --- [nio-9080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-08-20 22:35:05.013 DEBUG 53990 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-20 22:35:05.013 DEBUG 53990 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-20 22:35:05.015 DEBUG 53990 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 3
+2026-08-20 22:35:05.016 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-20 22:35:05.016 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-20 22:35:05.017 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-20 22:35:05.019 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-20 22:35:05.019 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-20 22:35:05.022 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-20 22:35:05.024 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-20 22:35:05.024 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-20 22:35:05.025 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-20 22:35:05.025  INFO 53990 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-20 22:35:05.853 DEBUG 53990 --- [nio-9080-exec-2] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, ip, user_agent, result, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-20 22:35:05.855 DEBUG 53990 --- [nio-9080-exec-2] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 216203393394413568(Long), 2143272d059a4606(String), 0(Long), admin(String), login(String), auth(String), LoginBody(username=admin, password=Ptidss@2026, captchaKey=null,(String), 0:0:0:0:0:0:0:1(String), curl/8.5.0(String), fail(String), 2026-08-20 22:35:05.85(Timestamp)
+2026-08-20 22:35:05.858 DEBUG 53990 --- [nio-9080-exec-2] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-20 22:35:09.447 DEBUG 53990 --- [nio-9080-exec-9] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, ip, user_agent, result, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-20 22:35:09.448 DEBUG 53990 --- [nio-9080-exec-9] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 216203408477130752(Long), 6c3012c20c654a96(String), 0(Long), admin(String), login(String), auth(String), LoginBody(username=admin, password=Ptidss@2026, captchaKey=null,(String), 0:0:0:0:0:0:0:1(String), curl/8.5.0(String), fail(String), 2026-08-20 22:35:09.446(Timestamp)
+2026-08-20 22:35:09.451 DEBUG 53990 --- [nio-9080-exec-9] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-20 22:35:35.027 DEBUG 53990 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-20 22:35:35.027 DEBUG 53990 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-20 22:35:35.028 DEBUG 53990 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 3
+2026-08-20 22:35:35.030 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-20 22:35:35.030 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-20 22:35:35.030 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-20 22:35:35.032 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-20 22:35:35.032 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-20 22:35:35.036 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-20 22:35:35.038 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-20 22:35:35.038 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-20 22:35:35.039 DEBUG 53990 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-20 22:35:35.040  INFO 53990 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-20 22:35:44.960 DEBUG 53990 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==>  Preparing: SELECT id,source_id,task_type,cron_expr,last_run_time,last_status,records_count,error_log,version,deleted,created_at,updated_at FROM collect_task WHERE deleted=false AND (cron_expr IS NOT NULL)
+2026-08-20 22:35:44.960 DEBUG 53990 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==> Parameters: 
+2026-08-20 22:35:44.963 DEBUG 53990 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : <==      Total: 3
+2026-08-20 22:35:45.533  INFO 53990 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-08-20 22:35:45.534  INFO 53990 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

@@ -1,0 +1,31 @@
+.user-card {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #1f3a5f, #2c5282);
+  padding: 48rpx 40rpx;
+  color: #ffffff;
+}
+
+.avatar {
+  width: 108rpx;
+  height: 108rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  font-size: 48rpx;
+  font-weight: 600;
+  text-align: center;
+  line-height: 108rpx;
+  margin-right: 28rpx;
+}
+
+.user-name {
+  font-size: 36rpx;
+  font-weight: 600;
+}
+
+.user-sub {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 8rpx 0 12rpx;
+}

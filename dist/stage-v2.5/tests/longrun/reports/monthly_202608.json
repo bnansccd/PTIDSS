@@ -1,0 +1,18 @@
+{
+  "period": "monthly",
+  "month": "202608",
+  "generatedAt": "2026-08-22T15:59:43.800669",
+  "metrics": {
+    "taskSuccessRate": 1.0,
+    "avgMape": 0.0729,
+    "avgDirectionAccuracy": 0.878,
+    "compareMapeDeltas": [],
+    "algorithmCount": 3
+  },
+  "details": {
+    "taskTotal": 4,
+    "taskSuccess": 4,
+    "evaluateTasks": 1,
+    "degradedVsBaseline": false
+  }
+}

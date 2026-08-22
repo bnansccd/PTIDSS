@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.troy.gen.mapper.GenTableColumnMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.troy.gen.entity.GenTableColumnEntity">
+        <result column="id" property="id"/>
+        <result column="create_id" property="createId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_id" property="modifyId"/>
+        <result column="modify_time" property="modifyTime"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="table_id" property="tableId"/>
+        <result column="column_name" property="columnName"/>
+        <result column="column_comment" property="columnComment"/>
+        <result column="column_type" property="columnType"/>
+        <result column="java_type" property="javaType"/>
+        <result column="java_field" property="javaField"/>
+        <result column="is_pk" property="isPk"/>
+        <result column="is_increment" property="isIncrement"/>
+        <result column="is_required" property="isRequired"/>
+        <result column="is_insert" property="isInsert"/>
+        <result column="is_edit" property="isEdit"/>
+        <result column="is_list" property="isList"/>
+        <result column="is_query" property="isQuery"/>
+        <result column="query_type" property="queryType"/>
+        <result column="html_type" property="htmlType"/>
+        <result column="dict_type" property="dictType"/>
+        <result column="sort" property="sort"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        ,
+        create_id,
+        create_time,
+        modify_id,
+        modify_time,
+        del_flag,
+        table_id, column_name, column_comment, column_type, java_type, java_field, is_pk, is_increment, is_required, is_insert, is_edit, is_list, is_query, query_type, html_type, dict_type, sort
+    </sql>
+
+    <select id="selectDbTableColumnsByName" resultMap="BaseResultMap">
+        select column_name, (case when (is_nullable = 'no' <![CDATA[ && ]]> column_key != 'PRI') then '1' else null end) as is_required, (case when column_key = 'PRI' then '1' else '0' end) as is_pk, ordinal_position as sort, column_comment, (case when extra = 'auto_increment' then '1' else '0' end) as is_increment, column_type
+        from information_schema.columns where lower(table_name) = lower((#{tableName})) and table_schema = (select database())
+        order by ordinal_position
+    </select>
+
+
+</mapper>

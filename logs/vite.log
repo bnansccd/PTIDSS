@@ -1,0 +1,7 @@
+nohup: 忽略输入
+[33mThe CJS build of Vite's Node API is deprecated. See https://vitejs.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+  VITE v5.0.0  ready in 457 ms
+
+  ➜  Local:   http://localhost:30001/low-code-cms/
+  ➜  Network: http://10.0.0.34:30001/low-code-cms/

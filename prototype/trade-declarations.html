@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>交易申报 · 电力交易智能辅助决策系统</title>
+<link rel="stylesheet" href="assets/wireframe.css">
+</head>
+<body>
+<!-- 交易申报（对应 4.7：交易域；日滚动方案/申报单/成交结果/持仓曲线） -->
+<div class="wf-topbar">
+  <div class="wf-logo">⚡ 电力交易智能辅助决策 <span class="wf-logo-en">PTIDSS</span></div>
+  <div class="wf-nav">
+    <a href="dashboard.html">工作台</a>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <a href="workspace.html">决策工作台</a>
+    <a class="active" href="trade-declarations.html">交易申报</a>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <a href="policy-detail.html">政策研判</a>
+  </div>
+  <div class="wf-user"><span class="wf-avatar">交</span> 交易员·张工 <span class="wf-badge b-primary">P0</span></div>
+</div>
+
+<div class="wf-layout">
+  <div class="wf-sidebar">
+    <div class="wf-group">总览</div>
+    <a href="dashboard.html">首页工作台</a>
+    <div class="wf-group">行情与预测</div>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <div class="wf-group">决策与交易</div>
+    <a href="workspace.html">决策工作台</a>
+    <a class="active" href="trade-declarations.html">交易申报</a>
+    <div class="wf-group">结算与复盘</div>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <div class="wf-group">政策与系统</div>
+    <a href="policy-detail.html">政策研判</a>
+    <a href="#">系统管理</a>
+  </div>
+
+  <div class="wf-main">
+    <div class="wf-page-head">
+      <div>
+        <h1>交易申报</h1>
+        <div class="wf-sub">日前申报窗口 08-09 12:00 截止｜申报单自动生成自决策会话 DS-20260809-001</div>
+      </div>
+      <div class="wf-actions">
+        <a class="wf-btn" href="workspace.html">← 返回决策工作台</a>
+        <a class="wf-btn primary" href="#">新建申报单</a>
+      </div>
+    </div>
+
+    <div class="wf-tabs">
+      <a class="active" href="#">申报单</a>
+      <a href="#">日滚动方案</a>
+      <a href="#">成交结果</a>
+      <a href="#">持仓曲线</a>
+    </div>
+
+    <div class="wf-filter">
+      <input class="wf-input" type="date" value="2026-08-09">
+      <select class="wf-select" style="max-width:150px"><option>全部市场</option><option>省内现货</option><option>省间现货</option></select>
+      <select class="wf-select" style="max-width:140px"><option>全部状态</option><option>草稿</option><option>已提交</option><option>已回执</option></select>
+      <button class="wf-btn primary" type="button">查询</button>
+      <span class="wf-sm wf-muted">共 6 条记录</span>
+    </div>
+
+    <div class="wf-grid wf-grid-2-1">
+      <div class="wf-card">
+        <div class="wf-card-title">申报单列表</div>
+        <table class="wf-table">
+          <tr><th>申报单号</th><th>日期</th><th>市场/阶段</th><th>段数</th><th>申报电量</th><th>状态</th><th>操作</th></tr>
+          <tr><td>D20260809-031</td><td>08-09</td><td>省内·日前</td><td class="num">10</td><td class="num">1,240 MWh</td><td><span class="wf-badge b-warn">草稿</span></td><td><a class="wf-sm" href="#">编辑</a> <a class="wf-sm" href="#">提交</a></td></tr>
+          <tr><td>D20260809-030</td><td>08-09</td><td>省间·日前</td><td class="num">8</td><td class="num">860 MWh</td><td><span class="wf-badge b-ok">已回执</span></td><td><a class="wf-sm" href="#">查看</a></td></tr>
+          <tr><td>D20260808-029</td><td>08-08</td><td>省内·日前</td><td class="num">10</td><td class="num">1,310 MWh</td><td><span class="wf-badge b-ok">已回执</span></td><td><a class="wf-sm" href="#">查看</a></td></tr>
+          <tr><td>D20260808-028</td><td>08-08</td><td>省内·实时</td><td class="num">6</td><td class="num">420 MWh</td><td><span class="wf-badge">部分成交</span></td><td><a class="wf-sm" href="#">查看</a></td></tr>
+        </table>
+      </div>
+
+      <div class="wf-card">
+        <div class="wf-card-title">申报单 D20260809-031 编辑 <span class="wf-tag">草稿</span></div>
+        <table class="wf-table">
+          <tr><th>段</th><th>时段</th><th>电量(MWh)</th><th>价格(元/MWh)</th></tr>
+          <tr><td>1</td><td>00:00-04:00</td><td class="num"><input class="wf-input" value="120" style="max-width:80px"></td><td class="num"><input class="wf-input" value="120" style="max-width:80px"></td></tr>
+          <tr><td>2</td><td>04:00-08:00</td><td class="num"><input class="wf-input" value="130" style="max-width:80px"></td><td class="num"><input class="wf-input" value="150" style="max-width:80px"></td></tr>
+          <tr><td>3</td><td>08:00-12:00</td><td class="num"><input class="wf-input" value="140" style="max-width:80px"></td><td class="num"><input class="wf-input" value="280" style="max-width:80px"></td></tr>
+          <tr><td>4</td><td>12:00-16:00</td><td class="num"><input class="wf-input" value="100" style="max-width:80px"></td><td class="num"><input class="wf-input" value="200" style="max-width:80px"></td></tr>
+          <tr><td>5</td><td>16:00-20:00</td><td class="num"><input class="wf-input" value="150" style="max-width:80px"></td><td class="num"><input class="wf-input" value="380" style="max-width:80px"></td></tr>
+        </table>
+        <div class="wf-card mt" style="background:#e6f4ec;border-color:#7cc49a">
+          <div class="wf-card-title">✔ 合规预检通过</div>
+          <div class="wf-sm">段数 10 ≤ 10 段上限｜价格区间 [120, 620] 在限价 [0, 1500] 内｜持仓比例 68.4% ≤ 80% 上限｜峰谷申报约束满足</div>
+        </div>
+        <div class="wf-row mt">
+          <button class="wf-btn primary" type="button">提交至交易中心</button>
+          <button class="wf-btn" type="button">保存草稿</button>
+          <span class="wf-sm wf-muted">提交后不可修改，仅可撤销重报（留痕）</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="wf-footer">线框原型 V1.0 · 对应 4.7 页面清单：申报管理 / 申报编辑 / 成交结果 / 持仓</div>
+  </div>
+</div>
+</body>
+</html>

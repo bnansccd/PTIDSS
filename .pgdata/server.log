@@ -1,0 +1,502 @@
+2026-08-17 20:04:25.097 CST [7959] LOG:  starting PostgreSQL 18.4 (Ubuntu 18.4-1.pgdg24.04+1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit
+2026-08-17 20:04:25.097 CST [7959] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2026-08-17 20:04:25.099 CST [7959] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2026-08-17 20:04:25.104 CST [7965] LOG:  database system was shut down at 2026-08-17 20:04:21 CST
+2026-08-17 20:04:25.108 CST [7959] LOG:  database system is ready to accept connections
+2026-08-17 20:04:27.182 CST [7981] FATAL:  role "odoo" does not exist
+2026-08-17 20:04:40.028 CST [8041] ERROR:  unique constraint on partitioned table must include all partitioning columns
+2026-08-17 20:04:40.028 CST [8041] DETAIL:  UNIQUE constraint on table "declaration" lacks column "trade_date" which is part of the partition key.
+2026-08-17 20:04:40.028 CST [8041] STATEMENT:  CREATE UNIQUE INDEX uk_declaration_no ON declaration(declaration_no) WHERE NOT deleted;
+2026-08-17 20:04:40.038 CST [8044] ERROR:  relation "trade_result" does not exist at character 863
+2026-08-17 20:04:40.038 CST [8044] STATEMENT:  CREATE VIEW position_view AS
+	SELECT
+	  c.region_code,
+	  c.variety,
+	  c.direction,
+	  t.trade_date,
+	  c.total_volume                                 AS contract_volume,   -- 合同电量（MWh）
+	  COALESCE(t.matched_volume, 0)                  AS matched_volume,    -- 成交电量（MWh）
+	  c.total_volume - COALESCE(t.matched_volume, 0) AS open_volume,       -- 未平仓量（MWh）
+	  CASE
+	    WHEN c.total_volume = 0 THEN 0
+	    ELSE COALESCE(t.matched_volume, 0) / c.total_volume
+	  END                                            AS match_ratio,       -- 成交比例 0-1
+	  t.avg_match_price                                                 -- 加权成交均价
+	FROM contract c
+	LEFT JOIN LATERAL (
+	  SELECT
+	    tr.trade_date,
+	    SUM(tr.matched_volume) AS matched_volume,
+	    SUM(tr.matched_volume * tr.matched_price) /
+	      NULLIF(SUM(tr.matched_volume), 0)          AS avg_match_price
+	  FROM declaration d
+	  JOIN trade_result tr ON tr.declaration_id = d.id
+	  WHERE d.contract_id = c.id AND NOT d.deleted AND NOT tr.deleted
+	  GROUP BY tr.trade_date
+	) t ON true
+	WHERE NOT c.deleted AND (c.status IN ('active', 'executing'));
+2026-08-17 20:05:15.907 CST [8210] ERROR:  relation "plant_unit" already exists
+2026-08-17 20:05:15.907 CST [8210] STATEMENT:  CREATE TABLE plant_unit (
+	  id                  BIGINT PRIMARY KEY,
+	  unit_code           VARCHAR(32)  NOT NULL,
+	  plant_code          VARCHAR(32)  NOT NULL,
+	  unit_name           VARCHAR(128) NOT NULL,
+	  fuel_type           VARCHAR(16)  NOT NULL CHECK (fuel_type IN ('thermal','hydro','wind','pv','storage')),
+	  installed_capacity  NUMERIC(12,4) NOT NULL CHECK (installed_capacity > 0),
+	  grid_node           VARCHAR(64),
+	  region_code         VARCHAR(16)  NOT NULL,                -- 多省编码（通用约定⑥）
+	  status              VARCHAR(16)  NOT NULL DEFAULT 'active' CHECK (status IN ('active','retired','under_construction')),
+	  data_source         VARCHAR(16)  NOT NULL CHECK (data_source IN ('marketing_platform','manual')),
+	  created_at          TIMESTAMP NOT NULL DEFAULT now(),
+	  updated_at          TIMESTAMP NOT NULL DEFAULT now(),
+	  version             INT NOT NULL DEFAULT 1,
+	  deleted             BOOLEAN NOT NULL DEFAULT FALSE
+	);
+2026-08-17 20:05:15.918 CST [8214] ERROR:  relation "trade_result" does not exist at character 863
+2026-08-17 20:05:15.918 CST [8214] STATEMENT:  CREATE VIEW position_view AS
+	SELECT
+	  c.region_code,
+	  c.variety,
+	  c.direction,
+	  t.trade_date,
+	  c.total_volume                                 AS contract_volume,   -- 合同电量（MWh）
+	  COALESCE(t.matched_volume, 0)                  AS matched_volume,    -- 成交电量（MWh）
+	  c.total_volume - COALESCE(t.matched_volume, 0) AS open_volume,       -- 未平仓量（MWh）
+	  CASE
+	    WHEN c.total_volume = 0 THEN 0
+	    ELSE COALESCE(t.matched_volume, 0) / c.total_volume
+	  END                                            AS match_ratio,       -- 成交比例 0-1
+	  t.avg_match_price                                                 -- 加权成交均价
+	FROM contract c
+	LEFT JOIN LATERAL (
+	  SELECT
+	    tr.trade_date,
+	    SUM(tr.matched_volume) AS matched_volume,
+	    SUM(tr.matched_volume * tr.matched_price) /
+	      NULLIF(SUM(tr.matched_volume), 0)          AS avg_match_price
+	  FROM declaration d
+	  JOIN trade_result tr ON tr.declaration_id = d.id
+	  WHERE d.contract_id = c.id AND NOT d.deleted AND NOT tr.deleted
+	  GROUP BY tr.trade_date
+	) t ON true
+	WHERE NOT c.deleted AND (c.status IN ('active', 'executing'));
+2026-08-17 20:05:20.783 CST [8243] ERROR:  there is no unique constraint matching given keys for referenced table "settlement_record"
+2026-08-17 20:05:20.783 CST [8243] STATEMENT:  CREATE TABLE settlement_reconcile (
+	  id                  BIGINT PRIMARY KEY,
+	  record_id           BIGINT NOT NULL REFERENCES settlement_record(id),
+	  check_items         JSONB NOT NULL,                       -- 逐科目核对
+	  diff_records        JSONB NOT NULL,
+	  status              VARCHAR(16) NOT NULL DEFAULT 'pending' CHECK (status IN ('consistent','diff','pending')),
+	  diff_amount         NUMERIC(18,4),
+	  created_at          TIMESTAMP NOT NULL DEFAULT now(),
+	  updated_at          TIMESTAMP NOT NULL DEFAULT now(),
+	  version             INT NOT NULL DEFAULT 1,
+	  deleted             BOOLEAN NOT NULL DEFAULT FALSE
+	);
+2026-08-17 20:05:20.799 CST [8246] ERROR:  relation "settlement_reconcile" does not exist at character 351
+2026-08-17 20:05:20.799 CST [8246] STATEMENT:  CREATE VIEW settlement_pass_rate_view AS
+	SELECT
+	  r.settlement_period,
+	  r.region_code,
+	  COUNT(*) FILTER (WHERE c.status = 'consistent') AS consistent_cnt,
+	  COUNT(*)                                        AS total_cnt,
+	  COUNT(*) FILTER (WHERE c.status = 'consistent')::NUMERIC / NULLIF(COUNT(*), 0) AS pass_rate
+	FROM settlement_record r
+	LEFT JOIN settlement_reconcile c ON c.record_id = r.id
+	WHERE NOT r.deleted
+	GROUP BY r.settlement_period, r.region_code;
+2026-08-17 20:05:27.949 CST [8279] ERROR:  relation "settlement_ledger" does not exist
+2026-08-17 20:05:27.949 CST [8279] STATEMENT:  ALTER TABLE settlement_ledger ENABLE ROW LEVEL SECURITY;
+2026-08-17 20:05:27.960 CST [8283] ERROR:  relation "sys_region" does not exist at character 13
+2026-08-17 20:05:27.960 CST [8283] STATEMENT:  INSERT INTO sys_region (id, region_code, region_name, market_support, exchange_channel, settlement_period, status, launch_order)
+	VALUES
+	  (1, 'CN-32', '江苏', '["spot","midlong","external"]', 'both',  'natural_month', 'enabled',  1),
+	  (2, 'CN-31', '上海', '["spot","midlong"]',            'rest',  'natural_month', 'enabled',  2),
+	  (3, 'CN-33', '浙江', '["spot","midlong","external"]', 'sftp',  'trading_month', 'enabled',  3),
+	  (4, 'CN-11', '北京', '["midlong"]',                   'rest',  'natural_month', 'pending',  4)
+	ON CONFLICT (id) DO NOTHING;
+2026-08-17 20:05:34.196 CST [8314] ERROR:  relation "plant_unit" already exists
+2026-08-17 20:05:34.196 CST [8314] STATEMENT:  CREATE TABLE plant_unit (
+	  id                  BIGINT PRIMARY KEY,
+	  unit_code           VARCHAR(32)  NOT NULL,
+	  plant_code          VARCHAR(32)  NOT NULL,
+	  unit_name           VARCHAR(128) NOT NULL,
+	  fuel_type           VARCHAR(16)  NOT NULL CHECK (fuel_type IN ('thermal','hydro','wind','pv','storage')),
+	  installed_capacity  NUMERIC(12,4) NOT NULL CHECK (installed_capacity > 0),
+	  grid_node           VARCHAR(64),
+	  region_code         VARCHAR(16)  NOT NULL,                -- 多省编码（通用约定⑥）
+	  status              VARCHAR(16)  NOT NULL DEFAULT 'active' CHECK (status IN ('active','retired','under_construction')),
+	  data_source         VARCHAR(16)  NOT NULL CHECK (data_source IN ('marketing_platform','manual')),
+	  created_at          TIMESTAMP NOT NULL DEFAULT now(),
+	  updated_at          TIMESTAMP NOT NULL DEFAULT now(),
+	  version             INT NOT NULL DEFAULT 1,
+	  deleted             BOOLEAN NOT NULL DEFAULT FALSE
+	);
+2026-08-17 20:05:41.524 CST [8352] ERROR:  there is no unique constraint matching given keys for referenced table "settlement_record"
+2026-08-17 20:05:41.524 CST [8352] STATEMENT:  CREATE TABLE settlement_reconcile (
+	  id                  BIGINT PRIMARY KEY,
+	  record_id           BIGINT NOT NULL REFERENCES settlement_record(id),
+	  check_items         JSONB NOT NULL,                       -- 逐科目核对
+	  diff_records        JSONB NOT NULL,
+	  status              VARCHAR(16) NOT NULL DEFAULT 'pending' CHECK (status IN ('consistent','diff','pending')),
+	  diff_amount         NUMERIC(18,4),
+	  created_at          TIMESTAMP NOT NULL DEFAULT now(),
+	  updated_at          TIMESTAMP NOT NULL DEFAULT now(),
+	  version             INT NOT NULL DEFAULT 1,
+	  deleted             BOOLEAN NOT NULL DEFAULT FALSE
+	);
+2026-08-17 20:06:21.422 CST [8518] ERROR:  there is no unique constraint matching given keys for referenced table "intel_source"
+2026-08-17 20:06:21.422 CST [8518] STATEMENT:  CREATE TABLE intel_news (
+	  id                  BIGINT PRIMARY KEY,
+	  source_code         VARCHAR(32) NOT NULL REFERENCES intel_source(source_code),
+	  title               VARCHAR(255) NOT NULL,
+	  content             TEXT NOT NULL,
+	  region_code         VARCHAR(16),                          -- 情报关联区域（全国情报可空，评审决议⑤）
+	  normalized_tags     JSONB NOT NULL,                       -- 市场/品种/影响
+	  importance          VARCHAR(8) NOT NULL CHECK (importance IN ('high','medium','low')),
+	  published_at        TIMESTAMP NOT NULL,
+	  push_status         VARCHAR(8) NOT NULL DEFAULT 'none' CHECK (push_status IN ('none','pushed')),
+	  created_at          TIMESTAMP NOT NULL DEFAULT now(),
+	  updated_at          TIMESTAMP NOT NULL DEFAULT now(),
+	  version             INT NOT NULL DEFAULT 1,
+	  deleted             BOOLEAN NOT NULL DEFAULT FALSE
+	);
+2026-08-17 20:09:04.420 CST [8688] ERROR:  relation "intel_news" does not exist
+2026-08-17 20:09:04.420 CST [8688] STATEMENT:  ALTER TABLE intel_news ENABLE ROW LEVEL SECURITY;
+2026-08-17 20:09:25.143 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 20:09:38.899 CST [8962] ERROR:  there is no unique constraint matching given keys for referenced table "intel_source"
+2026-08-17 20:09:38.899 CST [8962] STATEMENT:  CREATE TABLE intel_news (
+	  id                  BIGINT PRIMARY KEY,
+	  source_code         VARCHAR(32) NOT NULL REFERENCES intel_source(source_code),
+	  title               VARCHAR(255) NOT NULL,
+	  content             TEXT NOT NULL,
+	  region_code         VARCHAR(16),                          -- 情报关联区域（全国情报可空，评审决议⑤）
+	  normalized_tags     JSONB NOT NULL,                       -- 市场/品种/影响
+	  importance          VARCHAR(8) NOT NULL CHECK (importance IN ('high','medium','low')),
+	  published_at        TIMESTAMP NOT NULL,
+	  push_status         VARCHAR(8) NOT NULL DEFAULT 'none' CHECK (push_status IN ('none','pushed')),
+	  created_at          TIMESTAMP NOT NULL DEFAULT now(),
+	  updated_at          TIMESTAMP NOT NULL DEFAULT now(),
+	  version             INT NOT NULL DEFAULT 1,
+	  deleted             BOOLEAN NOT NULL DEFAULT FALSE
+	);
+2026-08-17 20:11:44.288 CST [7963] LOG:  checkpoint complete: wrote 1322 buffers (8.1%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 1 recycled; write=139.079 s, sync=0.058 s, total=139.146 s; sync files=1089, longest=0.003 s, average=0.001 s; distance=9576 kB, estimate=9576 kB; lsn=0/25E77F8, redo lsn=0/20B7420
+2026-08-17 20:24:25.588 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 20:25:10.596 CST [7963] LOG:  checkpoint complete: wrote 449 buffers (2.7%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=44.991 s, sync=0.008 s, total=45.008 s; sync files=93, longest=0.003 s, average=0.001 s; distance=5316 kB, estimate=9150 kB; lsn=0/25E86E8, redo lsn=0/25E8658
+2026-08-17 20:27:25.989 CST [15022] ERROR:  column "role_ids" is of type jsonb but expression is of type character varying at character 181
+2026-08-17 20:27:25.989 CST [15022] HINT:  You will need to rewrite or cast the expression.
+2026-08-17 20:27:25.989 CST [15022] STATEMENT:  INSERT INTO sys_user  ( id,
+	username,
+	display_name,
+	password_hash,
+	role_ids,
+	org_code,
+	phone,
+	email,
+	status,
+	
+	version,
+	deleted,
+	created_at,
+	updated_at )  VALUES  ( $1,
+	$2,
+	$3,
+	$4,
+	$5,
+	$6,
+	$7,
+	$8,
+	$9,
+	
+	$10,
+	$11,
+	$12,
+	$13 )
+2026-08-17 20:27:26.030 CST [15022] ERROR:  column "before_snapshot" is of type jsonb but expression is of type character varying at character 184
+2026-08-17 20:27:26.030 CST [15022] HINT:  You will need to rewrite or cast the expression.
+2026-08-17 20:27:26.030 CST [15022] STATEMENT:  INSERT INTO audit_log  ( id,
+	trace_id,
+	user_id,
+	action,
+	target_type,
+	target_id,
+	before_snapshot,
+	
+	ip,
+	user_agent,
+	result,
+	region_code,
+	created_at )  VALUES  ( $1,
+	$2,
+	$3,
+	$4,
+	$5,
+	$6,
+	$7,
+	
+	$8,
+	$9,
+	$10,
+	$11,
+	$12 )
+2026-08-17 20:27:26.055 CST [15022] ERROR:  null value in column "id" of relation "sys_role" violates not-null constraint
+2026-08-17 20:27:26.055 CST [15022] DETAIL:  Failing row contains (null, auditor, 审计专员, 审计日志查看, active, 2026-08-17 20:27:26.054, 2026-08-17 20:27:26.054, 1, f).
+2026-08-17 20:27:26.055 CST [15022] STATEMENT:  INSERT INTO sys_role  ( id,
+	role_code,
+	role_name,
+	description,
+	status,
+	version,
+	deleted,
+	created_at,
+	updated_at )  VALUES  ( $1,
+	$2,
+	$3,
+	$4,
+	$5,
+	$6,
+	$7,
+	$8,
+	$9 )
+2026-08-17 20:27:26.077 CST [15022] ERROR:  column "before_snapshot" is of type jsonb but expression is of type character varying at character 184
+2026-08-17 20:27:26.077 CST [15022] HINT:  You will need to rewrite or cast the expression.
+2026-08-17 20:27:26.077 CST [15022] STATEMENT:  INSERT INTO audit_log  ( id,
+	trace_id,
+	user_id,
+	action,
+	target_type,
+	target_id,
+	before_snapshot,
+	
+	ip,
+	user_agent,
+	result,
+	region_code,
+	created_at )  VALUES  ( $1,
+	$2,
+	$3,
+	$4,
+	$5,
+	$6,
+	$7,
+	
+	$8,
+	$9,
+	$10,
+	$11,
+	$12 )
+2026-08-17 20:27:26.122 CST [15022] ERROR:  column "after_snapshot" is of type jsonb but expression is of type character varying at character 184
+2026-08-17 20:27:26.122 CST [15022] HINT:  You will need to rewrite or cast the expression.
+2026-08-17 20:27:26.122 CST [15022] STATEMENT:  INSERT INTO audit_log  ( id,
+	trace_id,
+	user_id,
+	action,
+	target_type,
+	target_id,
+	
+	after_snapshot,
+	ip,
+	user_agent,
+	result,
+	region_code,
+	created_at )  VALUES  ( $1,
+	$2,
+	$3,
+	$4,
+	$5,
+	$6,
+	
+	$7,
+	$8,
+	$9,
+	$10,
+	$11,
+	$12 )
+2026-08-17 20:28:52.559 CST [15505] ERROR:  new row for relation "sys_role" violates check constraint "sys_role_role_code_check"
+2026-08-17 20:28:52.559 CST [15505] DETAIL:  Failing row contains (215084465108684800, auditor, 审计专员, 审计日志查看, active, 2026-08-17 20:28:52.558, 2026-08-17 20:28:52.558, 1, f).
+2026-08-17 20:28:52.559 CST [15505] STATEMENT:  INSERT INTO sys_role  ( id,
+	role_code,
+	role_name,
+	description,
+	status,
+	version,
+	deleted,
+	created_at,
+	updated_at )  VALUES  ( $1,
+	$2,
+	$3,
+	$4,
+	$5,
+	$6,
+	$7,
+	$8,
+	$9 )
+2026-08-17 20:29:25.696 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 20:29:27.312 CST [7963] LOG:  checkpoint complete: wrote 16 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=1.605 s, sync=0.005 s, total=1.617 s; sync files=17, longest=0.003 s, average=0.001 s; distance=19 kB, estimate=8237 kB; lsn=0/25ED490, redo lsn=0/25ED438
+2026-08-17 20:31:48.459 CST [16566] ERROR:  ORDER BY position 3 is not in select list at character 80
+2026-08-17 20:31:48.459 CST [16566] STATEMENT:  SELECT action||'|'||result||'|'||count(*) FROM audit_log GROUP BY 1,2 ORDER BY 3 DESC LIMIT 10;
+2026-08-17 20:34:25.411 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 20:34:27.027 CST [7963] LOG:  checkpoint complete: wrote 16 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=1.605 s, sync=0.005 s, total=1.616 s; sync files=17, longest=0.003 s, average=0.001 s; distance=26 kB, estimate=7416 kB; lsn=0/25F3FE8, redo lsn=0/25F3F90
+2026-08-17 20:44:25.227 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 20:44:26.140 CST [7963] LOG:  checkpoint complete: wrote 9 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.904 s, sync=0.004 s, total=0.914 s; sync files=9, longest=0.003 s, average=0.001 s; distance=30 kB, estimate=6677 kB; lsn=0/25FBA58, redo lsn=0/25FBA00
+2026-08-17 20:44:53.315 CST [57572] ERROR:  column "username" does not exist at character 21
+2026-08-17 20:44:53.315 CST [57572] STATEMENT:  SELECT id, user_id, username, action FROM audit_log WHERE action='login' ORDER BY id DESC LIMIT 3;
+2026-08-17 20:47:10.084 CST [58477] ERROR:  null value in column "resource_pattern" of relation "sys_permission" violates not-null constraint
+2026-08-17 20:47:10.084 CST [58477] DETAIL:  Failing row contains (215089068457988096, menu:test, 测试菜单, menu, null, active, 2026-08-17 20:47:10.082, 2026-08-17 20:47:10.082, 1, f).
+2026-08-17 20:47:10.084 CST [58477] STATEMENT:  INSERT INTO sys_permission  ( id,
+	perm_code,
+	perm_name,
+	resource_type,
+	
+	status,
+	version,
+	deleted,
+	created_at,
+	updated_at )  VALUES  ( $1,
+	$2,
+	$3,
+	$4,
+	
+	$5,
+	$6,
+	$7,
+	$8,
+	$9 )
+2026-08-17 20:49:25.239 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 20:49:29.070 CST [7963] LOG:  checkpoint complete: wrote 38 buffers (0.2%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=3.814 s, sync=0.010 s, total=3.831 s; sync files=32, longest=0.003 s, average=0.001 s; distance=145 kB, estimate=6024 kB; lsn=0/26200D8, redo lsn=0/2620048
+2026-08-17 20:54:25.169 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 20:54:27.289 CST [7963] LOG:  checkpoint complete: wrote 21 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=2.108 s, sync=0.005 s, total=2.120 s; sync files=17, longest=0.002 s, average=0.001 s; distance=70 kB, estimate=5429 kB; lsn=0/2631C38, redo lsn=0/2631BE0
+2026-08-17 20:59:25.388 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 20:59:26.003 CST [7963] LOG:  checkpoint complete: wrote 6 buffers (0.0%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.603 s, sync=0.005 s, total=0.615 s; sync files=7, longest=0.003 s, average=0.001 s; distance=12 kB, estimate=4887 kB; lsn=0/2634C58, redo lsn=0/2634C00
+2026-08-17 21:04:25.103 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 21:04:25.716 CST [7963] LOG:  checkpoint complete: wrote 6 buffers (0.0%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.603 s, sync=0.004 s, total=0.614 s; sync files=7, longest=0.003 s, average=0.001 s; distance=14 kB, estimate=4400 kB; lsn=0/2638570, redo lsn=0/2638518
+2026-08-17 21:09:25.816 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 21:09:26.329 CST [7963] LOG:  checkpoint complete: wrote 5 buffers (0.0%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.503 s, sync=0.003 s, total=0.514 s; sync files=6, longest=0.001 s, average=0.001 s; distance=10 kB, estimate=3961 kB; lsn=0/263AEE8, redo lsn=0/263AE90
+2026-08-17 21:16:08.322 CST [60962] FATAL:  terminating connection due to administrator command
+2026-08-17 21:16:08.322 CST [60959] FATAL:  terminating connection due to administrator command
+2026-08-17 21:16:08.328 CST [8530] FATAL:  terminating connection due to administrator command
+2026-08-17 21:16:08.329 CST [8530] LOG:  could not send data to client: Broken pipe
+2026-08-17 21:17:06.429 CST [62970] FATAL:  role "odoo" does not exist
+2026-08-17 21:19:25.528 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 21:19:26.143 CST [7963] LOG:  checkpoint complete: wrote 6 buffers (0.0%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.603 s, sync=0.005 s, total=0.615 s; sync files=7, longest=0.003 s, average=0.001 s; distance=14 kB, estimate=3566 kB; lsn=0/263E990, redo lsn=0/263E938
+2026-08-17 21:19:43.812 CST [63680] ERROR:  value too long for type character varying(8)
+2026-08-17 21:19:43.812 CST [63680] STATEMENT:  INSERT INTO declaration  ( id,
+	declaration_no,
+	
+	trade_date,
+	market_type,
+	stage,
+	region_code,
+	items,
+	compliance_check,
+	
+	status,
+	
+	created_by,
+	version,
+	deleted,
+	created_at,
+	updated_at )  VALUES  ( $1,
+	$2,
+	
+	$3,
+	$4,
+	$5,
+	$6,
+	$7,
+	$8,
+	
+	$9,
+	
+	$10,
+	$11,
+	$12,
+	$13,
+	$14 )
+2026-08-17 21:20:50.496 CST [63680] ERROR:  column "final_strategy" is of type jsonb but expression is of type character varying at character 128
+2026-08-17 21:20:50.496 CST [63680] HINT:  You will need to rewrite or cast the expression.
+2026-08-17 21:20:50.496 CST [63680] STATEMENT:  UPDATE decision_session  SET human_review_status=$1,reviewed_by=$2,reviewed_at=$3,modify_reason=$4,reviewer2=$5,final_strategy=$6  
+	 WHERE  deleted=false
+	
+	AND (id = $7)
+2026-08-17 21:24:25.243 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 21:24:33.177 CST [7963] LOG:  checkpoint complete: wrote 79 buffers (0.5%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=7.920 s, sync=0.007 s, total=7.935 s; sync files=47, longest=0.003 s, average=0.001 s; distance=342 kB, estimate=3244 kB; lsn=0/2694248, redo lsn=0/26941F0
+2026-08-17 21:44:25.576 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 21:44:26.699 CST [7963] LOG:  checkpoint complete: wrote 11 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=1.110 s, sync=0.005 s, total=1.123 s; sync files=12, longest=0.003 s, average=0.001 s; distance=49 kB, estimate=2924 kB; lsn=0/26A0658, redo lsn=0/26A0600
+2026-08-17 21:49:25.798 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 21:49:27.620 CST [7963] LOG:  checkpoint complete: wrote 18 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=1.809 s, sync=0.006 s, total=1.822 s; sync files=18, longest=0.002 s, average=0.001 s; distance=34 kB, estimate=2635 kB; lsn=0/26A9230, redo lsn=0/26A91A0
+2026-08-17 21:54:25.719 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 21:54:26.332 CST [7963] LOG:  checkpoint complete: wrote 6 buffers (0.0%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.603 s, sync=0.004 s, total=0.613 s; sync files=7, longest=0.003 s, average=0.001 s; distance=16 kB, estimate=2373 kB; lsn=0/26AD568, redo lsn=0/26AD510
+2026-08-17 22:09:25.631 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 22:09:26.244 CST [7963] LOG:  checkpoint complete: wrote 6 buffers (0.0%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.603 s, sync=0.004 s, total=0.613 s; sync files=7, longest=0.002 s, average=0.001 s; distance=17 kB, estimate=2138 kB; lsn=0/26B1AA8, redo lsn=0/26B1A50
+2026-08-17 22:14:25.311 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 22:14:25.927 CST [7963] LOG:  checkpoint complete: wrote 6 buffers (0.0%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.604 s, sync=0.004 s, total=0.616 s; sync files=7, longest=0.003 s, average=0.001 s; distance=19 kB, estimate=1926 kB; lsn=0/26B6A48, redo lsn=0/26B69F0
+2026-08-17 22:19:25.981 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 22:19:26.993 CST [7963] LOG:  checkpoint complete: wrote 10 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=1.003 s, sync=0.004 s, total=1.013 s; sync files=11, longest=0.003 s, average=0.001 s; distance=29 kB, estimate=1736 kB; lsn=0/26BDEB0, redo lsn=0/26BDE58
+2026-08-17 22:34:26.293 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 22:34:27.410 CST [7963] LOG:  checkpoint complete: wrote 11 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=1.105 s, sync=0.004 s, total=1.117 s; sync files=12, longest=0.002 s, average=0.001 s; distance=32 kB, estimate=1566 kB; lsn=0/26C6238, redo lsn=0/26C61E0
+2026-08-17 22:39:26.477 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 22:39:27.093 CST [7963] LOG:  checkpoint complete: wrote 6 buffers (0.0%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.604 s, sync=0.004 s, total=0.617 s; sync files=7, longest=0.003 s, average=0.001 s; distance=24 kB, estimate=1412 kB; lsn=0/26CC338, redo lsn=0/26CC2E0
+2026-08-17 22:59:26.460 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 22:59:26.568 CST [7963] LOG:  checkpoint complete: wrote 1 buffers (0.0%), wrote 0 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.101 s, sync=0.002 s, total=0.108 s; sync files=1, longest=0.002 s, average=0.002 s; distance=6 kB, estimate=1271 kB; lsn=0/26CDD10, redo lsn=0/26CDCB8
+2026-08-17 23:04:26.667 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 23:04:33.797 CST [7963] LOG:  checkpoint complete: wrote 71 buffers (0.4%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=7.118 s, sync=0.007 s, total=7.130 s; sync files=44, longest=0.003 s, average=0.001 s; distance=141 kB, estimate=1158 kB; lsn=0/26F1420, redo lsn=0/26F1390
+2026-08-17 23:09:26.809 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 23:09:28.526 CST [7963] LOG:  checkpoint complete: wrote 17 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=1.707 s, sync=0.003 s, total=1.717 s; sync files=11, longest=0.002 s, average=0.001 s; distance=99 kB, estimate=1052 kB; lsn=0/270A040, redo lsn=0/2709FD0
+2026-08-17 23:14:26.625 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 23:14:28.945 CST [7963] LOG:  checkpoint complete: wrote 23 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=2.306 s, sync=0.006 s, total=2.320 s; sync files=24, longest=0.003 s, average=0.001 s; distance=39 kB, estimate=951 kB; lsn=0/2713F10, redo lsn=0/2713EB8
+2026-08-17 23:16:10.953 CST [78542] ERROR:  column "region_code" does not exist at character 18
+2026-08-17 23:16:10.953 CST [78542] STATEMENT:  SELECT count(*), region_code FROM settlement_ticket GROUP BY region_code;
+2026-08-17 23:19:27.044 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 23:19:29.060 CST [7963] LOG:  checkpoint complete: wrote 20 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=2.005 s, sync=0.004 s, total=2.016 s; sync files=21, longest=0.002 s, average=0.001 s; distance=33 kB, estimate=859 kB; lsn=0/271C6A0, redo lsn=0/271C610
+2026-08-17 23:19:34.645 CST [79453] ERROR:  null value in column "review_id" of relation "strategy_feedback" violates not-null constraint
+2026-08-17 23:19:34.645 CST [79453] DETAIL:  Failing row contains (215127423530962944, null, STRAT-DA-PRICE, effective, null, pending, 2026-08-17 23:19:34.644, 2026-08-17 23:19:34.644, 1, f).
+2026-08-17 23:19:34.645 CST [79453] STATEMENT:  INSERT INTO strategy_feedback  ( id,
+	
+	strategy_code,
+	feedback,
+	updated_params,
+	status,
+	version,
+	deleted,
+	created_at,
+	updated_at )  VALUES  ( $1,
+	
+	$2,
+	$3,
+	$4,
+	$5,
+	$6,
+	$7,
+	$8,
+	$9 )
+2026-08-17 23:24:27.159 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 23:24:31.680 CST [7963] LOG:  checkpoint complete: wrote 45 buffers (0.3%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=4.511 s, sync=0.004 s, total=4.521 s; sync files=44, longest=0.001 s, average=0.001 s; distance=122 kB, estimate=785 kB; lsn=0/273B020, redo lsn=0/273AFC8
+2026-08-17 23:29:27.743 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 23:29:28.259 CST [7963] LOG:  checkpoint complete: wrote 5 buffers (0.0%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.504 s, sync=0.004 s, total=0.516 s; sync files=6, longest=0.003 s, average=0.001 s; distance=18 kB, estimate=709 kB; lsn=0/273FBD0, redo lsn=0/273FB78
+2026-08-17 23:44:27.460 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 23:44:27.570 CST [7963] LOG:  checkpoint complete: wrote 1 buffers (0.0%), wrote 0 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.101 s, sync=0.003 s, total=0.110 s; sync files=1, longest=0.003 s, average=0.003 s; distance=0 kB, estimate=638 kB; lsn=0/273FF98, redo lsn=0/273FF40
+2026-08-17 23:49:27.669 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 23:49:30.889 CST [7963] LOG:  checkpoint complete: wrote 32 buffers (0.2%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=3.210 s, sync=0.005 s, total=3.220 s; sync files=30, longest=0.002 s, average=0.001 s; distance=54 kB, estimate=579 kB; lsn=0/274D7A0, redo lsn=0/274D748
+2026-08-17 23:54:27.990 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 23:54:30.714 CST [7963] LOG:  checkpoint complete: wrote 27 buffers (0.2%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=2.709 s, sync=0.007 s, total=2.725 s; sync files=23, longest=0.004 s, average=0.001 s; distance=48 kB, estimate=526 kB; lsn=0/27598F0, redo lsn=0/2759898
+2026-08-17 23:59:27.720 CST [7963] LOG:  checkpoint starting: time
+2026-08-17 23:59:30.036 CST [7963] LOG:  checkpoint complete: wrote 23 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=2.306 s, sync=0.004 s, total=2.317 s; sync files=23, longest=0.002 s, average=0.001 s; distance=61 kB, estimate=480 kB; lsn=0/2768DA0, redo lsn=0/2768D10
+2026-08-18 00:04:27.135 CST [7963] LOG:  checkpoint starting: time
+2026-08-18 00:04:27.447 CST [7963] LOG:  checkpoint complete: wrote 3 buffers (0.0%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.302 s, sync=0.004 s, total=0.312 s; sync files=4, longest=0.003 s, average=0.001 s; distance=3 kB, estimate=432 kB; lsn=0/2769B68, redo lsn=0/2769B10
+2026-08-18 00:14:27.647 CST [7963] LOG:  checkpoint starting: time
+2026-08-18 00:14:27.857 CST [7963] LOG:  checkpoint complete: wrote 2 buffers (0.0%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.202 s, sync=0.003 s, total=0.211 s; sync files=3, longest=0.001 s, average=0.001 s; distance=1 kB, estimate=389 kB; lsn=0/276A2B8, redo lsn=0/276A228
+2026-08-18 00:24:28.057 CST [7963] LOG:  checkpoint starting: time
+2026-08-18 00:24:28.269 CST [7963] LOG:  checkpoint complete: wrote 2 buffers (0.0%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.202 s, sync=0.004 s, total=0.212 s; sync files=3, longest=0.003 s, average=0.002 s; distance=1 kB, estimate=350 kB; lsn=0/276A900, redo lsn=0/276A8A8
+2026-08-18 00:29:28.364 CST [7963] LOG:  checkpoint starting: time
+2026-08-18 00:29:29.381 CST [7963] LOG:  checkpoint complete: wrote 10 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=1.007 s, sync=0.003 s, total=1.018 s; sync files=11, longest=0.001 s, average=0.001 s; distance=13 kB, estimate=316 kB; lsn=0/276E038, redo lsn=0/276DFC8
+2026-08-18 07:29:35.219 CST [7963] LOG:  checkpoint starting: time
+2026-08-18 07:29:36.937 CST [7963] LOG:  checkpoint complete: wrote 17 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=1.705 s, sync=0.006 s, total=1.718 s; sync files=18, longest=0.003 s, average=0.001 s; distance=44 kB, estimate=289 kB; lsn=0/27792F8, redo lsn=0/27792A0
+2026-08-18 07:31:55.151 CST [7959] LOG:  received smart shutdown request
+2026-08-18 07:31:55.152 CST [93141] FATAL:  terminating connection due to administrator command
+2026-08-18 07:31:55.154 CST [93146] FATAL:  terminating connection due to administrator command
+2026-08-18 07:31:55.158 CST [7959] LOG:  background worker "logical replication launcher" (PID 7968) exited with exit code 1
+2026-08-18 07:31:55.162 CST [7963] LOG:  shutting down
+2026-08-18 07:31:55.164 CST [7963] LOG:  checkpoint starting: shutdown immediate
+2026-08-18 07:31:55.178 CST [7963] LOG:  checkpoint complete: wrote 0 buffers (0.0%), wrote 0 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.004 s, sync=0.001 s, total=0.016 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=260 kB; lsn=0/27793A8, redo lsn=0/27793A8
+2026-08-18 07:31:55.200 CST [7959] LOG:  database system is shut down

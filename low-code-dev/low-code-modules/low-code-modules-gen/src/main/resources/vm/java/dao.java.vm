@@ -1,0 +1,45 @@
+package ${packageName}.dao;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.troy.common.datasource.service.BaseService;
+import ${packageName}.entity.${ClassName};
+
+import java.util.List;
+
+/**
+ * @Auther: ${author}
+ * @Date: ${datetime}
+ * @Description: ${functionName}Dao业务层处理
+ * @Version: 1.0.0
+ */
+public interface ${ClassName}Dao extends BaseService<${ClassName}> {
+
+    /**
+     * 分页查询${functionName}
+     *
+     * @param dto
+     * @return
+     */
+    Page<${ClassName}> findPage(${ClassName}SearchDTO dto);
+
+#if($table.main)
+#foreach($mainTable in $main)
+    /**
+     * 根据${mainTable.functionName} id 查询 ${functionName}
+     *
+     * @param ${mainTable.subTableFkclassName}
+     * @return 结果
+     */
+    public List<${ClassName}> findBy${mainTable.subTableFkClassName}(${mainTable.pkColumn.javaType} ${mainTable.subTableFkclassName});
+
+    /**
+     * 根据一批${mainTable.functionName} id 查询 ${functionName}
+     *
+     * @param ${mainTable.subTableFkclassName}
+     * @return 结果
+     */
+    public List<${ClassName}> findBy${mainTable.subTableFkClassName}s(List<${mainTable.pkColumn.javaType}> ${mainTable.subTableFkclassName}s);
+#end
+#end
+
+}

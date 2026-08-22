@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: low-code-sync-inside
+  cloud:
+    nacos:
+      config:
+        namespace: a82baea1-dc02-49d8-bba3-33b9a1418184
+        group: syncInsideGroup
+        file-extension: yaml
+        server-addr: ${NACOS_SERVER_ADDR:10.0.14.151:8848}
+        username: ${NACOS_USERNAME:}
+        password: ${NACOS_PASSWORD:}

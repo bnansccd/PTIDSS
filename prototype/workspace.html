@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>决策工作台 · 电力交易智能辅助决策系统</title>
+<link rel="stylesheet" href="assets/wireframe.css">
+</head>
+<body>
+<!-- 决策工作台（对应 4.7：决策域核心页；多智能体编排/三情景对比/冲突仲裁/依据链/人审留痕） -->
+<div class="wf-topbar">
+  <div class="wf-logo">⚡ 电力交易智能辅助决策 <span class="wf-logo-en">PTIDSS</span></div>
+  <div class="wf-nav">
+    <a href="dashboard.html">工作台</a>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <a class="active" href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <a href="policy-detail.html">政策研判</a>
+  </div>
+  <div class="wf-user"><span class="wf-avatar">交</span> 交易员·张工 <span class="wf-badge b-primary">P0</span></div>
+</div>
+
+<div class="wf-layout">
+  <div class="wf-sidebar">
+    <div class="wf-group">总览</div>
+    <a href="dashboard.html">首页工作台</a>
+    <div class="wf-group">行情与预测</div>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <div class="wf-group">决策与交易</div>
+    <a class="active" href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <div class="wf-group">结算与复盘</div>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <div class="wf-group">政策与系统</div>
+    <a href="policy-detail.html">政策研判</a>
+    <a href="#">系统管理</a>
+  </div>
+
+  <div class="wf-main">
+    <div class="wf-page-head">
+      <div>
+        <h1>决策工作台 <span class="wf-tag">多智能体协同编排</span></h1>
+        <div class="wf-sub">会话 DS-20260809-001｜目标日 08-09（日前+实时）｜编排版本 orchestrator-v2.3.0</div>
+      </div>
+      <div class="wf-actions">
+        <a class="wf-btn" href="#">发起新会话</a>
+        <a class="wf-btn primary" href="trade-declarations.html">方案转申报 →</a>
+      </div>
+    </div>
+
+    <!-- 编排进度条 -->
+    <div class="wf-card">
+      <div class="wf-card-title">智能体编排进度 <span class="wf-badge b-ok">已完成</span><span class="wf-right wf-sm wf-muted">总耗时 42.6s（预算 5min）</span></div>
+      <div class="wf-row">
+        <span class="wf-tag b-ok">✔ 市场情报 agent</span><span class="wf-tag b-ok">✔ 电价预测 agent</span>
+        <span class="wf-tag b-ok">✔ 持仓/合规 agent</span><span class="wf-tag b-ok">✔ 报价策略 agent</span>
+        <span class="wf-tag b-ok">✔ 风险评估 agent</span><span class="wf-tag b-ok">✔ 规则校验 agent</span>
+        <span class="wf-tag b-ok">✔ 综合决策 agent</span>
+        <span class="wf-tag b-warn">⚠ 2 处冲突已仲裁</span>
+      </div>
+    </div>
+
+    <div class="wf-grid wf-grid-2-1">
+      <!-- 左：三情景方案对比 -->
+      <div class="wf-card">
+        <div class="wf-card-title">候选方案对比 <span class="wf-tag">三情景</span>
+          <span class="wf-right"><a class="wf-btn" href="optimize-joint.html" style="padding:4px 12px">联合优化重算</a></span>
+        </div>
+        <table class="wf-table">
+          <tr><th>方案</th><th>预期收益（元）</th><th>CVaR(95%)</th><th>偏差风险</th><th>申报段数</th><th>状态</th></tr>
+          <tr><td><b>基线</b>（基准情景）</td><td class="num">+ 486,200</td><td class="num">- 152,000</td><td class="num">低</td><td class="num">10</td><td><span class="wf-badge b-ok">推荐</span></td></tr>
+          <tr><td>保守（电价下行 -10%）</td><td class="num">+ 312,400</td><td class="num">- 98,000</td><td class="num">极低</td><td class="num">8</td><td><span class="wf-badge">备选</span></td></tr>
+          <tr><td>激进（电价上行 +10%）</td><td class="num">+ 618,900</td><td class="num">- 268,000</td><td class="num">高</td><td class="num">12</td><td><span class="wf-badge">备选</span></td></tr>
+        </table>
+        <div class="wf-placeholder wf-ph-chart mt">ECharts：96 点申报量价曲线对比（三情景叠加 + 电价预测置信带）</div>
+        <div class="wf-row mt">
+          <span class="wf-sm wf-muted">推荐依据：基线方案在 CVaR 约束（-200,000 元）内收益期望最高，且通过全部合规校验</span>
+        </div>
+      </div>
+
+      <!-- 右：智能体结论 -->
+      <div class="wf-card">
+        <div class="wf-card-title">智能体结论（可展开）</div>
+        <table class="wf-table">
+          <tr><th>智能体</th><th>结论要点</th><th>置信度</th><th>耗时</th></tr>
+          <tr><td>市场情报</td><td class="wf-sm">明日午间新能源出力 +15%</td><td>0.92</td><td class="wf-sm">1.2s</td></tr>
+          <tr><td>电价预测</td><td class="wf-sm">均价 412.6，峰 18:15</td><td>0.90</td><td class="wf-sm">8.4s</td></tr>
+          <tr><td>报价策略</td><td class="wf-sm">高价段增持 30MW</td><td>0.88</td><td class="wf-sm">5.1s</td></tr>
+          <tr><td>风险评估</td><td class="wf-sm">CVaR 未超限</td><td>0.93</td><td class="wf-sm">2.0s</td></tr>
+          <tr><td>规则校验</td><td class="wf-sm">10 段/限价内 ✔</td><td>0.99</td><td class="wf-sm">0.8s</td></tr>
+        </table>
+        <div class="wf-card mt" style="background:#fdf3e2;border-color:#e8c47a">
+          <div class="wf-card-title">⚠ 冲突仲裁记录</div>
+          <div class="wf-sm" style="line-height:1.9">
+            ① 报价策略「高价段增持 30MW」 vs 合规「持仓上限 28MW」→ 仲裁取 28MW<br>
+            ② 风险评估「激进方案 CVaR 超限」 vs 综合决策「期望收益优先」→ 仲裁降级激进方案为备选
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 依据链 -->
+    <div class="wf-card">
+      <div class="wf-card-title">依据链回溯（可全量导出） <span class="wf-right"><a class="wf-btn" href="#" style="padding:4px 12px">导出依据链 JSON</a></span></div>
+      <table class="wf-table">
+        <tr><th>序号</th><th>环节</th><th>输入快照</th><th>输出</th><th>数据版本</th><th>时间</th></tr>
+        <tr><td>1</td><td>数据就绪检查</td><td>行情/预测/持仓</td><td>完整率 100%</td><td>v2026-08-08-09</td><td class="wf-sm">08:41:02</td></tr>
+        <tr><td>2</td><td>电价预测</td><td>96 点特征</td><td>MAPE 9.8%</td><td>model v2.4.1</td><td class="wf-sm">08:41:10</td></tr>
+        <tr><td>3</td><td>联合优化求解</td><td>场景 ×100</td><td>目标 486,200 元</td><td>HiGHS 1.7.3</td><td class="wf-sm">08:43:22</td></tr>
+        <tr><td>4</td><td>合规校验</td><td>候选方案</td><td>全部通过</td><td>rules v8.1</td><td class="wf-sm">08:43:31</td></tr>
+      </table>
+    </div>
+
+    <!-- 人审操作区 -->
+    <div class="wf-card" style="border-color:var(--wf-primary)">
+      <div class="wf-card-title">人工确认（双人复核，全程留痕）</div>
+      <div class="wf-form">
+        <div class="wf-form-item"><label>确认方式</label>
+          <span class="wf-check"><input type="radio" name="op" checked> 确认基线方案</span>
+          <span class="wf-check"><input type="radio" name="op"> 修改后确认（需填写修改依据）</span>
+          <span class="wf-check"><input type="radio" name="op"> 驳回重算</span>
+        </div>
+        <div class="wf-form-item"><label>修改依据</label><input class="wf-input" placeholder="如：基于人工对晚间供需的研判，18-20 时段报价上浮 5%（必填）"></div>
+        <div class="wf-form-item"><label>复核人</label><input class="wf-input" placeholder="复核人账号（超阈值修改必填）" style="max-width:220px"></div>
+        <div class="wf-form-item"><label></label>
+          <button class="wf-btn primary" type="button">确认并锁定（生成申报草稿）</button>
+          <button class="wf-btn" type="button">暂存</button>
+          <span class="wf-sm wf-muted">确认后将写入审计日志 audit_log（action=confirm_plan）</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="wf-footer">线框原型 V1.0 · 对应 4.7 页面清单：决策工作台 / 联合优化 / 依据链详情</div>
+  </div>
+</div>
+</body>
+</html>

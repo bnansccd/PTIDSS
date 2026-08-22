@@ -1,0 +1,70 @@
+nohup: 忽略输入
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.ptidss:ptidss-server >----------------------
+[INFO] Building ptidss-server 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot-maven-plugin:2.7.13:run (default-cli) > test-compile @ ptidss-server >>>
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:resources (default-resources) @ ptidss-server ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 2 resources
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:compile (default-compile) @ ptidss-server ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:testResources (default-testResources) @ ptidss-server ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] skip non existing resourceDirectory /home/odoo/workspace/PTIDSS/ptidss-server/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:testCompile (default-testCompile) @ ptidss-server ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] <<< spring-boot-maven-plugin:2.7.13:run (default-cli) < test-compile @ ptidss-server <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:2.7.13:run (default-cli) @ ptidss-server ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.13)
+
+2026-08-20 20:56:01.083  INFO 44709 --- [           main] com.ptidss.PtidssApplication             : Starting PtidssApplication using Java 1.8.0_502 on odoo-pc with PID 44709 (/home/odoo/workspace/PTIDSS/ptidss-server/target/classes started by odoo in /home/odoo/workspace/PTIDSS/ptidss-server)
+2026-08-20 20:56:01.085 DEBUG 44709 --- [           main] com.ptidss.PtidssApplication             : Running with Spring Boot v2.7.13, Spring v5.3.28
+2026-08-20 20:56:01.085  INFO 44709 --- [           main] com.ptidss.PtidssApplication             : The following 1 profile is active: "dev"
+2026-08-20 20:56:02.143  INFO 44709 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9080 (http)
+2026-08-20 20:56:02.151  INFO 44709 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-08-20 20:56:02.151  INFO 44709 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.76]
+2026-08-20 20:56:02.210  INFO 44709 --- [           main] o.a.c.c.C.[.[localhost].[/ptidss]        : Initializing Spring embedded WebApplicationContext
+2026-08-20 20:56:02.210  INFO 44709 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1085 ms
+2026-08-20 20:56:02.690  WARN 44709 --- [           main] c.b.m.core.metadata.TableInfoHelper      : Can not find table primary key in Class: "com.ptidss.system.domain.SysUserRegion".
+2026-08-20 20:56:02.691  WARN 44709 --- [           main] c.b.m.core.injector.DefaultSqlInjector   : class com.ptidss.system.domain.SysUserRegion ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2026-08-20 20:56:02.722  INFO 44709 --- [           main] com.ptidss.common.security.TokenService  : TokenService 初始化完成：expire=120min, refreshThreshold=10min
+2026-08-20 20:56:02.777  INFO 44709 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-08-20 20:56:02.836  INFO 44709 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-08-20 20:56:02.842 DEBUG 44709 --- [           main] c.p.s.mapper.SysUserMapper.selectList    : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (password_hash LIKE ?)
+2026-08-20 20:56:02.851 DEBUG 44709 --- [           main] c.p.s.mapper.SysUserMapper.selectList    : ==> Parameters: %PLACEHOLDER%(String)
+2026-08-20 20:56:02.865 DEBUG 44709 --- [           main] c.p.s.mapper.SysUserMapper.selectList    : <==      Total: 0
+2026-08-20 20:56:04.215  INFO 44709 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9080 (http) with context path '/ptidss'
+2026-08-20 20:56:04.223  INFO 44709 --- [           main] com.ptidss.PtidssApplication             : Started PtidssApplication in 3.506 seconds (JVM running for 3.828)
+===============================================
+  PTIDSS Server 启动成功: http://localhost:9080/ptidss
+===============================================
+2026-08-20 20:56:30.396  INFO 44709 --- [nio-9080-exec-1] o.a.c.c.C.[.[localhost].[/ptidss]        : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-20 20:56:30.397  INFO 44709 --- [nio-9080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-08-20 20:56:30.398  INFO 44709 --- [nio-9080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-08-20 20:56:30.749 DEBUG 44709 --- [nio-9080-exec-2] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, ip, user_agent, result, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-20 20:56:30.750 DEBUG 44709 --- [nio-9080-exec-2] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 216178583650045952(Long), daf4b1e7fd604b5b(String), 0(Long), admin(String), login(String), auth(String), LoginBody(username=admin, password=Ptidss@2026, captchaKey=null,(String), 0:0:0:0:0:0:0:1(String), curl/8.5.0(String), fail(String), 2026-08-20 20:56:30.746(Timestamp)
+2026-08-20 20:56:30.753 DEBUG 44709 --- [nio-9080-exec-2] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-20 21:07:24.063  INFO 44709 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-08-20 21:07:24.067  INFO 44709 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

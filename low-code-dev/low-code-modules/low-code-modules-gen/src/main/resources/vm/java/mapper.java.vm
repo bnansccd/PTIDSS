@@ -1,0 +1,15 @@
+package ${packageName}.mapper;
+
+import ${packageName}.entity.${ClassName};
+import com.troy.common.datasource.mapper.MyBaseMapper;
+
+/**
+ * @Auther: ${author}
+ * @Date: ${datetime}
+ * @Description: ${functionName}Mapper接口
+ * @Version: 1.0.0
+ */
+@Mapper
+public interface ${ClassName}Mapper extends MyBaseMapper<${ClassName}> {
+
+}

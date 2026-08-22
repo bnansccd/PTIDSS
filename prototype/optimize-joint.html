@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>联合优化 · 电力交易智能辅助决策系统</title>
+<link rel="stylesheet" href="assets/wireframe.css">
+</head>
+<body>
+<!-- 联合优化（对应 4.7：决策域；日滚动/周撮合/月计划任务与结果） -->
+<div class="wf-topbar">
+  <div class="wf-logo">⚡ 电力交易智能辅助决策 <span class="wf-logo-en">PTIDSS</span></div>
+  <div class="wf-nav">
+    <a href="dashboard.html">工作台</a>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <a href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <a href="policy-detail.html">政策研判</a>
+  </div>
+  <div class="wf-user"><span class="wf-avatar">算</span> 策略分析师·李工 <span class="wf-badge b-primary">P0</span></div>
+</div>
+
+<div class="wf-layout">
+  <div class="wf-sidebar">
+    <div class="wf-group">总览</div>
+    <a href="dashboard.html">首页工作台</a>
+    <div class="wf-group">行情与预测</div>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <div class="wf-group">决策与交易</div>
+    <a href="workspace.html">决策工作台</a>
+    <a class="active" href="optimize-joint.html">联合优化</a>
+    <a href="backtest.html">策略回测</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <div class="wf-group">结算与复盘</div>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <div class="wf-group">政策与系统</div>
+    <a href="policy-detail.html">政策研判</a>
+    <a href="intel-center.html">情报中心</a>
+    <a href="admin-system.html">系统管理</a>
+  </div>
+
+  <div class="wf-main">
+    <div class="wf-page-head">
+      <div>
+        <h1>联合优化任务中心</h1>
+        <div class="wf-sub">MILP 求解（HiGHS 主 / Gurobi 兜底）｜CVaR(95%) 默认 -200,000 元｜求解预算 日滚动 ≤5min</div>
+      </div>
+      <div class="wf-actions">
+        <a class="wf-btn primary" href="#">新建联合优化</a>
+        <a class="wf-btn" href="#">导出结果</a>
+      </div>
+    </div>
+
+    <div class="wf-filter">
+      <select class="wf-select" style="max-width:140px"><option>日滚动</option><option>周撮合</option><option>月计划</option></select>
+      <select class="wf-select" style="max-width:130px"><option>全部状态</option><option>排队中</option><option>求解中</option><option>完成</option><option>超时降级</option></select>
+      <input class="wf-input" type="date" value="2026-08-08">
+      <button class="wf-btn primary wf-right" type="button">查询</button>
+    </div>
+
+    <div class="wf-grid wf-grid-4 mb">
+      <div class="wf-card"><div class="wf-stat"><span class="k">今日任务</span><span class="v">12</span><span class="d">日滚动×9 / 周撮合×2 / 月计划×1</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">运行中</span><span class="v">2</span><span class="d warn">周撮合 排队中</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">平均求解耗时</span><span class="v">3.4 min</span><span class="d ok">预算内 5min</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">本月最优提升</span><span class="v">+6.2%</span><span class="d up">较上月同周期</span></div></div>
+    </div>
+
+    <div class="wf-card mb">
+      <div class="wf-card-title">任务列表</div>
+      <table class="wf-table">
+        <tr><th>任务 ID</th><th>类型</th><th>市场</th><th>状态</th><th>耗时</th><th>目标值（元）</th><th>CVaR(95%)</th><th>求解器</th><th>操作</th></tr>
+        <tr><td>JO-20260808-009</td><td>日滚动</td><td>省内现货</td><td><span class="wf-badge b-ok">完成</span></td><td class="num">3.1 min</td><td class="num">+486,200</td><td class="num">-152,000</td><td>HiGHS</td><td><a class="wf-sm" href="#">查看方案</a></td></tr>
+        <tr><td>JO-20260808-008</td><td>日滚动</td><td>省间现货</td><td><span class="wf-badge b-warn">超时降级</span></td><td class="num">5.0 min</td><td class="num">+302,850</td><td class="num">-189,400</td><td>HiGHS→Gurobi</td><td><a class="wf-sm" href="#">查看 suboptimal</a></td></tr>
+        <tr><td>JO-20260808-007</td><td>周撮合</td><td>中长期</td><td><span class="wf-badge b-primary">求解中</span></td><td class="num">2:47…</td><td class="num">—</td><td class="num">—</td><td>HiGHS</td><td><a class="wf-sm" href="#">实时日志</a></td></tr>
+        <tr><td>JO-20260808-006</td><td>日滚动</td><td>省内现货</td><td><span class="wf-badge b-danger">失败</span></td><td class="num">1.8 min</td><td class="num">—</td><td class="num">—</td><td>双求解器均失败</td><td><a class="wf-sm" href="#">查看错误</a></td></tr>
+      </table>
+    </div>
+
+    <div class="wf-grid wf-grid-2">
+      <div class="wf-card">
+        <div class="wf-card-title">结果对比：HiGHS vs Gurobi（近 7 日）</div>
+        <div class="wf-placeholder wf-ph-chart">ECharts：双柱状图（目标值/求解耗时）<br><small>求解器差异与兜底切换统计</small></div>
+      </div>
+      <div class="wf-card">
+        <div class="wf-card-title">约束满足情况（最近一次日滚动）</div>
+        <table class="wf-table">
+          <tr><th>约束</th><th>状态</th><th>说明</th></tr>
+          <tr><td>申报段数上限</td><td><span class="wf-badge b-ok">满足</span></td><td class="wf-sm">5 段 / 上限 10 段</td></tr>
+          <tr><td>价格上下限</td><td><span class="wf-badge b-ok">满足</span></td><td class="wf-sm">[-100, 1500] 元/MWh</td></tr>
+          <tr><td>持仓比例</td><td><span class="wf-badge b-ok">满足</span></td><td class="wf-sm">≤30% 敞口</td></tr>
+          <tr><td>机组出力/爬坡</td><td><span class="wf-badge b-ok">满足</span></td><td class="wf-sm">爬坡 ±2%/min</td></tr>
+          <tr><td>偏差电量考核</td><td><span class="wf-badge b-warn">临界</span></td><td class="wf-sm">预留考核费用已计入目标</td></tr>
+        </table>
+      </div>
+      <div class="wf-card">
+        <div class="wf-card-title">求解日志（JO-20260808-007）</div>
+        <div class="wf-code wf-sm">
+          10:32:01 模型构建：决策变量 8,240 / 约束 23,650<br>
+          10:32:58 求解器启动：HiGHS 1.7.2（MILP）<br>
+          10:33:40 上界收敛：gap 2.4% → 1.1%<br>
+          10:35:02 下界更新：CVaR 约束激活（-189,400）<br>
+          10:36:12 求解中（剩余预算 2min48s）…<br>
+        </div>
+      </div>
+      <div class="wf-card">
+        <div class="wf-card-title">任务调度说明</div>
+        <div class="wf-sm">
+          <div class="mt">· 日滚动：每日 09:30 前启动，预算 ≤5min，超时返回当前最优可行解并标记 suboptimal（评审决议口径）；</div>
+          <div>· 周撮合/月计划：预算 ≤15min，失败自动切换备用求解器，仍失败降级为启发式方案并告警（FR-DM-03 R4）；</div>
+          <div>· 所有任务结果回流决策工作台三情景方案（FR-DM-04），供交易员人审。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wf-footer">线框原型 V1.1 · 对应 4.7 页面清单：联合优化任务 / 结果对比 / 约束监控（FR-DM-03）</div>
+  </div>
+</div>
+</body>
+</html>

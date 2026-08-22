@@ -1,0 +1,4 @@
+com.troy.common.datasource.config.MyBatisFlexConfiguration
+com.troy.common.datasource.config.MyCommandLineRunner
+com.troy.common.datasource.config.MyConfiguration
+com.troy.common.datasource.config.MyConfigurationCustomizer

@@ -1,0 +1,627 @@
+nohup: 忽略输入
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.13)
+
+2026-08-21 07:41:29.716  INFO 89395 --- [           main] com.ptidss.PtidssApplication             : Starting PtidssApplication using Java 1.8.0_502 on odoo-pc with PID 89395 (/home/odoo/workspace/PTIDSS/ptidss-server/target/classes started by odoo in /home/odoo/workspace/PTIDSS/ptidss-server)
+2026-08-21 07:41:29.718 DEBUG 89395 --- [           main] com.ptidss.PtidssApplication             : Running with Spring Boot v2.7.13, Spring v5.3.28
+2026-08-21 07:41:29.718  INFO 89395 --- [           main] com.ptidss.PtidssApplication             : The following 1 profile is active: "dev"
+2026-08-21 07:41:30.951  INFO 89395 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9080 (http)
+2026-08-21 07:41:30.963  INFO 89395 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-08-21 07:41:30.963  INFO 89395 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.76]
+2026-08-21 07:41:31.028  INFO 89395 --- [           main] o.a.c.c.C.[.[localhost].[/ptidss]        : Initializing Spring embedded WebApplicationContext
+2026-08-21 07:41:31.028  INFO 89395 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1261 ms
+2026-08-21 07:41:31.572  WARN 89395 --- [           main] c.b.m.core.metadata.TableInfoHelper      : Can not find table primary key in Class: "com.ptidss.system.domain.SysUserRegion".
+2026-08-21 07:41:31.572  WARN 89395 --- [           main] c.b.m.core.injector.DefaultSqlInjector   : class com.ptidss.system.domain.SysUserRegion ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2026-08-21 07:41:31.608  INFO 89395 --- [           main] com.ptidss.common.security.TokenService  : TokenService 初始化完成：expire=120min, refreshThreshold=10min
+2026-08-21 07:41:31.665  INFO 89395 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-08-21 07:41:31.724  INFO 89395 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-08-21 07:41:31.729 DEBUG 89395 --- [           main] c.p.s.mapper.SysUserMapper.selectList    : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (password_hash LIKE ?)
+2026-08-21 07:41:31.737 DEBUG 89395 --- [           main] c.p.s.mapper.SysUserMapper.selectList    : ==> Parameters: %PLACEHOLDER%(String)
+2026-08-21 07:41:31.751 DEBUG 89395 --- [           main] c.p.s.mapper.SysUserMapper.selectList    : <==      Total: 0
+2026-08-21 07:41:33.171  INFO 89395 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9080 (http) with context path '/ptidss'
+2026-08-21 07:41:33.181  INFO 89395 --- [           main] com.ptidss.PtidssApplication             : Started PtidssApplication in 3.809 seconds (JVM running for 4.121)
+===============================================
+  PTIDSS Server 启动成功: http://localhost:9080/ptidss
+===============================================
+2026-08-21 07:41:36.771  INFO 89395 --- [nio-9080-exec-1] o.a.c.c.C.[.[localhost].[/ptidss]        : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-21 07:41:36.772  INFO 89395 --- [nio-9080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-08-21 07:41:36.775  INFO 89395 --- [nio-9080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-08-21 07:41:43.182 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:41:43.182 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:41:43.187 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:41:43.191 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:41:43.191 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:41:43.192 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:41:43.194 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:41:43.194 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:41:43.198 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:41:43.200 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:41:43.201 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:41:43.201 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:41:43.203 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:41:43.203 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:41:43.204 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:41:43.205  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:41:53.181 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==>  Preparing: SELECT id,source_id,task_type,cron_expr,last_run_time,last_status,records_count,error_log,version,deleted,created_at,updated_at FROM collect_task WHERE deleted=false AND (cron_expr IS NOT NULL)
+2026-08-21 07:41:53.181 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==> Parameters: 
+2026-08-21 07:41:53.185 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : <==      Total: 3
+2026-08-21 07:42:13.206 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:42:13.207 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:42:13.211 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:42:13.212 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:42:13.213 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:42:13.214 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:42:13.216 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:42:13.216 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:42:13.220 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:42:13.221 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:42:13.222 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:42:13.222 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:42:13.224 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:42:13.224 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:42:13.224 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:42:13.224  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:42:19.590 DEBUG 89395 --- [io-9080-exec-10] c.p.s.mapper.SysUserMapper.selectList    : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (username = ?)
+2026-08-21 07:42:19.590 DEBUG 89395 --- [io-9080-exec-10] c.p.s.mapper.SysUserMapper.selectList    : ==> Parameters: admin(String)
+2026-08-21 07:42:19.636 DEBUG 89395 --- [io-9080-exec-10] c.p.s.mapper.SysUserMapper.selectList    : <==      Total: 1
+2026-08-21 07:42:19.743 DEBUG 89395 --- [io-9080-exec-10] c.p.s.m.SysRoleMapper.selectBatchIds     : ==>  Preparing: SELECT id,role_code,role_name,description,status,version,deleted,created_at,updated_at FROM sys_role WHERE id IN ( ? ) AND deleted=false
+2026-08-21 07:42:19.744 DEBUG 89395 --- [io-9080-exec-10] c.p.s.m.SysRoleMapper.selectBatchIds     : ==> Parameters: 4(Long)
+2026-08-21 07:42:19.745 DEBUG 89395 --- [io-9080-exec-10] c.p.s.m.SysRoleMapper.selectBatchIds     : <==      Total: 1
+2026-08-21 07:42:19.748 DEBUG 89395 --- [io-9080-exec-10] c.p.s.m.SysPermissionMapper.selectList   : ==>  Preparing: SELECT id,perm_code,perm_name,resource_type,resource_pattern,status,version,deleted,created_at,updated_at FROM sys_permission WHERE deleted=false AND (status = ? AND EXISTS (SELECT 1 FROM sys_role_permission rp WHERE rp.permission_id = sys_permission.id AND rp.role_id = ?))
+2026-08-21 07:42:19.748 DEBUG 89395 --- [io-9080-exec-10] c.p.s.m.SysPermissionMapper.selectList   : ==> Parameters: active(String), 4(Long)
+2026-08-21 07:42:19.753 DEBUG 89395 --- [io-9080-exec-10] c.p.s.m.SysPermissionMapper.selectList   : <==      Total: 18
+2026-08-21 07:42:19.756 DEBUG 89395 --- [io-9080-exec-10] c.p.s.m.SysUserRegionMapper.selectList   : ==>  Preparing: SELECT user_id,region_code FROM sys_user_region WHERE (user_id = ?)
+2026-08-21 07:42:19.756 DEBUG 89395 --- [io-9080-exec-10] c.p.s.m.SysUserRegionMapper.selectList   : ==> Parameters: 1(Long)
+2026-08-21 07:42:19.758 DEBUG 89395 --- [io-9080-exec-10] c.p.s.m.SysUserRegionMapper.selectList   : <==      Total: 4
+2026-08-21 07:42:19.761 DEBUG 89395 --- [io-9080-exec-10] c.p.s.mapper.SysRegionMapper.selectList  : ==>  Preparing: SELECT id,region_code,region_name,market_support,exchange_channel,settlement_period,status,launch_order,version,deleted,created_at,updated_at FROM sys_region WHERE deleted=false AND (region_code = ? AND status = ?)
+2026-08-21 07:42:19.762 DEBUG 89395 --- [io-9080-exec-10] c.p.s.mapper.SysRegionMapper.selectList  : ==> Parameters: CN-31(String), enabled(String)
+2026-08-21 07:42:19.763 DEBUG 89395 --- [io-9080-exec-10] c.p.s.mapper.SysRegionMapper.selectList  : <==      Total: 1
+2026-08-21 07:42:19.776 DEBUG 89395 --- [io-9080-exec-10] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET last_login_at=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-21 07:42:19.777 DEBUG 89395 --- [io-9080-exec-10] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: 2026-08-21 07:42:19.771(Timestamp), 2026-08-21 07:42:19.774(Timestamp), 1(Long)
+2026-08-21 07:42:19.778 DEBUG 89395 --- [io-9080-exec-10] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-21 07:42:19.782 DEBUG 89395 --- [io-9080-exec-10] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, ip, user_agent, result, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-21 07:42:19.782 DEBUG 89395 --- [io-9080-exec-10] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 216341108874153984(Long), 95efa63e907f4efe(String), 0(Long), admin(String), login(String), auth(String), LoginBody(username=admin, password=Ptidss@2026, captchaKey=cb625(String), 0:0:0:0:0:0:0:1(String), Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Qoder/1.23.0 Chrome/148.0.7778.97 Electron/42.2.0 Safari/537.36(String), success(String), 2026-08-21 07:42:19.78(Timestamp)
+2026-08-21 07:42:19.784 DEBUG 89395 --- [io-9080-exec-10] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-21 07:42:19.826 DEBUG 89395 --- [nio-9080-exec-6] c.p.m.m.ModelRegistryMapper.selectList   : ==>  Preparing: SELECT id,model_code,model_name,model_version,framework,metrics,status,file_url,trained_at,version,deleted,created_at,updated_at FROM model_registry WHERE deleted=false ORDER BY model_code ASC,version DESC
+2026-08-21 07:42:19.826 DEBUG 89395 --- [nio-9080-exec-6] c.p.m.m.ModelRegistryMapper.selectList   : ==> Parameters: 
+2026-08-21 07:42:19.827 DEBUG 89395 --- [nio-9080-exec-3] c.p.t.m.RollingPlanMapper.selectList     : ==>  Preparing: SELECT id,trade_date,scenario,plan_type,adjustments,expected_revenue,risk_metrics,evidence_chain_ref,status,created_by,region_code,version,deleted,created_at,updated_at FROM rolling_plan WHERE deleted=false AND (region_code = ?) ORDER BY trade_date DESC
+2026-08-21 07:42:19.827 DEBUG 89395 --- [nio-9080-exec-3] c.p.t.m.RollingPlanMapper.selectList     : ==> Parameters: CN-11(String)
+2026-08-21 07:42:19.829 DEBUG 89395 --- [nio-9080-exec-6] c.p.m.m.ModelRegistryMapper.selectList   : <==      Total: 3
+2026-08-21 07:42:19.829 DEBUG 89395 --- [nio-9080-exec-5] c.p.m.m.MessageRecordMapper.selectCount  : ==>  Preparing: SELECT COUNT( * ) FROM message_record WHERE deleted=false AND (receiver_id = ?)
+2026-08-21 07:42:19.829 DEBUG 89395 --- [nio-9080-exec-5] c.p.m.m.MessageRecordMapper.selectCount  : ==> Parameters: 1(Long)
+2026-08-21 07:42:19.832 DEBUG 89395 --- [nio-9080-exec-5] c.p.m.m.MessageRecordMapper.selectCount  : <==      Total: 1
+2026-08-21 07:42:19.839 DEBUG 89395 --- [nio-9080-exec-3] c.p.t.m.RollingPlanMapper.selectList     : <==      Total: 0
+2026-08-21 07:42:19.859 DEBUG 89395 --- [nio-9080-exec-4] c.p.t.mapper.ContractMapper.selectList   : ==>  Preparing: SELECT id,contract_no,variety,direction,counterparty,total_volume,curve_json,price,start_date,end_date,status,source,region_code,version,deleted,created_at,updated_at FROM contract WHERE deleted=false AND (region_code = ? AND status IN (?,?))
+2026-08-21 07:42:19.860 DEBUG 89395 --- [nio-9080-exec-4] c.p.t.mapper.ContractMapper.selectList   : ==> Parameters: CN-11(String), active(String), executing(String)
+2026-08-21 07:42:19.861 DEBUG 89395 --- [nio-9080-exec-4] c.p.t.mapper.ContractMapper.selectList   : <==      Total: 0
+2026-08-21 07:42:19.879 DEBUG 89395 --- [nio-9080-exec-5] c.p.m.m.M.selectPage_mpCount             : ==>  Preparing: SELECT COUNT(*) AS total FROM message_record WHERE deleted = false AND (receiver_id = ? AND read_status = ?)
+2026-08-21 07:42:19.880 DEBUG 89395 --- [nio-9080-exec-5] c.p.m.m.M.selectPage_mpCount             : ==> Parameters: 1(Long), unread(String)
+2026-08-21 07:42:19.880 DEBUG 89395 --- [nio-9080-exec-5] c.p.m.m.M.selectPage_mpCount             : <==      Total: 1
+2026-08-21 07:42:19.883 DEBUG 89395 --- [nio-9080-exec-5] c.p.m.m.MessageRecordMapper.selectPage   : ==>  Preparing: SELECT id,msg_type,receiver_id,title,content,channel,read_status,biz_ref,version,deleted,created_at,updated_at FROM message_record WHERE deleted=false AND (receiver_id = ? AND read_status = ?) ORDER BY created_at DESC LIMIT ?
+2026-08-21 07:42:19.883 DEBUG 89395 --- [nio-9080-exec-5] c.p.m.m.MessageRecordMapper.selectPage   : ==> Parameters: 1(Long), unread(String), 10(Long)
+2026-08-21 07:42:19.884 DEBUG 89395 --- [nio-9080-exec-5] c.p.m.m.MessageRecordMapper.selectPage   : <==      Total: 1
+2026-08-21 07:42:43.226 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:42:43.226 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:42:43.228 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:42:43.230 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:42:43.230 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:42:43.231 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:42:43.233 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:42:43.233 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:42:43.237 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:42:43.238 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:42:43.239 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:42:43.239 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:42:43.240 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:42:43.240 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:42:43.241 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:42:43.241  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:42:50.956 DEBUG 89395 --- [io-9080-exec-10] c.p.r.m.ReviewReportMapper.selectList    : ==>  Preparing: SELECT id,report_type,period_start,period_end,summary,deviation_analysis,strategy_eval,suggestions,status,file_url,version,deleted,created_at,updated_at FROM review_report WHERE deleted=false ORDER BY period_start DESC,created_at DESC
+2026-08-21 07:42:50.957 DEBUG 89395 --- [io-9080-exec-10] c.p.r.m.ReviewReportMapper.selectList    : ==> Parameters: 
+2026-08-21 07:42:50.961 DEBUG 89395 --- [io-9080-exec-10] c.p.r.m.ReviewReportMapper.selectList    : <==      Total: 10
+2026-08-21 07:42:53.187 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==>  Preparing: SELECT id,source_id,task_type,cron_expr,last_run_time,last_status,records_count,error_log,version,deleted,created_at,updated_at FROM collect_task WHERE deleted=false AND (cron_expr IS NOT NULL)
+2026-08-21 07:42:53.187 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==> Parameters: 
+2026-08-21 07:42:53.189 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : <==      Total: 3
+2026-08-21 07:43:06.636 DEBUG 89395 --- [nio-9080-exec-8] c.p.r.m.A.selectList                     : ==>  Preparing: SELECT id,code,name,formula,weight,target_value,scoring_rule,data_source,status,version,deleted,created_at,updated_at FROM assess_indicator WHERE deleted=false AND (status = ?) ORDER BY weight DESC
+2026-08-21 07:43:06.636 DEBUG 89395 --- [nio-9080-exec-8] c.p.r.m.A.selectList                     : ==> Parameters: active(String)
+2026-08-21 07:43:06.639 DEBUG 89395 --- [nio-9080-exec-8] c.p.r.m.A.selectList                     : <==      Total: 5
+2026-08-21 07:43:06.658 DEBUG 89395 --- [nio-9080-exec-5] c.p.r.m.AssessResultMapper.selectCount   : ==>  Preparing: SELECT COUNT( * ) FROM assess_result WHERE deleted=false AND (period = ?)
+2026-08-21 07:43:06.658 DEBUG 89395 --- [nio-9080-exec-5] c.p.r.m.AssessResultMapper.selectCount   : ==> Parameters: 2026-08(String)
+2026-08-21 07:43:06.660 DEBUG 89395 --- [nio-9080-exec-5] c.p.r.m.AssessResultMapper.selectCount   : <==      Total: 1
+2026-08-21 07:43:06.661 DEBUG 89395 --- [nio-9080-exec-5] c.p.r.m.AssessResultMapper.selectList    : ==>  Preparing: SELECT id,period,scope,user_id,scores,total_score,rank,status,version,deleted,created_at,updated_at FROM assess_result WHERE deleted=false AND (period = ?) ORDER BY total_score DESC
+2026-08-21 07:43:06.662 DEBUG 89395 --- [nio-9080-exec-5] c.p.r.m.AssessResultMapper.selectList    : ==> Parameters: 2026-08(String)
+2026-08-21 07:43:06.663 DEBUG 89395 --- [nio-9080-exec-5] c.p.r.m.AssessResultMapper.selectList    : <==      Total: 4
+2026-08-21 07:43:13.243 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:43:13.243 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:43:13.246 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:43:13.247 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:43:13.247 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:43:13.248 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:43:13.249 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:43:13.249 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:43:13.250 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:43:13.252 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:43:13.252 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:43:13.253 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:43:13.253 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:43:13.254 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:43:13.254 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:43:13.254  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:43:20.921 DEBUG 89395 --- [nio-9080-exec-6] c.p.r.m.R.selectCount                    : ==>  Preparing: SELECT COUNT( * ) FROM report_template WHERE deleted=false
+2026-08-21 07:43:20.922 DEBUG 89395 --- [nio-9080-exec-6] c.p.r.m.R.selectCount                    : ==> Parameters: 
+2026-08-21 07:43:20.923 DEBUG 89395 --- [nio-9080-exec-6] c.p.r.m.R.selectCount                    : <==      Total: 1
+2026-08-21 07:43:20.924 DEBUG 89395 --- [nio-9080-exec-6] c.p.r.m.ReportTemplateMapper.selectList  : ==>  Preparing: SELECT id,code,name,type,period_type,datasource_config,layout,header_config,status,version,deleted,created_at,updated_at FROM report_template WHERE deleted=false AND (status = ?) ORDER BY code ASC
+2026-08-21 07:43:20.924 DEBUG 89395 --- [nio-9080-exec-6] c.p.r.m.ReportTemplateMapper.selectList  : ==> Parameters: active(String)
+2026-08-21 07:43:20.926 DEBUG 89395 --- [nio-9080-exec-6] c.p.r.m.ReportTemplateMapper.selectList  : <==      Total: 5
+2026-08-21 07:43:20.946 DEBUG 89395 --- [nio-9080-exec-8] c.p.r.m.ReportInstanceMapper.selectList  : ==>  Preparing: SELECT id,template_id,period,region_code,data_snapshot,file_url,generate_status,push_status,generated_at,version,deleted,created_at,updated_at FROM report_instance WHERE deleted=false AND (region_code = ?) ORDER BY created_at DESC
+2026-08-21 07:43:20.946 DEBUG 89395 --- [nio-9080-exec-8] c.p.r.m.ReportInstanceMapper.selectList  : ==> Parameters: CN-11(String)
+2026-08-21 07:43:20.948 DEBUG 89395 --- [nio-9080-exec-8] c.p.r.m.ReportInstanceMapper.selectList  : <==      Total: 0
+2026-08-21 07:43:43.256 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:43:43.256 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:43:43.257 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:43:43.258 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:43:43.258 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:43:43.259 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:43:43.260 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:43:43.260 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:43:43.261 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:43:43.263 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:43:43.263 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:43:43.263 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:43:43.265 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:43:43.265 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:43:43.266 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:43:43.266  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:43:53.190 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==>  Preparing: SELECT id,source_id,task_type,cron_expr,last_run_time,last_status,records_count,error_log,version,deleted,created_at,updated_at FROM collect_task WHERE deleted=false AND (cron_expr IS NOT NULL)
+2026-08-21 07:43:53.190 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==> Parameters: 
+2026-08-21 07:43:53.192 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : <==      Total: 3
+2026-08-21 07:43:57.854 DEBUG 89395 --- [nio-9080-exec-1] c.p.m.m.ModelRegistryMapper.selectList   : ==>  Preparing: SELECT id,model_code,model_name,model_version,framework,metrics,status,file_url,trained_at,version,deleted,created_at,updated_at FROM model_registry WHERE deleted=false ORDER BY model_code ASC,version DESC
+2026-08-21 07:43:57.854 DEBUG 89395 --- [nio-9080-exec-1] c.p.m.m.ModelRegistryMapper.selectList   : ==> Parameters: 
+2026-08-21 07:43:57.855 DEBUG 89395 --- [nio-9080-exec-1] c.p.m.m.ModelRegistryMapper.selectList   : <==      Total: 3
+2026-08-21 07:44:06.713 DEBUG 89395 --- [nio-9080-exec-3] c.p.f.m.ForecastResultMapper.selectList  : ==>  Preparing: SELECT id,task_id,model_version,predict_type,market_type,region_code,trade_date,value,lower_bound,upper_bound,confidence,version,deleted,created_at,updated_at FROM forecast_result WHERE deleted=false AND (predict_type = ? AND trade_date = ?) ORDER BY trade_date ASC
+2026-08-21 07:44:06.713 DEBUG 89395 --- [nio-9080-exec-3] c.p.f.m.ForecastResultMapper.selectList  : ==> Parameters: price(String), 2026-08-21 00:00:00.0(Timestamp)
+2026-08-21 07:44:06.758 DEBUG 89395 --- [nio-9080-exec-3] c.p.f.m.ForecastResultMapper.selectList  : <==      Total: 1056
+2026-08-21 07:44:13.267 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:44:13.267 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:44:13.268 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:44:13.270 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:44:13.270 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:44:13.270 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:44:13.271 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:44:13.271 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:44:13.272 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:44:13.274 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:44:13.274 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:44:13.274 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:44:13.275 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:44:13.276 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:44:13.276 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:44:13.276  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:44:17.433 DEBUG 89395 --- [nio-9080-exec-5] c.p.t.m.D.selectPage_mpCount             : ==>  Preparing: SELECT COUNT(*) AS total FROM declaration WHERE deleted = false AND (region_code = ?)
+2026-08-21 07:44:17.434 DEBUG 89395 --- [nio-9080-exec-5] c.p.t.m.D.selectPage_mpCount             : ==> Parameters: CN-11(String)
+2026-08-21 07:44:17.435 DEBUG 89395 --- [nio-9080-exec-5] c.p.t.m.D.selectPage_mpCount             : <==      Total: 1
+2026-08-21 07:44:17.448 DEBUG 89395 --- [nio-9080-exec-2] c.p.t.m.RollingPlanMapper.selectList     : ==>  Preparing: SELECT id,trade_date,scenario,plan_type,adjustments,expected_revenue,risk_metrics,evidence_chain_ref,status,created_by,region_code,version,deleted,created_at,updated_at FROM rolling_plan WHERE deleted=false AND (region_code = ?) ORDER BY trade_date DESC
+2026-08-21 07:44:17.448 DEBUG 89395 --- [nio-9080-exec-2] c.p.t.m.RollingPlanMapper.selectList     : ==> Parameters: CN-11(String)
+2026-08-21 07:44:17.449 DEBUG 89395 --- [nio-9080-exec-2] c.p.t.m.RollingPlanMapper.selectList     : <==      Total: 0
+2026-08-21 07:44:17.456 DEBUG 89395 --- [nio-9080-exec-7] c.p.t.mapper.ContractMapper.selectList   : ==>  Preparing: SELECT id,contract_no,variety,direction,counterparty,total_volume,curve_json,price,start_date,end_date,status,source,region_code,version,deleted,created_at,updated_at FROM contract WHERE deleted=false AND (region_code = ? AND status IN (?,?))
+2026-08-21 07:44:17.456 DEBUG 89395 --- [nio-9080-exec-7] c.p.t.mapper.ContractMapper.selectList   : ==> Parameters: CN-11(String), active(String), executing(String)
+2026-08-21 07:44:17.457 DEBUG 89395 --- [nio-9080-exec-7] c.p.t.mapper.ContractMapper.selectList   : <==      Total: 0
+2026-08-21 07:44:17.468 DEBUG 89395 --- [nio-9080-exec-1] c.p.t.m.TradeResultMapper.selectList     : ==>  Preparing: SELECT id,declaration_id,trade_date,region_code,matched_volume,matched_price,matched_curve,settlement_impact,status,version,deleted,created_at,updated_at FROM trade_result WHERE deleted=false AND (trade_date = ? AND region_code = ?) ORDER BY trade_date DESC
+2026-08-21 07:44:17.469 DEBUG 89395 --- [nio-9080-exec-1] c.p.t.m.TradeResultMapper.selectList     : ==> Parameters: 2026-08-21 00:00:00.0(Timestamp), CN-11(String)
+2026-08-21 07:44:17.470 DEBUG 89395 --- [nio-9080-exec-1] c.p.t.m.TradeResultMapper.selectList     : <==      Total: 0
+2026-08-21 07:44:43.277 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:44:43.278 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:44:43.278 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:44:43.279 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:44:43.279 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:44:43.280 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:44:43.281 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:44:43.281 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:44:43.281 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:44:43.282 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:44:43.283 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:44:43.283 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:44:43.284 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:44:43.284 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:44:43.284 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:44:43.285  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:44:53.193 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==>  Preparing: SELECT id,source_id,task_type,cron_expr,last_run_time,last_status,records_count,error_log,version,deleted,created_at,updated_at FROM collect_task WHERE deleted=false AND (cron_expr IS NOT NULL)
+2026-08-21 07:44:53.193 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==> Parameters: 
+2026-08-21 07:44:53.194 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : <==      Total: 3
+2026-08-21 07:45:10.220 DEBUG 89395 --- [nio-9080-exec-3] c.p.t.mapper.ContractMapper.selectList   : ==>  Preparing: SELECT id,contract_no,variety,direction,counterparty,total_volume,curve_json,price,start_date,end_date,status,source,region_code,version,deleted,created_at,updated_at FROM contract WHERE deleted=false AND (region_code = ? AND status IN (?,?))
+2026-08-21 07:45:10.220 DEBUG 89395 --- [nio-9080-exec-3] c.p.t.mapper.ContractMapper.selectList   : ==> Parameters: CN-11(String), active(String), executing(String)
+2026-08-21 07:45:10.221 DEBUG 89395 --- [nio-9080-exec-3] c.p.t.mapper.ContractMapper.selectList   : <==      Total: 0
+2026-08-21 07:45:13.286 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:45:13.286 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:45:13.287 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:45:13.288 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:45:13.288 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:45:13.289 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:45:13.290 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:45:13.290 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:45:13.291 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:45:13.292 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:45:13.292 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:45:13.293 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:45:13.294 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:45:13.294 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:45:13.295 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:45:13.295  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:45:27.023 DEBUG 89395 --- [nio-9080-exec-5] c.p.s.m.S.selectCount                    : ==>  Preparing: SELECT COUNT( * ) FROM settlement_record WHERE deleted=false AND (settlement_period = ? AND region_code = ?)
+2026-08-21 07:45:27.023 DEBUG 89395 --- [nio-9080-exec-5] c.p.s.m.S.selectCount                    : ==> Parameters: 2026-08(String), CN-11(String)
+2026-08-21 07:45:27.024 DEBUG 89395 --- [nio-9080-exec-5] c.p.s.m.S.selectCount                    : <==      Total: 1
+2026-08-21 07:45:27.030 DEBUG 89395 --- [nio-9080-exec-5] c.p.s.m.S.selectPage_mpCount             : ==>  Preparing: SELECT COUNT(*) AS total FROM settlement_record WHERE deleted = false AND (settlement_period = ? AND region_code = ?)
+2026-08-21 07:45:27.030 DEBUG 89395 --- [nio-9080-exec-5] c.p.s.m.S.selectPage_mpCount             : ==> Parameters: 2026-08(String), CN-11(String)
+2026-08-21 07:45:27.031 DEBUG 89395 --- [nio-9080-exec-5] c.p.s.m.S.selectPage_mpCount             : <==      Total: 1
+2026-08-21 07:45:27.032 DEBUG 89395 --- [nio-9080-exec-5] c.p.s.m.S.selectPage                     : ==>  Preparing: SELECT id,settlement_period,region_code,source,items,total_amount,sync_status,version,deleted,created_at,updated_at FROM settlement_record WHERE deleted=false AND (settlement_period = ? AND region_code = ?) ORDER BY source ASC LIMIT ?
+2026-08-21 07:45:27.032 DEBUG 89395 --- [nio-9080-exec-5] c.p.s.m.S.selectPage                     : ==> Parameters: 2026-08(String), CN-11(String), 20(Long)
+2026-08-21 07:45:27.033 DEBUG 89395 --- [nio-9080-exec-5] c.p.s.m.S.selectPage                     : <==      Total: 2
+2026-08-21 07:45:27.052 DEBUG 89395 --- [nio-9080-exec-2] c.p.s.m.S.selectList                     : ==>  Preparing: SELECT id FROM settlement_record WHERE deleted=false AND (region_code = ?)
+2026-08-21 07:45:27.052 DEBUG 89395 --- [nio-9080-exec-2] c.p.s.m.S.selectList                     : ==> Parameters: CN-11(String)
+2026-08-21 07:45:27.053 DEBUG 89395 --- [nio-9080-exec-2] c.p.s.m.S.selectList                     : <==      Total: 2
+2026-08-21 07:45:27.055 DEBUG 89395 --- [nio-9080-exec-2] c.p.s.m.S.selectList                     : ==>  Preparing: SELECT id FROM settlement_reconcile WHERE deleted=false AND (record_id IN (?,?))
+2026-08-21 07:45:27.056 DEBUG 89395 --- [nio-9080-exec-2] c.p.s.m.S.selectList                     : ==> Parameters: 216191651377451008(Long), 216191651394228224(Long)
+2026-08-21 07:45:27.057 DEBUG 89395 --- [nio-9080-exec-2] c.p.s.m.S.selectList                     : <==      Total: 0
+2026-08-21 07:45:43.296 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:45:43.296 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:45:43.297 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:45:43.298 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:45:43.298 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:45:43.298 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:45:43.299 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:45:43.299 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:45:43.300 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:45:43.301 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:45:43.301 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:45:43.301 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:45:43.302 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:45:43.302 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:45:43.302 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:45:43.303  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:45:53.134 DEBUG 89395 --- [nio-9080-exec-1] c.p.r.m.ReviewReportMapper.selectList    : ==>  Preparing: SELECT id,report_type,period_start,period_end,summary,deviation_analysis,strategy_eval,suggestions,status,file_url,version,deleted,created_at,updated_at FROM review_report WHERE deleted=false ORDER BY period_start DESC,created_at DESC
+2026-08-21 07:45:53.134 DEBUG 89395 --- [nio-9080-exec-1] c.p.r.m.ReviewReportMapper.selectList    : ==> Parameters: 
+2026-08-21 07:45:53.138 DEBUG 89395 --- [nio-9080-exec-1] c.p.r.m.ReviewReportMapper.selectList    : <==      Total: 10
+2026-08-21 07:45:53.195 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==>  Preparing: SELECT id,source_id,task_type,cron_expr,last_run_time,last_status,records_count,error_log,version,deleted,created_at,updated_at FROM collect_task WHERE deleted=false AND (cron_expr IS NOT NULL)
+2026-08-21 07:45:53.196 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==> Parameters: 
+2026-08-21 07:45:53.197 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : <==      Total: 3
+2026-08-21 07:45:58.495 DEBUG 89395 --- [nio-9080-exec-6] c.p.r.m.ReviewReportMapper.selectList    : ==>  Preparing: SELECT id,report_type,period_start,period_end,summary,deviation_analysis,strategy_eval,suggestions,status,file_url,version,deleted,created_at,updated_at FROM review_report WHERE deleted=false ORDER BY period_start DESC,created_at DESC
+2026-08-21 07:45:58.496 DEBUG 89395 --- [nio-9080-exec-6] c.p.r.m.ReviewReportMapper.selectList    : ==> Parameters: 
+2026-08-21 07:45:58.497 DEBUG 89395 --- [nio-9080-exec-6] c.p.r.m.ReviewReportMapper.selectList    : <==      Total: 10
+2026-08-21 07:46:13.304 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:46:13.304 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:46:13.305 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:46:13.305 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:46:13.306 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:46:13.306 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:46:13.307 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:46:13.307 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:46:13.308 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:46:13.309 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:46:13.309 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:46:13.309 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:46:13.310 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:46:13.310 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:46:13.311 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:46:13.311  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:46:43.312 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:46:43.312 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:46:43.313 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:46:43.314 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:46:43.314 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:46:43.315 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:46:43.316 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:46:43.316 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:46:43.317 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:46:43.318 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:46:43.318 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:46:43.319 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:46:43.320 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:46:43.320 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:46:43.320 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:46:43.320  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:46:53.198 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==>  Preparing: SELECT id,source_id,task_type,cron_expr,last_run_time,last_status,records_count,error_log,version,deleted,created_at,updated_at FROM collect_task WHERE deleted=false AND (cron_expr IS NOT NULL)
+2026-08-21 07:46:53.198 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==> Parameters: 
+2026-08-21 07:46:53.200 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : <==      Total: 3
+2026-08-21 07:47:13.322 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:47:13.322 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:47:13.323 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:47:13.323 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:47:13.323 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:47:13.324 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:47:13.325 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:47:13.325 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:47:13.325 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:47:13.326 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:47:13.326 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:47:13.327 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:47:13.327 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:47:13.327 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:47:13.328 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:47:13.328  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:47:43.329 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:47:43.329 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:47:43.330 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:47:43.331 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:47:43.331 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:47:43.331 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:47:43.332 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:47:43.332 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:47:43.333 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:47:43.333 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:47:43.334 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:47:43.334 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:47:43.334 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:47:43.335 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:47:43.335 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:47:43.335  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:47:51.501 DEBUG 89395 --- [nio-9080-exec-8] c.p.r.m.ReviewReportMapper.selectList    : ==>  Preparing: SELECT id,report_type,period_start,period_end,summary,deviation_analysis,strategy_eval,suggestions,status,file_url,version,deleted,created_at,updated_at FROM review_report WHERE deleted=false ORDER BY period_start DESC,created_at DESC
+2026-08-21 07:47:51.501 DEBUG 89395 --- [nio-9080-exec-8] c.p.r.m.ReviewReportMapper.selectList    : ==> Parameters: 
+2026-08-21 07:47:51.503 DEBUG 89395 --- [nio-9080-exec-8] c.p.r.m.ReviewReportMapper.selectList    : <==      Total: 10
+2026-08-21 07:47:52.494 DEBUG 89395 --- [nio-9080-exec-4] c.p.r.m.ReviewReportMapper.selectList    : ==>  Preparing: SELECT id,report_type,period_start,period_end,summary,deviation_analysis,strategy_eval,suggestions,status,file_url,version,deleted,created_at,updated_at FROM review_report WHERE deleted=false ORDER BY period_start DESC,created_at DESC
+2026-08-21 07:47:52.494 DEBUG 89395 --- [nio-9080-exec-4] c.p.r.m.ReviewReportMapper.selectList    : ==> Parameters: 
+2026-08-21 07:47:52.496 DEBUG 89395 --- [nio-9080-exec-4] c.p.r.m.ReviewReportMapper.selectList    : <==      Total: 10
+2026-08-21 07:47:53.203 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==>  Preparing: SELECT id,source_id,task_type,cron_expr,last_run_time,last_status,records_count,error_log,version,deleted,created_at,updated_at FROM collect_task WHERE deleted=false AND (cron_expr IS NOT NULL)
+2026-08-21 07:47:53.203 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==> Parameters: 
+2026-08-21 07:47:53.204 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : <==      Total: 3
+2026-08-21 07:48:13.336 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:48:13.336 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:48:13.337 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:48:13.338 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:48:13.338 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:48:13.338 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:48:13.339 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:48:13.339 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:48:13.339 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:48:13.340 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:48:13.340 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:48:13.341 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:48:13.341 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:48:13.341 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:48:13.342 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:48:13.342  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:48:31.468 DEBUG 89395 --- [nio-9080-exec-2] c.p.m.m.ModelRegistryMapper.selectList   : ==>  Preparing: SELECT id,model_code,model_name,model_version,framework,metrics,status,file_url,trained_at,version,deleted,created_at,updated_at FROM model_registry WHERE deleted=false ORDER BY model_code ASC,version DESC
+2026-08-21 07:48:31.468 DEBUG 89395 --- [nio-9080-exec-2] c.p.m.m.ModelRegistryMapper.selectList   : ==> Parameters: 
+2026-08-21 07:48:31.469 DEBUG 89395 --- [nio-9080-exec-7] c.p.t.m.RollingPlanMapper.selectList     : ==>  Preparing: SELECT id,trade_date,scenario,plan_type,adjustments,expected_revenue,risk_metrics,evidence_chain_ref,status,created_by,region_code,version,deleted,created_at,updated_at FROM rolling_plan WHERE deleted=false AND (region_code = ?) ORDER BY trade_date DESC
+2026-08-21 07:48:31.469 DEBUG 89395 --- [nio-9080-exec-2] c.p.m.m.ModelRegistryMapper.selectList   : <==      Total: 3
+2026-08-21 07:48:31.469 DEBUG 89395 --- [nio-9080-exec-7] c.p.t.m.RollingPlanMapper.selectList     : ==> Parameters: CN-11(String)
+2026-08-21 07:48:31.470 DEBUG 89395 --- [nio-9080-exec-7] c.p.t.m.RollingPlanMapper.selectList     : <==      Total: 0
+2026-08-21 07:48:31.470 DEBUG 89395 --- [io-9080-exec-10] c.p.m.m.MessageRecordMapper.selectCount  : ==>  Preparing: SELECT COUNT( * ) FROM message_record WHERE deleted=false AND (receiver_id = ?)
+2026-08-21 07:48:31.470 DEBUG 89395 --- [io-9080-exec-10] c.p.m.m.MessageRecordMapper.selectCount  : ==> Parameters: 1(Long)
+2026-08-21 07:48:31.472 DEBUG 89395 --- [io-9080-exec-10] c.p.m.m.MessageRecordMapper.selectCount  : <==      Total: 1
+2026-08-21 07:48:31.478 DEBUG 89395 --- [io-9080-exec-10] c.p.m.m.M.selectPage_mpCount             : ==>  Preparing: SELECT COUNT(*) AS total FROM message_record WHERE deleted = false AND (receiver_id = ? AND read_status = ?)
+2026-08-21 07:48:31.479 DEBUG 89395 --- [io-9080-exec-10] c.p.m.m.M.selectPage_mpCount             : ==> Parameters: 1(Long), unread(String)
+2026-08-21 07:48:31.480 DEBUG 89395 --- [io-9080-exec-10] c.p.m.m.M.selectPage_mpCount             : <==      Total: 1
+2026-08-21 07:48:31.480 DEBUG 89395 --- [io-9080-exec-10] c.p.m.m.MessageRecordMapper.selectPage   : ==>  Preparing: SELECT id,msg_type,receiver_id,title,content,channel,read_status,biz_ref,version,deleted,created_at,updated_at FROM message_record WHERE deleted=false AND (receiver_id = ? AND read_status = ?) ORDER BY created_at DESC LIMIT ?
+2026-08-21 07:48:31.481 DEBUG 89395 --- [io-9080-exec-10] c.p.m.m.MessageRecordMapper.selectPage   : ==> Parameters: 1(Long), unread(String), 10(Long)
+2026-08-21 07:48:31.487 DEBUG 89395 --- [io-9080-exec-10] c.p.m.m.MessageRecordMapper.selectPage   : <==      Total: 1
+2026-08-21 07:48:31.494 DEBUG 89395 --- [nio-9080-exec-1] c.p.t.mapper.ContractMapper.selectList   : ==>  Preparing: SELECT id,contract_no,variety,direction,counterparty,total_volume,curve_json,price,start_date,end_date,status,source,region_code,version,deleted,created_at,updated_at FROM contract WHERE deleted=false AND (region_code = ? AND status IN (?,?))
+2026-08-21 07:48:31.494 DEBUG 89395 --- [nio-9080-exec-1] c.p.t.mapper.ContractMapper.selectList   : ==> Parameters: CN-11(String), active(String), executing(String)
+2026-08-21 07:48:31.495 DEBUG 89395 --- [nio-9080-exec-1] c.p.t.mapper.ContractMapper.selectList   : <==      Total: 0
+2026-08-21 07:48:41.239 DEBUG 89395 --- [nio-9080-exec-3] c.p.r.m.ReviewReportMapper.selectList    : ==>  Preparing: SELECT id,report_type,period_start,period_end,summary,deviation_analysis,strategy_eval,suggestions,status,file_url,version,deleted,created_at,updated_at FROM review_report WHERE deleted=false ORDER BY period_start DESC,created_at DESC
+2026-08-21 07:48:41.239 DEBUG 89395 --- [nio-9080-exec-3] c.p.r.m.ReviewReportMapper.selectList    : ==> Parameters: 
+2026-08-21 07:48:41.241 DEBUG 89395 --- [nio-9080-exec-3] c.p.r.m.ReviewReportMapper.selectList    : <==      Total: 10
+2026-08-21 07:48:43.343 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:48:43.343 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:48:43.344 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:48:43.345 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:48:43.345 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:48:43.345 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:48:43.346 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:48:43.346 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:48:43.347 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:48:43.347 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:48:43.348 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:48:43.348 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:48:43.349 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:48:43.349 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:48:43.349 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:48:43.349  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:48:50.314 DEBUG 89395 --- [nio-9080-exec-4] c.p.r.m.ReviewReportMapper.selectById    : ==>  Preparing: SELECT id,report_type,period_start,period_end,summary,deviation_analysis,strategy_eval,suggestions,status,file_url,version,deleted,created_at,updated_at FROM review_report WHERE id=? AND deleted=false
+2026-08-21 07:48:50.314 DEBUG 89395 --- [nio-9080-exec-4] c.p.r.m.ReviewReportMapper.selectById    : ==> Parameters: 216340659890688000(Long)
+2026-08-21 07:48:50.315 DEBUG 89395 --- [nio-9080-exec-4] c.p.r.m.ReviewReportMapper.selectById    : <==      Total: 1
+2026-08-21 07:48:50.316 DEBUG 89395 --- [nio-9080-exec-4] c.p.r.m.D.selectList                     : ==>  Preparing: SELECT id,report_id,layer,item,value,impact_amount,reason,direction,version,deleted,created_at,updated_at FROM deviation_record WHERE deleted=false AND (report_id = ? AND layer = ?)
+2026-08-21 07:48:50.316 DEBUG 89395 --- [nio-9080-exec-4] c.p.r.m.D.selectList                     : ==> Parameters: 216340659890688000(Long), forecast(String)
+2026-08-21 07:48:50.317 DEBUG 89395 --- [nio-9080-exec-4] c.p.r.m.D.selectList                     : <==      Total: 2
+2026-08-21 07:48:50.319 DEBUG 89395 --- [nio-9080-exec-4] c.p.r.m.D.selectList                     : ==>  Preparing: SELECT id,report_id,layer,item,value,impact_amount,reason,direction,version,deleted,created_at,updated_at FROM deviation_record WHERE deleted=false AND (report_id = ? AND layer = ?)
+2026-08-21 07:48:50.319 DEBUG 89395 --- [nio-9080-exec-4] c.p.r.m.D.selectList                     : ==> Parameters: 216340659890688000(Long), decision(String)
+2026-08-21 07:48:50.319 DEBUG 89395 --- [nio-9080-exec-4] c.p.r.m.D.selectList                     : <==      Total: 2
+2026-08-21 07:48:50.320 DEBUG 89395 --- [nio-9080-exec-4] c.p.r.m.D.selectList                     : ==>  Preparing: SELECT id,report_id,layer,item,value,impact_amount,reason,direction,version,deleted,created_at,updated_at FROM deviation_record WHERE deleted=false AND (report_id = ? AND layer = ?)
+2026-08-21 07:48:50.321 DEBUG 89395 --- [nio-9080-exec-4] c.p.r.m.D.selectList                     : ==> Parameters: 216340659890688000(Long), execution(String)
+2026-08-21 07:48:50.321 DEBUG 89395 --- [nio-9080-exec-4] c.p.r.m.D.selectList                     : <==      Total: 2
+2026-08-21 07:48:53.206 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==>  Preparing: SELECT id,source_id,task_type,cron_expr,last_run_time,last_status,records_count,error_log,version,deleted,created_at,updated_at FROM collect_task WHERE deleted=false AND (cron_expr IS NOT NULL)
+2026-08-21 07:48:53.206 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==> Parameters: 
+2026-08-21 07:48:53.206 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : <==      Total: 3
+2026-08-21 07:49:08.818 DEBUG 89395 --- [nio-9080-exec-9] c.p.t.m.D.selectPage_mpCount             : ==>  Preparing: SELECT COUNT(*) AS total FROM declaration WHERE deleted = false AND (region_code = ?)
+2026-08-21 07:49:08.819 DEBUG 89395 --- [nio-9080-exec-9] c.p.t.m.D.selectPage_mpCount             : ==> Parameters: CN-11(String)
+2026-08-21 07:49:08.819 DEBUG 89395 --- [nio-9080-exec-9] c.p.t.m.D.selectPage_mpCount             : <==      Total: 1
+2026-08-21 07:49:08.829 DEBUG 89395 --- [nio-9080-exec-2] c.p.t.m.RollingPlanMapper.selectList     : ==>  Preparing: SELECT id,trade_date,scenario,plan_type,adjustments,expected_revenue,risk_metrics,evidence_chain_ref,status,created_by,region_code,version,deleted,created_at,updated_at FROM rolling_plan WHERE deleted=false AND (region_code = ?) ORDER BY trade_date DESC
+2026-08-21 07:49:08.829 DEBUG 89395 --- [nio-9080-exec-2] c.p.t.m.RollingPlanMapper.selectList     : ==> Parameters: CN-11(String)
+2026-08-21 07:49:08.829 DEBUG 89395 --- [nio-9080-exec-2] c.p.t.m.RollingPlanMapper.selectList     : <==      Total: 0
+2026-08-21 07:49:08.837 DEBUG 89395 --- [nio-9080-exec-7] c.p.t.mapper.ContractMapper.selectList   : ==>  Preparing: SELECT id,contract_no,variety,direction,counterparty,total_volume,curve_json,price,start_date,end_date,status,source,region_code,version,deleted,created_at,updated_at FROM contract WHERE deleted=false AND (region_code = ? AND status IN (?,?))
+2026-08-21 07:49:08.837 DEBUG 89395 --- [nio-9080-exec-7] c.p.t.mapper.ContractMapper.selectList   : ==> Parameters: CN-11(String), active(String), executing(String)
+2026-08-21 07:49:08.838 DEBUG 89395 --- [nio-9080-exec-7] c.p.t.mapper.ContractMapper.selectList   : <==      Total: 0
+2026-08-21 07:49:08.846 DEBUG 89395 --- [io-9080-exec-10] c.p.t.m.TradeResultMapper.selectList     : ==>  Preparing: SELECT id,declaration_id,trade_date,region_code,matched_volume,matched_price,matched_curve,settlement_impact,status,version,deleted,created_at,updated_at FROM trade_result WHERE deleted=false AND (trade_date = ? AND region_code = ?) ORDER BY trade_date DESC
+2026-08-21 07:49:08.846 DEBUG 89395 --- [io-9080-exec-10] c.p.t.m.TradeResultMapper.selectList     : ==> Parameters: 2026-08-21 00:00:00.0(Timestamp), CN-11(String)
+2026-08-21 07:49:08.848 DEBUG 89395 --- [io-9080-exec-10] c.p.t.m.TradeResultMapper.selectList     : <==      Total: 0
+2026-08-21 07:49:13.351 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:49:13.351 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:49:13.351 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:49:13.352 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:49:13.352 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:49:13.352 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:49:13.353 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:49:13.353 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:49:13.354 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:49:13.355 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:49:13.355 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:49:13.355 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:49:13.356 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:49:13.356 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:49:13.356 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:49:13.356  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:49:43.357 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:49:43.357 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:49:43.358 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:49:43.359 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:49:43.359 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:49:43.359 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:49:43.360 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:49:43.360 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:49:43.361 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:49:43.362 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:49:43.362 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:49:43.362 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:49:43.363 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:49:43.363 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:49:43.364 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:49:43.364  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:49:53.208 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==>  Preparing: SELECT id,source_id,task_type,cron_expr,last_run_time,last_status,records_count,error_log,version,deleted,created_at,updated_at FROM collect_task WHERE deleted=false AND (cron_expr IS NOT NULL)
+2026-08-21 07:49:53.208 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==> Parameters: 
+2026-08-21 07:49:53.208 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : <==      Total: 3
+2026-08-21 07:50:13.365 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:50:13.365 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:50:13.366 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:50:13.367 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:50:13.367 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:50:13.367 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:50:13.368 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:50:13.368 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:50:13.370 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:50:13.371 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:50:13.371 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:50:13.374 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:50:13.375 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:50:13.375 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:50:13.376 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:50:13.377  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:50:23.880 DEBUG 89395 --- [nio-9080-exec-9] c.p.t.mapper.ContractMapper.selectList   : ==>  Preparing: SELECT id,contract_no,variety,direction,counterparty,total_volume,curve_json,price,start_date,end_date,status,source,region_code,version,deleted,created_at,updated_at FROM contract WHERE deleted=false AND (region_code = ? AND status IN (?,?))
+2026-08-21 07:50:23.880 DEBUG 89395 --- [nio-9080-exec-9] c.p.t.mapper.ContractMapper.selectList   : ==> Parameters: CN-31(String), active(String), executing(String)
+2026-08-21 07:50:23.880 DEBUG 89395 --- [nio-9080-exec-9] c.p.t.mapper.ContractMapper.selectList   : <==      Total: 0
+2026-08-21 07:50:43.378 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:50:43.378 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:50:43.378 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:50:43.379 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:50:43.379 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:50:43.380 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:50:43.381 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:50:43.381 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:50:43.381 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:50:43.382 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:50:43.382 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:50:43.382 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:50:43.383 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:50:43.384 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:50:43.384 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:50:43.384  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:50:53.210 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==>  Preparing: SELECT id,source_id,task_type,cron_expr,last_run_time,last_status,records_count,error_log,version,deleted,created_at,updated_at FROM collect_task WHERE deleted=false AND (cron_expr IS NOT NULL)
+2026-08-21 07:50:53.210 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==> Parameters: 
+2026-08-21 07:50:53.210 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : <==      Total: 3
+2026-08-21 07:51:13.385 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:51:13.385 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:51:13.386 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:51:13.387 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:51:13.387 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:51:13.387 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:51:13.388 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:51:13.388 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:51:13.388 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:51:13.389 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:51:13.389 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:51:13.390 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:51:13.390 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:51:13.390 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:51:13.391 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:51:13.391  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:51:43.392 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:51:43.392 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:51:43.393 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:51:43.394 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:51:43.395 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:51:43.395 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:51:43.397 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:51:43.397 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:51:43.398 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:51:43.399 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:51:43.400 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:51:43.400 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:51:43.402 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:51:43.402 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:51:43.402 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:51:43.403  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:51:53.212 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==>  Preparing: SELECT id,source_id,task_type,cron_expr,last_run_time,last_status,records_count,error_log,version,deleted,created_at,updated_at FROM collect_task WHERE deleted=false AND (cron_expr IS NOT NULL)
+2026-08-21 07:51:53.212 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==> Parameters: 
+2026-08-21 07:51:53.213 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : <==      Total: 3
+2026-08-21 07:52:13.404 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:52:13.404 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:52:13.405 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:52:13.406 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:52:13.406 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:52:13.406 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:52:13.407 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:52:13.407 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:52:13.408 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:52:13.409 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:52:13.409 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:52:13.409 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:52:13.410 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:52:13.410 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:52:13.411 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:52:13.411  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:52:23.509 DEBUG 89395 --- [nio-9080-exec-6] c.p.r.m.ReviewReportMapper.selectList    : ==>  Preparing: SELECT id,report_type,period_start,period_end,summary,deviation_analysis,strategy_eval,suggestions,status,file_url,version,deleted,created_at,updated_at FROM review_report WHERE deleted=false ORDER BY period_start DESC,created_at DESC
+2026-08-21 07:52:23.510 DEBUG 89395 --- [nio-9080-exec-6] c.p.r.m.ReviewReportMapper.selectList    : ==> Parameters: 
+2026-08-21 07:52:23.511 DEBUG 89395 --- [nio-9080-exec-6] c.p.r.m.ReviewReportMapper.selectList    : <==      Total: 10
+2026-08-21 07:52:29.610 DEBUG 89395 --- [nio-9080-exec-1] c.p.r.m.ReviewReportMapper.selectById    : ==>  Preparing: SELECT id,report_type,period_start,period_end,summary,deviation_analysis,strategy_eval,suggestions,status,file_url,version,deleted,created_at,updated_at FROM review_report WHERE id=? AND deleted=false
+2026-08-21 07:52:29.610 DEBUG 89395 --- [nio-9080-exec-1] c.p.r.m.ReviewReportMapper.selectById    : ==> Parameters: 216340659890688000(Long)
+2026-08-21 07:52:29.611 DEBUG 89395 --- [nio-9080-exec-1] c.p.r.m.ReviewReportMapper.selectById    : <==      Total: 1
+2026-08-21 07:52:29.612 DEBUG 89395 --- [nio-9080-exec-1] c.p.r.m.D.selectList                     : ==>  Preparing: SELECT id,report_id,layer,item,value,impact_amount,reason,direction,version,deleted,created_at,updated_at FROM deviation_record WHERE deleted=false AND (report_id = ? AND layer = ?)
+2026-08-21 07:52:29.612 DEBUG 89395 --- [nio-9080-exec-1] c.p.r.m.D.selectList                     : ==> Parameters: 216340659890688000(Long), forecast(String)
+2026-08-21 07:52:29.613 DEBUG 89395 --- [nio-9080-exec-1] c.p.r.m.D.selectList                     : <==      Total: 2
+2026-08-21 07:52:29.613 DEBUG 89395 --- [nio-9080-exec-1] c.p.r.m.D.selectList                     : ==>  Preparing: SELECT id,report_id,layer,item,value,impact_amount,reason,direction,version,deleted,created_at,updated_at FROM deviation_record WHERE deleted=false AND (report_id = ? AND layer = ?)
+2026-08-21 07:52:29.613 DEBUG 89395 --- [nio-9080-exec-1] c.p.r.m.D.selectList                     : ==> Parameters: 216340659890688000(Long), decision(String)
+2026-08-21 07:52:29.614 DEBUG 89395 --- [nio-9080-exec-1] c.p.r.m.D.selectList                     : <==      Total: 2
+2026-08-21 07:52:29.614 DEBUG 89395 --- [nio-9080-exec-1] c.p.r.m.D.selectList                     : ==>  Preparing: SELECT id,report_id,layer,item,value,impact_amount,reason,direction,version,deleted,created_at,updated_at FROM deviation_record WHERE deleted=false AND (report_id = ? AND layer = ?)
+2026-08-21 07:52:29.615 DEBUG 89395 --- [nio-9080-exec-1] c.p.r.m.D.selectList                     : ==> Parameters: 216340659890688000(Long), execution(String)
+2026-08-21 07:52:29.615 DEBUG 89395 --- [nio-9080-exec-1] c.p.r.m.D.selectList                     : <==      Total: 2
+2026-08-21 07:52:43.412 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:52:43.412 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:52:43.412 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:52:43.414 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:52:43.414 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:52:43.414 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:52:43.415 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:52:43.415 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:52:43.415 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:52:43.416 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:52:43.416 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:52:43.417 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:52:43.418 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:52:43.418 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:52:43.418 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:52:43.418  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:52:53.214 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==>  Preparing: SELECT id,source_id,task_type,cron_expr,last_run_time,last_status,records_count,error_log,version,deleted,created_at,updated_at FROM collect_task WHERE deleted=false AND (cron_expr IS NOT NULL)
+2026-08-21 07:52:53.214 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : ==> Parameters: 
+2026-08-21 07:52:53.214 DEBUG 89395 --- [   scheduling-1] c.p.d.m.CollectTaskMapper.selectList     : <==      Total: 3
+2026-08-21 07:53:13.419 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==>  Preparing: SELECT id,rule_name,tags_filter,importance_filter,target_roles,channel,silent_period,status,version,deleted,created_at,updated_at FROM intel_push_rule WHERE deleted=false AND (status = ?)
+2026-08-21 07:53:13.420 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : ==> Parameters: active(String)
+2026-08-21 07:53:13.420 DEBUG 89395 --- [   scheduling-1] c.p.i.m.IntelPushRuleMapper.selectList   : <==      Total: 4
+2026-08-21 07:53:13.421 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:53:13.421 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:53:13.422 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:53:13.423 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:53:13.423 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), medium(String)
+2026-08-21 07:53:13.423 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 6
+2026-08-21 07:53:13.424 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:53:13.424 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:53:13.424 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:53:13.425 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==>  Preparing: SELECT id,source_code,title,content,region_code,normalized_tags,importance,published_at,push_status,version,deleted,created_at,updated_at FROM intel_news WHERE deleted=false AND (push_status = ? AND importance = ?)
+2026-08-21 07:53:13.425 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : ==> Parameters: none(String), high(String)
+2026-08-21 07:53:13.426 DEBUG 89395 --- [   scheduling-1] c.p.i.mapper.IntelNewsMapper.selectList  : <==      Total: 0
+2026-08-21 07:53:13.426  INFO 89395 --- [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条
+2026-08-21 07:53:23.888  INFO 89395 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-08-21 07:53:23.889  INFO 89395 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

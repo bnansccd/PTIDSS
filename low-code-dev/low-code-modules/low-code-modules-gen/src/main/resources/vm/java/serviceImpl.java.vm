@@ -1,0 +1,221 @@
+package ${packageName}.service.impl;
+
+import java.util.List;
+import com.mybatisflex.core.paginate.Page;
+import com.troy.common.core.domain.ResultVO;
+import com.troy.common.core.utils.IterateUtils;
+import com.troy.common.core.utils.PageUtils;
+import com.troy.common.core.utils.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
+import org.springframework.transaction.annotation.Transactional;
+import ${packageName}.dao.${ClassName}Dao;
+#if($table.sub)
+import ${packageName}.service.${subClassName}Service;
+import ${packageName}.domain.VO.${subClassName}VO;
+#end
+import ${packageName}.entity.${ClassName};
+import ${packageName}.service.${ClassName}Service;
+import ${packageName}.domain.DTO.${ClassName}SearchDTO;
+import ${packageName}.domain.VO.${ClassName}VO;
+import ${packageName}.domain.DTO.${ClassName}DTO;
+import com.troy.common.core.exception.ServiceException;
+
+#set($flag=false)
+#foreach ($column in $columns)
+    #if($column.query)
+        #set($flag=true)
+    #end
+#end
+
+/**
+ * @Auther: ${author}
+ * @Date: ${datetime}
+ * @Description: ${functionName}Service业务层处理
+ * @Version: 1.0.0
+ */
+@Service
+public class ${ClassName}ServiceImpl implements ${ClassName}Service {
+
+    private static final Logger LOGGER= LoggerFactory.getLogger(${ClassName}ServiceImpl.class);
+
+    @Autowired
+    private ${ClassName}Dao ${className}Dao;
+
+#if($table.sub)
+    @Autowired
+    private ${subClassName}Service ${subclassName}Service;
+#end
+
+    @Override
+    public ${ClassName}VO select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField}) {
+        ${ClassName} ${className}=this.${className}Dao.getById(${pkColumn.javaField});
+        ${ClassName}VO vo=null;
+        if (StringUtils.isNotNull(${className})){
+            vo=new ${ClassName}VO();
+            BeanUtils.copyProperties(${className},vo);
+#if($table.sub)
+            List<${subClassName}VO> ${subclassName}VOs = this.${subclassName}Service.findBy${subTableFkClassName}(${pkColumn.javaField});
+            vo.set${subClassName}VOs(${subclassName}VOs);
+#end
+        }
+        return vo;
+    }
+
+
+#if($table.crud || $table.sub)
+    @Autowired
+    public PageVO<${ClassName}VO> select${ClassName}Page(${ClassName}SearchDTO dto){
+        Page<${ClassName}> page = this. ${className}Dao.findPage(dto);
+        PageVO<${ClassName}VO> pageVO = PageUtils.convertPageVo(page,${ClassName}VO.class);
+#if($table.sub)
+        List<${ClassName}VO> vos = pageVO.getRecords();
+        if (StringUtils.isNotEmpty(vos)){
+            List<${pkColumn.javaType}> ${pkColumn.javaField}s=vos.stream().map(${ClassName}VO::get${pkColumn.capJavaField}).distinct().collect(Collectors.toList());
+            List<${subClassName}VO> ${subclassName}VOs = this.${subclassName}Service.findBy${subTableFkClassName}s(${pkColumn.javaField}s);
+            if (StringUtils.isNotEmpty(${subclassName}VOs)){
+                for (${ClassName}VO vo : vos){
+                    List<${subClassName}VO> ${subclassName}VOList = ${subclassName}VOs.stream()
+                            .filter(${subclassName}Stream -> vo.get${pkColumn.capJavaField}().equals(${subclassName}Stream.get${subTableFkClassName}()) )
+                            .collect(Collectors.toList());
+                    vo.set${subClassName}VOs(${subclassName}VOList);
+                }
+            }
+        }
+#end
+        return pageVO;
+    }
+#elseif($table.tree)
+    @Autowired
+    public List<${ClassName}VO> select${ClassName}List(${ClassName}SearchDTO dto){
+        List<${ClassName}VO> vos=new ArrayList<>();
+#if($flag)
+    List<${ClassName}> ${className}s=this.${className}Dao.list(
+                dto,
+                new QueryWrapper<ClassName>()
+                .lambda()
+#foreach($column in $columns)
+#if($column.query)
+#if($column.javaField.length() > 2 && $column.javaField.substring(1,2).matches("[A-Z]"))
+#set($AttrName=$column.javaField)
+#else
+#set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
+#end
+#if($column.queryType == 'EQ')
+            .eq(StringUtils.isNotBlank(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#elseif($column.queryType == 'NE')
+            .ne(StringUtils.isNotBlank(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#elseif($column.queryType == 'GT')
+            .gt(StringUtils.isNotBlank(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#elseif($column.queryType == 'GE')
+            .ge(StringUtils.isNotBlank(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#elseif($column.queryType == 'LT')
+            .lt(StringUtils.isNotBlank(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#elseif($column.queryType == 'LE')
+            .le(StringUtils.isNotBlank(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#elseif($column.queryType == 'LIKE')
+            .like(StringUtils.isNotBlank(dto.get${AttrName}()),${ClassName}::get${AttrName},dto.get${AttrName}())
+#elseif($column.queryType == 'BETWEEN' && $column.javaType == 'Date')
+            .between(StringUtils.isNotNull(dto.getStartTime())&&StringUtils.isNotNull(dto.getEndTime()),${ClassName}::get${AttrName},dto.getStartTime(),dto.getEndTime())
+#end
+#end
+#end
+
+    );
+#else
+        List<${ClassName}> ${className}s=this.${className}Dao.list(dto);
+#end
+        if (StringUtils.isNotEmpty(${className}s)){
+            ${ClassName}VO vo=null;
+            for (${ClassName}  ${className} : ${className}s){
+                vo = new ${ClassName}VO();
+                BeanUtils.copyProperties(${className},vo);
+                vos.add(vo);
+            }
+        }
+        vos=IterateUtils.getList(vos);
+        return vos;
+    }
+#end
+
+    @Override
+    public List<${ClassName}VO> export${ClassName}(${ClassName}SearchDTO dto){
+        return new ArrayList<>();
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public ResultVO insert${ClassName}(${ClassName}DTO dto) {
+        ${ClassName} ${className}=new ${ClassName}();
+        BeanUtils.copyProperties(dto, ${className});
+        if (this.${className}Dao.save(${className})){
+            return ResultVO.success();
+        }
+        return ResultVO.fail();
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public ResultVO update${ClassName}(${pkColumn.javaType} ${pkColumn.javaField},${ClassName}DTO dto) {
+        ${ClassName} ${className} = this.${className}Dao.getById(${pkColumn.javaField});
+        if (StringUtils.isNull(${className})){
+            throw new ServiceException(ResultEnum.getMsg(ResultEnum.NOT_FOUND,"$table.tableComment"));
+        }
+        BeanUtils.copyProperties(dto,${className});
+        if (this.${className}Dao.updateById(${className})){
+            return ResultVO.success();
+        }
+        return ResultVO.fail();
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public ResultVO delete${ClassName}By${pkColumn.capJavaField}s(List<${pkColumn.javaType}> ${pkColumn.javaField}s) {
+        this.${className}Dao.removeBatchByIds(${pkColumn.javaField}s);
+        return ResultVO.success();
+    }
+
+#if($table.main)
+#foreach($mainTable in $main)
+    @Override
+    public List<${ClassName}VO> findBy${mainTable.subTableFkClassName}(${mainTable.pkColumn.javaType} ${mainTable.subTableFkclassName}){
+        List<${ClassName}VO> vos = new ArrayList<>();
+        List<${ClassName}> ${className}s = this.${className}Dao.findBy${mainTable.subTableFkClassName}(${mainTable.subTableFkclassName});
+        if (StringUtils.isNotEmpty(${className}s)){
+            ${ClassName}VO vo=null;
+            for (${ClassName} ${className} : ${className}s){
+                vo=new ${ClassName}VO();
+                BeanUtils.copyProperties(${className},vo);
+                vos.add(vo);
+            }
+        }
+        return vos;
+    }
+
+    @Override
+    public List<${ClassName}VO> findBy${mainTable.subTableFkClassName}s(List<${mainTable.pkColumn.javaType}> ${mainTable.subTableFkclassName}s){
+        List<${ClassName}VO> vos = new ArrayList<>();
+        List<${ClassName}> ${className}s = this.${className}Dao.findBy${mainTable.subTableFkClassName}s(${mainTable.subTableFkclassName}s);
+        if (StringUtils.isNotEmpty(${className}s)){
+                ${ClassName}VO vo=null;
+            for (${ClassName} ${className} : ${className}s){
+                vo=new ${ClassName}VO();
+                BeanUtils.copyProperties(${className},vo);
+                vos.add(vo);
+            }
+        }
+        return vos;
+    }
+#end
+#end
+}

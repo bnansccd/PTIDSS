@@ -1,0 +1,30 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "env.d.ts",
+    "src/main.ts",
+    "src/App.vue",
+    "src/env/**/*",
+    "src/types/**/*",
+    "src/api/**/*",
+    "src/components/**/*",
+    "src/layout/**/*",
+    "src/pages/ptidss/**/*",
+    "src/pages/global.d.ts",
+    "src/router/index.ts",
+    "src/router/routes.ts",
+    "src/router/modules/ptidss_system.ts",
+    "src/stores/**/*",
+    "src/tools/**/*",
+    "src/views/login/HomeView.vue",
+    "src/views/error/**/*"
+  ],
+  "compilerOptions": {
+    "noEmit": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"]
+  },
+  "exclude": [
+    "src/stores/modules/departTree.ts",
+    "src/stores/modules/dataDict.ts"
+  ]
+}

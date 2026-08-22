@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>行情看板 · 电力交易智能辅助决策系统</title>
+<link rel="stylesheet" href="assets/wireframe.css">
+</head>
+<body>
+<!-- 行情看板（对应 4.7：行情域；现货/中长期/供需/热力图） -->
+<div class="wf-topbar">
+  <div class="wf-logo">⚡ 电力交易智能辅助决策 <span class="wf-logo-en">PTIDSS</span></div>
+  <div class="wf-nav">
+    <a href="dashboard.html">工作台</a>
+    <a class="active" href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <a href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <a href="policy-detail.html">政策研判</a>
+  </div>
+  <div class="wf-user"><span class="wf-avatar">交</span> 交易员·张工 <span class="wf-badge b-primary">P0</span></div>
+</div>
+
+<div class="wf-layout">
+  <div class="wf-sidebar">
+    <div class="wf-group">总览</div>
+    <a href="dashboard.html">首页工作台</a>
+    <div class="wf-group">行情与预测</div>
+    <a class="active" href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <div class="wf-group">决策与交易</div>
+    <a href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <div class="wf-group">结算与复盘</div>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <div class="wf-group">政策与系统</div>
+    <a href="policy-detail.html">政策研判</a>
+    <a href="#">系统管理</a>
+  </div>
+
+  <div class="wf-main">
+    <div class="wf-page-head">
+      <div>
+        <h1>行情看板</h1>
+        <div class="wf-sub">数据来源：省交易中心 / 营销平台｜最近同步 08-08 09:30｜质量：完整率 100%</div>
+      </div>
+      <div class="wf-actions">
+        <a class="wf-btn" href="#">手动刷新</a>
+        <a class="wf-btn primary" href="#">订阅预警</a>
+      </div>
+    </div>
+
+    <div class="wf-filter">
+      <select class="wf-select" style="max-width:150px"><option>省内现货</option><option>省间现货</option></select>
+      <select class="wf-select" style="max-width:130px"><option>日前</option><option>实时</option></select>
+      <input class="wf-input" type="date" value="2026-08-08">
+      <input class="wf-input" type="date" value="2026-08-14">
+      <span class="wf-sm wf-muted">支持区间对比（如近 7 日 / 同比上月）</span>
+      <button class="wf-btn primary wf-right" type="button">查询</button>
+    </div>
+
+    <div class="wf-grid wf-grid-4 mb">
+      <div class="wf-card"><div class="wf-stat"><span class="k">区间均价</span><span class="v">398.4</span><span class="d down">↓ 环比 -4.6%</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">最高价</span><span class="v">748.0</span><span class="d">08-10 19:30</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">最低价</span><span class="v">98.5</span><span class="d">08-11 04:15</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">峰谷价差</span><span class="v">649.5</span><span class="d up">↑ 环比 +8.1%</span></div></div>
+    </div>
+
+    <div class="wf-grid wf-grid-2">
+      <div class="wf-card">
+        <div class="wf-card-title">现货价格曲线（日前 vs 实时）</div>
+        <div class="wf-placeholder wf-ph-chart">ECharts：双线折线 + 均价参考线<br><small>峰值/谷值/峰谷价差标注</small></div>
+      </div>
+      <div class="wf-card">
+        <div class="wf-card-title">供需形势（负荷 / 可用能力 / 新能源）</div>
+        <div class="wf-placeholder wf-ph-chart">ECharts：多轴面积图<br><small>供需比预警阈值线</small></div>
+      </div>
+      <div class="wf-card">
+        <div class="wf-card-title">量价热力图（日期 × 96 点）</div>
+        <div class="wf-placeholder wf-ph-chart">ECharts：热力图（价格高低着色）<br><small>支持点击时段下钻明细</small></div>
+      </div>
+      <div class="wf-card">
+        <div class="wf-card-title">中长期成交行情</div>
+        <div class="wf-placeholder wf-ph-chart">ECharts：月度/滚动品种成交均价柱状图<br><small>与现货价格联动参考</small></div>
+        <table class="wf-table mt">
+          <tr><th>品种</th><th>成交均价</th><th>成交量</th><th>趋势</th></tr>
+          <tr><td>月度</td><td class="num">356.2</td><td class="num">48,200 MWh</td><td>→</td></tr>
+          <tr><td>滚动</td><td class="num">381.7</td><td class="num">12,600 MWh</td><td>↑</td></tr>
+          <tr><td>转让</td><td class="num">365.0</td><td class="num">3,100 MWh</td><td>↓</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="wf-card">
+      <div class="wf-card-title">近 7 日分时行情摘要</div>
+      <table class="wf-table">
+        <tr><th>日期</th><th>均价</th><th>峰值时段</th><th>峰谷价差</th><th>负荷（万 MW）</th><th>新能源渗透率</th><th>备注</th></tr>
+        <tr><td>08-08</td><td class="num">398.4</td><td>18:15</td><td class="num">491.7</td><td class="num">7.85</td><td class="num">32.4%</td><td class="wf-sm">午间低电价</td></tr>
+        <tr><td>08-07</td><td class="num">421.1</td><td>19:00</td><td class="num">512.3</td><td class="num">8.02</td><td class="num">28.1%</td><td class="wf-sm">—</td></tr>
+        <tr><td>08-06</td><td class="num">416.8</td><td>18:45</td><td class="num">503.9</td><td class="num">7.96</td><td class="num">29.6%</td><td class="wf-sm">—</td></tr>
+        <tr><td>08-05</td><td class="num">409.2</td><td>18:30</td><td class="num">489.2</td><td class="num">7.88</td><td class="num">30.2%</td><td class="wf-sm">—</td></tr>
+      </table>
+    </div>
+
+    <div class="wf-footer">线框原型 V1.0 · 对应 4.7 页面清单：行情看板 / 行情详情 / 供需分析</div>
+  </div>
+</div>
+</body>
+</html>

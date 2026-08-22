@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh" style="font-size: 5.20833333333vw">
+    <head>
+        <script>
+            window.sessionStorage.setItem("Globalpagesize", 5);
+        </script>
+        <meta charset="UTF-8" />
+        <link rel="icon" href="/guangan.ico" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title></title>
+        <style>
+            @font-face {
+                font-family: "SourceHanSansCN";
+                src: url("/fonts/SourceHanSansCN-Normal.otf") format("opentype"),
+                    url("/fonts/SourceHanSansCN-Normal.otf") format("opentype");
+            }
+            html {
+                font-family: SourceHanSansCN;
+                cursor: default;
+            }
+            * {
+                padding: 0;
+                margin: 0;
+                border: 0 solid transparent;
+            }
+            html,
+            body {
+                height: 100%;
+                overflow: hidden;
+            }
+            #app {
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app"></div>
+        <script type="module" src="/src/main.ts"></script>
+        <script>
+            // const ips = ['https://175.154.66.23:6015', 'https://jt.gazhcs.com', 'https://gajt.gazhcs.com:11433']
+            // const title = ['宜宾宜行', '广安数字交通', '广安数字交通']
+            // const index = ips.indexOf(location.origin)
+            // document.title = index == -1 ? '广安数字交通' : title[index]
+        </script>
+    </body>
+</html>

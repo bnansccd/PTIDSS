@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>策略回测 · 电力交易智能辅助决策系统</title>
+<link rel="stylesheet" href="assets/wireframe.css">
+</head>
+<body>
+<!-- 策略回测（对应 4.7：决策域；回测任务/样本库/收益评估） -->
+<div class="wf-topbar">
+  <div class="wf-logo">⚡ 电力交易智能辅助决策 <span class="wf-logo-en">PTIDSS</span></div>
+  <div class="wf-nav">
+    <a href="dashboard.html">工作台</a>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <a href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <a href="policy-detail.html">政策研判</a>
+  </div>
+  <div class="wf-user"><span class="wf-avatar">回</span> 策略分析师·李工 <span class="wf-badge b-primary">P0</span></div>
+</div>
+
+<div class="wf-layout">
+  <div class="wf-sidebar">
+    <div class="wf-group">总览</div>
+    <a href="dashboard.html">首页工作台</a>
+    <div class="wf-group">行情与预测</div>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <div class="wf-group">决策与交易</div>
+    <a href="workspace.html">决策工作台</a>
+    <a href="optimize-joint.html">联合优化</a>
+    <a class="active" href="backtest.html">策略回测</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <div class="wf-group">结算与复盘</div>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <div class="wf-group">政策与系统</div>
+    <a href="policy-detail.html">政策研判</a>
+    <a href="intel-center.html">情报中心</a>
+    <a href="admin-system.html">系统管理</a>
+  </div>
+
+  <div class="wf-main">
+    <div class="wf-page-head">
+      <div>
+        <h1>策略回测</h1>
+        <div class="wf-sub">历史 3 年数据回放｜策略库 v2.3｜极端事件样本库（RE-05）可注入</div>
+      </div>
+      <div class="wf-actions">
+        <a class="wf-btn primary" href="#">新建回测</a>
+        <a class="wf-btn" href="#">对比策略</a>
+      </div>
+    </div>
+
+    <div class="wf-grid wf-grid-2-1 mb">
+      <div class="wf-card">
+        <div class="wf-card-title">回测参数配置</div>
+        <div class="wf-grid wf-grid-2">
+          <div class="wf-form"><label>回测区间</label><input class="wf-input" type="date" value="2025-08-01"></div>
+          <div class="wf-form"><label>至</label><input class="wf-input" type="date" value="2026-07-31"></div>
+          <div class="wf-form"><label>策略</label><select class="wf-select"><option>基线策略 v2.3（CVaR 约束）</option><option>激进策略 v1.1</option><option>保守策略 v1.0</option></select></div>
+          <div class="wf-form"><label>市场</label><select class="wf-select"><option>省内现货（日前+实时）</option><option>省间现货</option><option>中长期滚动</option></select></div>
+          <div class="wf-form"><label>初始持仓</label><input class="wf-input" value="60%（月度+滚动）"></div>
+          <div class="wf-form"><label>样本库注入</label><select class="wf-select"><option>不注入</option><option>极端事件样本（RE-05）</option></select></div>
+        </div>
+        <div class="mt"><span class="wf-sm wf-muted">约束开关：</span>
+          <label class="wf-sm"><input type="checkbox" checked> CVaR(95%) ≤ -200,000</label>
+          <label class="wf-sm"><input type="checkbox" checked> 偏差考核计入</label>
+          <label class="wf-sm"><input type="checkbox" checked> 申报段数 ≤10</label>
+        </div>
+        <div class="mt"><button class="wf-btn primary" type="button">开始回测</button> <button class="wf-btn" type="button">保存为模板</button></div>
+      </div>
+      <div class="wf-card">
+        <div class="wf-card-title">回测任务列表</div>
+        <table class="wf-table">
+          <tr><th>任务</th><th>状态</th><th>区间</th></tr>
+          <tr><td>BT-068 基线 v2.3</td><td><span class="wf-badge b-ok">完成</span></td><td class="wf-sm">2025-08~2026-07</td></tr>
+          <tr><td>BT-067 激进 v1.1</td><td><span class="wf-badge b-warn">运行中</span></td><td class="wf-sm">2025-08~2026-07</td></tr>
+          <tr><td>BT-066 基线 v2.2</td><td><span class="wf-badge b-ok">完成</span></td><td class="wf-sm">2024-08~2025-07</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="wf-grid wf-grid-4 mb">
+      <div class="wf-card"><div class="wf-stat"><span class="k">累计收益（回测区间）</span><span class="v">+1,284万</span><span class="d up">较基线策略 +9.6%</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">最大回撤</span><span class="v">-8.2%</span><span class="d ok">低于阈值 10%</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">夏普比率</span><span class="v">1.86</span><span class="d up">优于基准 1.2</span></div></div>
+      <div class="wf-card"><div class="wf-stat"><span class="k">申报命中率</span><span class="v">87.3%</span><span class="d">成交价 ≥ 申报价</span></div></div>
+    </div>
+
+    <div class="wf-grid wf-grid-2">
+      <div class="wf-card">
+        <div class="wf-card-title">收益曲线：回测 vs 实际基线</div>
+        <div class="wf-placeholder wf-ph-chart">ECharts：双折线（累计收益）<br><small>分月标注 现货/中长期/偏差考核贡献</small></div>
+      </div>
+      <div class="wf-card">
+        <div class="wf-card-title">分月收益构成</div>
+        <table class="wf-table">
+          <tr><th>月份</th><th>现货</th><th>中长期</th><th>偏差考核</th><th>合计（万元）</th></tr>
+          <tr><td>2026-07</td><td class="num">+86.4</td><td class="num">+32.1</td><td class="num warn">-4.8</td><td class="num">+113.7</td></tr>
+          <tr><td>2026-06</td><td class="num">+72.9</td><td class="num">+28.6</td><td class="num">-1.2</td><td class="num">+100.3</td></tr>
+          <tr><td>2026-05</td><td class="num">+58.2</td><td class="num">+30.4</td><td class="num">-2.6</td><td class="num">+86.0</td></tr>
+        </table>
+      </div>
+      <div class="wf-card">
+        <div class="wf-card-title">极端事件样本库（RE-05）</div>
+        <table class="wf-table">
+          <tr><th>事件</th><th>时间</th><th>影响</th><th>标注</th></tr>
+          <tr><td>寒潮+风电受阻</td><td>2026-01</td><td class="wf-sm">电价峰值 +42%</td><td><span class="wf-badge b-warn">已标注</span></td></tr>
+          <tr><td>台风过境</td><td>2025-09</td><td class="wf-sm">负荷骤降 12%</td><td><span class="wf-badge b-ok">已注入回测</span></td></tr>
+          <tr><td>高温连晴</td><td>2025-07</td><td class="wf-sm">负荷峰值创新高</td><td><span class="wf-badge b-warn">已标注</span></td></tr>
+        </table>
+      </div>
+      <div class="wf-card">
+        <div class="wf-card-title">回测结论摘要（可回流复盘）</div>
+        <div class="wf-sm">
+          <div class="wf-mt">· 策略 v2.3 在高温/寒潮样本下收益波动可控，回撤 8.2% < 阈值 10%；</div>
+          <div>· 偏差考核费用占比 3.1%，较 v2.2 下降 0.8pct（CVaR 约束生效）；</div>
+          <div>· 结论可一键写入复盘报告（FR-RS-03）并推送管理层摘要（RE-07）。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wf-footer">线框原型 V1.1 · 对应 4.7 页面清单：策略回测 / 样本库（RE-05）/ 收益评估</div>
+  </div>
+</div>
+</body>
+</html>

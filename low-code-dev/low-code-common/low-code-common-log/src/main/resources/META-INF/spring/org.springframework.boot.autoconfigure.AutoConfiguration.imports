@@ -1,0 +1,2 @@
+com.troy.common.log.service.AsyncLogService
+com.troy.common.log.aspect.LogAspect

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>政策研判 · 电力交易智能辅助决策系统</title>
+<link rel="stylesheet" href="assets/wireframe.css">
+</head>
+<body>
+<!-- 政策研判（对应 4.7：政策域；原文/解析条款双屏 + 规则联动 + 简报） -->
+<div class="wf-topbar">
+  <div class="wf-logo">⚡ 电力交易智能辅助决策 <span class="wf-logo-en">PTIDSS</span></div>
+  <div class="wf-nav">
+    <a href="dashboard.html">工作台</a>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <a href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <a class="active" href="policy-detail.html">政策研判</a>
+  </div>
+  <div class="wf-user"><span class="wf-avatar">政</span> 政策分析员·赵工 <span class="wf-badge b-primary">P0</span></div>
+</div>
+
+<div class="wf-layout">
+  <div class="wf-sidebar">
+    <div class="wf-group">总览</div>
+    <a href="dashboard.html">首页工作台</a>
+    <div class="wf-group">行情与预测</div>
+    <a href="market-dashboard.html">行情看板</a>
+    <a href="forecast-overview.html">预测总览</a>
+    <div class="wf-group">决策与交易</div>
+    <a href="workspace.html">决策工作台</a>
+    <a href="trade-declarations.html">交易申报</a>
+    <div class="wf-group">结算与复盘</div>
+    <a href="settlement-reconcile.html">结算核对</a>
+    <a href="review-dashboard.html">复盘分析</a>
+    <div class="wf-group">政策与系统</div>
+    <a class="active" href="policy-detail.html">政策研判</a>
+    <a href="#">系统管理</a>
+  </div>
+
+  <div class="wf-main">
+    <div class="wf-page-head">
+      <div>
+        <h1>政策研判</h1>
+        <div class="wf-sub">当前文档：《关于 8 月电力现货市场结算有关事项的通知》（2026-07-28 发布）｜LLM 解析完成 08-08 08:45</div>
+      </div>
+      <div class="wf-actions">
+        <a class="wf-btn" href="#">上传新政策</a>
+        <a class="wf-btn primary" href="#">生成研判简报</a>
+      </div>
+    </div>
+
+    <div class="wf-filter">
+      <select class="wf-select" style="max-width:160px"><option>省内政策</option><option>区域政策</option><option>国家政策</option></select>
+      <input class="wf-input" type="text" placeholder="标题/关键词搜索" style="max-width:220px">
+      <select class="wf-select" style="max-width:140px"><option>解析状态：全部</option><option>已确认</option><option>待确认</option></select>
+      <button class="wf-btn primary" type="button">查询</button>
+    </div>
+
+    <div class="wf-grid wf-grid-2">
+      <!-- 左：政策原文 -->
+      <div class="wf-card">
+        <div class="wf-card-title">政策原文（PDF 视图）</div>
+        <div class="wf-placeholder wf-ph-chart" style="min-height:420px">
+          PDF 原文预览（MinIO 存储）<br>
+          <small>
+            一、现货结算口径调整：偏差考核费率由 0.8 调整为 1.2 元/MWh……<br>
+            二、日前申报段数上限由 8 段调整为 10 段……<br>
+            三、中长期持仓比例上限由 75% 调整为 80%……<br>
+            四、新增新能源场站参与实时市场考核豁免条款……
+          </small>
+        </div>
+        <div class="wf-row mt">
+          <span class="wf-tag">发布机构：省能源局</span><span class="wf-tag">生效日期：2026-08-01</span><span class="wf-tag b-warn">状态：已发布</span>
+        </div>
+      </div>
+
+      <!-- 右：解析条款 -->
+      <div class="wf-card">
+        <div class="wf-card-title">LLM 解析条款（结构化） <span class="wf-badge b-ok">平均置信度 0.91</span></div>
+        <table class="wf-table">
+          <tr><th>条款</th><th>类型</th><th>解析结果</th><th>置信度</th><th>确认</th></tr>
+          <tr><td>第一条</td><td><span class="wf-tag">assessment</span></td><td class="wf-sm">偏差考核费率 0.8→1.2 元/MWh</td><td class="num">0.94</td><td><span class="wf-badge b-ok">已确认</span></td></tr>
+          <tr><td>第二条</td><td><span class="wf-tag">trade_rule</span></td><td class="wf-sm">日前申报段数上限 8→10 段</td><td class="num">0.92</td><td><span class="wf-badge b-ok">已确认</span></td></tr>
+          <tr><td>第三条</td><td><span class="wf-tag">trade_rule</span></td><td class="wf-sm">中长期持仓比例上限 75%→80%</td><td class="num">0.90</td><td><span class="wf-badge b-ok">已确认</span></td></tr>
+          <tr><td>第四条</td><td><span class="wf-tag">settlement</span></td><td class="wf-sm">新能源实时市场考核豁免</td><td class="num">0.86</td><td><span class="wf-badge b-warn">待人工确认</span></td></tr>
+        </table>
+        <div class="wf-row mt">
+          <button class="wf-btn" type="button">重新解析</button>
+          <button class="wf-btn primary" type="button">批量确认</button>
+        </div>
+      </div>
+
+      <!-- 左：规则联动 -->
+      <div class="wf-card">
+        <div class="wf-card-title">规则联动（生成规则候选）</div>
+        <table class="wf-table">
+          <tr><th>规则编码</th><th>规则名称</th><th>参数（新/旧）</th><th>生效</th><th>状态</th></tr>
+          <tr><td>RUL-ASS-014</td><td>偏差考核费率</td><td class="wf-sm">1.2 / 0.8 元/MWh</td><td>08-01</td><td><span class="wf-badge b-warn">待生效</span></td></tr>
+          <tr><td>RUL-TRD-021</td><td>日前申报段数上限</td><td class="wf-sm">10 / 8 段</td><td>08-01</td><td><span class="wf-badge b-warn">待生效</span></td></tr>
+          <tr><td>RUL-TRD-022</td><td>中长期持仓比例上限</td><td class="wf-sm">80% / 75%</td><td>08-01</td><td><span class="wf-badge b-warn">待生效</span></td></tr>
+        </table>
+        <div class="wf-sm wf-muted mt">规则生效后自动接入：申报合规预检 / 结算核对 / 决策约束｜全量规则版本化留痕</div>
+      </div>
+
+      <!-- 右：研判摘要 -->
+      <div class="wf-card">
+        <div class="wf-card-title">影响研判摘要</div>
+        <table class="wf-table">
+          <tr><td>政策变化点</td><td class="wf-sm">偏差考核费率上调 50% + 申报段数放宽 + 持仓上限放宽</td></tr>
+          <tr><td>影响环节</td><td class="wf-sm">结算（考核）｜申报（策略空间）｜决策（持仓约束）</td></tr>
+          <tr><td>影响程度</td><td><span class="wf-badge b-danger">高</span></td></tr>
+          <tr><td>量化测算</td><td class="wf-sm">按 7 月电量测算：月度偏差考核费用预计 +3.2 万元；段数放宽预计可提升申报收益空间 +1.8%</td></tr>
+          <tr><td>分析师</td><td class="wf-sm">赵工（待主管确认）</td></tr>
+        </table>
+        <div class="wf-row mt">
+          <button class="wf-btn primary" type="button">确认研判</button>
+          <button class="wf-btn" type="button">生成简报（PDF/Word）</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="wf-footer">线框原型 V1.0 · 对应 4.7 页面清单：政策列表 / 政策详情（双屏）/ 研判简报</div>
+  </div>
+</div>
+</body>
+</html>
