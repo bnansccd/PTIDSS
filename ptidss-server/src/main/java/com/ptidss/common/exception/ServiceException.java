@@ -12,7 +12,7 @@ public class ServiceException extends RuntimeException {
 
     public ServiceException(String message) {
         super(message);
-        this.code = 500;
+        this.code = 400;
     }
 
     public ServiceException(int code, String message) {
@@ -22,7 +22,7 @@ public class ServiceException extends RuntimeException {
 
     public ServiceException(String message, Throwable cause) {
         super(message, cause);
-        this.code = 500;
+        this.code = 400;
     }
 
     public int getCode() {

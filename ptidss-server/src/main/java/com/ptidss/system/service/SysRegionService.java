@@ -23,7 +23,11 @@ public class SysRegionService {
 
     public List<SysRegion> list(String keyword, String status) {
         LambdaQueryWrapper<SysRegion> qw = new LambdaQueryWrapper<>();
-        qw.like(StrUtils.isNotBlank(keyword), SysRegion::getRegionName, keyword)
+        // 关键字：区域编码或名称（对齐权限列表的编码/名称双匹配）
+        qw.and(StrUtils.isNotBlank(keyword), w -> w
+                        .like(SysRegion::getRegionCode, keyword)
+                        .or()
+                        .like(SysRegion::getRegionName, keyword))
                 .eq(StrUtils.isNotBlank(status), SysRegion::getStatus, status)
                 .orderByAsc(SysRegion::getLaunchOrder);
         return sysRegionMapper.selectList(qw);
@@ -39,11 +43,18 @@ public class SysRegionService {
 
     public void create(SysRegion region) {
         checkUnique(region);
+        // DDL 10.5：status CHECK (enabled/disabled/pending)，空值兜底启用
+        if (StrUtils.isBlank(region.getStatus())) {
+            region.setStatus("enabled");
+        }
         sysRegionMapper.insert(region);
     }
 
     public void update(SysRegion region) {
         checkUnique(region);
+        if (StrUtils.isBlank(region.getStatus())) {
+            region.setStatus("enabled");
+        }
         sysRegionMapper.updateById(region);
     }
 

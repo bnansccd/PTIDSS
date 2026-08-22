@@ -283,17 +283,18 @@
         </div>
         <table>
           <thead>
-            <tr><th>区域编码</th><th>区域名称</th><th>市场品种</th><th>交易通道</th><th>结算周期</th><th>状态</th><th>操作</th></tr>
+            <tr><th>区域编码</th><th>区域名称</th><th>市场品种</th><th>交易通道</th><th>结算周期</th><th>接入顺序</th><th>状态</th><th>操作</th></tr>
           </thead>
           <tbody>
-            <tr v-if="regions.length === 0"><td colspan="7" class="muted">暂无区域</td></tr>
+            <tr v-if="regions.length === 0"><td colspan="8" class="muted">暂无区域</td></tr>
             <tr v-for="rg in regions" :key="rg.id">
               <td class="mono">{{ rg.regionCode }}</td>
               <td>{{ rg.regionName }}</td>
               <td class="muted">{{ arrayText(rg.marketSupport) }}</td>
               <td class="mono">{{ rg.exchangeChannel || '-' }}</td>
               <td class="mono">{{ rg.settlementPeriod || '-' }}</td>
-              <td><span class="badge" :class="rg.status === 'active' ? 'badge-green' : 'badge-gray'">{{ enableStatusLabel(rg.status) }}（{{ rg.status }}）</span></td>
+              <td class="mono">{{ rg.launchOrder ?? '-' }}</td>
+              <td><span class="badge" :class="regionStatusClass(rg.status)">{{ enableStatusLabel(rg.status) }}（{{ rg.status }}）</span></td>
               <td>
                 <button class="btn" @click="openRegionEdit(rg)">编辑</button>
                 <button class="btn" @click="onDeleteRegion(rg)">删除</button>
@@ -335,10 +336,15 @@
             </select>
           </div>
           <div class="form-row">
+            <label class="f">接入顺序</label>
+            <input v-model.number="regionForm.launchOrder" type="number" placeholder="全国推广接入顺序（小者优先）" style="flex: 1" />
+          </div>
+          <div class="form-row">
             <label class="f">状态</label>
             <select v-model="regionForm.status" style="width: 140px">
-              <option value="active">启用</option>
+              <option value="enabled">启用</option>
               <option value="disabled">停用</option>
+              <option value="pending">待启用</option>
             </select>
           </div>
           <div class="form-row" style="justify-content: flex-end; margin-top: 16px">
@@ -473,6 +479,10 @@ function statusLabel(s: string): string {
 /** V2.4 编码+名称：权限/区域启用状态中文标签 */
 function enableStatusLabel(s: string): string {
   return { active: '启用', enabled: '启用', disabled: '停用', pending: '待启用' }[s] ?? s
+}
+/** 区域状态徽章：enabled 绿 / pending 橙 / disabled 灰（区域枚举与用户/角色不同） */
+function regionStatusClass(s: string): string {
+  return s === 'enabled' ? 'badge-green' : s === 'pending' ? 'badge-orange' : 'badge-gray'
 }
 function statusClass(s: string): string {
   return s === 'active' ? 'badge-green' : s === 'locked' ? 'badge-orange' : 'badge-gray'
@@ -780,14 +790,16 @@ const regionQuery = reactive({ keyword: '' })
 const regionDialog = ref(false)
 const regionForm = reactive({
   id: null as number | null, regionCode: '', regionName: '', marketSupport: [] as string[],
-  exchangeChannel: 'both', settlementPeriod: 'natural_month', status: 'active',
+  exchangeChannel: 'both', settlementPeriod: 'natural_month', status: 'enabled',
+  launchOrder: null as number | null,
 })
 const regionMarketText = ref('')
 
 function resetRegionForm() {
   Object.assign(regionForm, {
     id: null, regionCode: '', regionName: '', marketSupport: [],
-    exchangeChannel: 'both', settlementPeriod: 'natural_month', status: 'active',
+    exchangeChannel: 'both', settlementPeriod: 'natural_month', status: 'enabled',
+    launchOrder: null,
   })
   regionMarketText.value = ''
 }
@@ -811,6 +823,7 @@ function openRegionEdit(rg: AdminRegion) {
     exchangeChannel: rg.exchangeChannel || 'both',
     settlementPeriod: rg.settlementPeriod || 'natural_month',
     status: rg.status,
+    launchOrder: rg.launchOrder ?? null,
   })
   regionMarketText.value = arrayText(rg.marketSupport)
   regionDialog.value = true
@@ -826,7 +839,7 @@ async function submitRegion() {
     const payload: Record<string, unknown> = {
       regionCode: regionForm.regionCode, regionName: regionForm.regionName, marketSupport: market,
       exchangeChannel: regionForm.exchangeChannel, settlementPeriod: regionForm.settlementPeriod,
-      status: regionForm.status,
+      status: regionForm.status, launchOrder: regionForm.launchOrder,
     }
     if (regionForm.id) {
       payload.id = regionForm.id

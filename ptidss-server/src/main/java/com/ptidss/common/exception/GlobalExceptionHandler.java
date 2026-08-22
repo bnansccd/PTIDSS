@@ -2,9 +2,11 @@ package com.ptidss.common.exception;
 
 import com.ptidss.common.domain.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -45,6 +47,21 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DuplicateKeyException.class)
     public Result<Void> handleDuplicate(DuplicateKeyException e) {
         return Result.fail(409, "数据已存在（唯一性冲突）");
+    }
+
+    /**
+     * 数据库约束冲突（CHECK/NOT NULL/FK 等）：提示用户核对输入，避免暴露 SQL 原文
+     * （V2.6 起替代笼统的"系统繁忙"：枚举/必填/唯一性不满足时给出可操作提示）
+     */
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public Result<Void> handleIntegrity(DataIntegrityViolationException e) {
+        log.warn("数据完整性约束冲突：{}", e.getMostSpecificCause().getMessage());
+        return Result.fail(400, "数据校验失败：请检查输入是否符合约束（必填项、状态枚举、唯一性）");
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public Result<Void> handleMethodNotSupported(HttpRequestMethodNotSupportedException e) {
+        return Result.fail(404, "接口不存在或请求方式不支持：" + e.getMethod());
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)

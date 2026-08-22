@@ -50,7 +50,11 @@ public class SysRoleService {
 
     public List<SysRole> list(String keyword, String status) {
         LambdaQueryWrapper<SysRole> qw = new LambdaQueryWrapper<>();
-        qw.like(StrUtils.isNotBlank(keyword), SysRole::getRoleName, keyword)
+        // 关键字：角色编码或名称（对齐权限/区域列表的编码/名称双匹配）
+        qw.and(StrUtils.isNotBlank(keyword), w -> w
+                        .like(SysRole::getRoleCode, keyword)
+                        .or()
+                        .like(SysRole::getRoleName, keyword))
                 .eq(StrUtils.isNotBlank(status), SysRole::getStatus, status)
                 .orderByAsc(SysRole::getId);
         List<SysRole> roles = sysRoleMapper.selectList(qw);
@@ -76,6 +80,9 @@ public class SysRoleService {
             throw new ServiceException("角色编码已存在：" + role.getRoleCode());
         }
         role.setId(SnowflakeIdGenerator.nextId());
+        if (StrUtils.isBlank(role.getStatus())) {
+            role.setStatus("active");
+        }
         sysRoleMapper.insert(role);
         saveRegions(role.getId(), role.getRegionCodes());
     }

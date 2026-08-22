@@ -62,10 +62,13 @@ public class SysPermissionController {
         return Result.success();
     }
 
-    /** DDL 10.2：resource_pattern NOT NULL；menu/data 类型无匹配模式，空值兜底为 "-" */
+    /** DDL 10.2：resource_pattern NOT NULL；menu/data 类型无匹配模式，空值兜底为 "-"；status 兜底 active */
     private void normalize(SysPermission permission) {
         if (permission.getResourcePattern() == null || permission.getResourcePattern().trim().isEmpty()) {
             permission.setResourcePattern("-");
+        }
+        if (StrUtils.isBlank(permission.getStatus())) {
+            permission.setStatus("active");
         }
     }
 
