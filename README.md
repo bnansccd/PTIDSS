@@ -129,3 +129,17 @@ npx vite        # 访问 http://localhost:30001/low-code-cms/
 | OpenAPI 契约 V1.1（89 operationId，redocly lint 0 error） | `docs/openapi/` |
 | 多省 region 路由与数据隔离方案 V1.2 | `docs/多省region路由与数据隔离方案.md` |
 | 评审记录 / 勘误申请清单 | `docs/ddl/05_评审记录.md`、`docs/ddl/08_勘误申请清单_v1.0.1.md` |
+
+最终版本矩阵（2026-08 主流）
+组件	升级前	升级后
+JDK	8	21 LTS（.tools/jdk-21.0.12.1+1）
+Maven	3.8.8	3.9.16
+Spring Boot	2.7.13	3.5.16
+Spring Cloud / Alibaba	2021.x	2025.1.3 / 2025.1.0.0
+MyBatis-Plus	3.5.x	3.5.17
+jjwt / fastjson2	旧版	0.13.0 / 2.0.64
+Vite / TS / vue-tsc	5.x	7.3.6 / 5.9.3 / 3.3.11
+Element Plus / bpmn-js	2.2 / 13	2.14.5 / 18.25.1
+PostgreSQL / Nginx	18 / 1.27	18 / stable-alpine
+Nacos 客户端	1.3.3	3.1.1
+
