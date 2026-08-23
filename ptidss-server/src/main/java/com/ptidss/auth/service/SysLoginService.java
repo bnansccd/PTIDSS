@@ -22,6 +22,8 @@ import com.ptidss.system.mapper.SysRoleMapper;
 import com.ptidss.system.mapper.SysRoleRegionMapper;
 import com.ptidss.system.mapper.SysUserMapper;
 import com.ptidss.system.mapper.SysUserRegionMapper;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,15 +34,19 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
  * 登录服务（对齐 low-code-dev SysLoginService 流程）：
  * 校验用户/密码/状态 → 组装角色/权限/区域（角色 × 区域双重授权，评审决议⑤）→ 签发令牌
+ * 安全：连续登录失败锁定（默认 5 次/10 分钟，可经 LOGIN_FAIL_MAX / LOGIN_FAIL_LOCK_MINUTES 调整）
  */
 @Slf4j
 @Service
 public class SysLoginService {
+
+    private static final String FAIL_KEY_PREFIX = "login_fail:";
 
     private final SysUserMapper sysUserMapper;
     private final SysRoleMapper sysRoleMapper;
@@ -51,6 +57,17 @@ public class SysLoginService {
     private final TokenService tokenService;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    /** 连续失败最大次数（等保 8.1.4.1 身份鉴别：登录失败次数限制） */
+    @Value("${ptidss.login.fail-max:5}")
+    private int loginFailMax;
+
+    /** 锁定时长（分钟） */
+    @Value("${ptidss.login.fail-lock-minutes:10}")
+    private int loginFailLockMinutes;
+
+    /** 失败计数缓存（key=login_fail:{username}，value=累计失败次数） */
+    private Cache<String, Integer> loginFailCache;
 
     public SysLoginService(SysUserMapper sysUserMapper, SysRoleMapper sysRoleMapper,
                            SysPermissionMapper sysPermissionMapper, SysRegionMapper sysRegionMapper,
@@ -65,13 +82,25 @@ public class SysLoginService {
         this.tokenService = tokenService;
     }
 
+    @PostConstruct
+    public void init() {
+        loginFailCache = Caffeine.newBuilder()
+                .maximumSize(10_000)
+                .expireAfterWrite(loginFailLockMinutes, TimeUnit.MINUTES)
+                .build();
+        log.info("登录失败锁定已启用：连续 {} 次失败锁定 {} 分钟", loginFailMax, loginFailLockMinutes);
+    }
+
     /**
      * 登录：用户名 + 密码 → LoginResult
      */
     public LoginResult login(String username, String password) {
+        // 连续失败锁定检查（等保 8.1.4.1 身份鉴别：登录失败次数限制）
+        checkLoginLocked(username);
         SysUser user = sysUserMapper.selectOne(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUsername, username));
         if (user == null) {
+            recordLoginFail(username);
             throw new ServiceException("用户名或密码错误");
         }
         if (!Constants.SUPER_ADMIN.equals(user.getUsername())
@@ -79,8 +108,11 @@ public class SysLoginService {
             throw new ServiceException("账号已被锁定或禁用，请联系管理员");
         }
         if (StrUtils.isBlank(user.getPasswordHash()) || !passwordEncoder.matches(password, user.getPasswordHash())) {
+            recordLoginFail(username);
             throw new ServiceException("用户名或密码错误");
         }
+        // 登录成功：清除失败计数
+        loginFailCache.invalidate(FAIL_KEY_PREFIX + username);
 
         // 组装登录用户（角色/权限/区域）
         LoginUser loginUser = buildLoginUser(user);
@@ -103,6 +135,31 @@ public class SysLoginService {
         result.setRegions(loginUser.getRegions().stream().sorted().collect(Collectors.toList()));
         result.setCurrentRegion(loginUser.getRegions().isEmpty() ? null : loginUser.getRegions().iterator().next());
         return result;
+    }
+
+    /** 连续失败锁定检查：达到阈值直接拒绝（避免字典爆破） */
+    private void checkLoginLocked(String username) {
+        if (StrUtils.isBlank(username)) {
+            return;
+        }
+        Integer fails = loginFailCache.getIfPresent(FAIL_KEY_PREFIX + username);
+        if (fails != null && fails >= loginFailMax) {
+            log.warn("账号临时锁定拒绝登录：username={}, 连续失败={}", username, fails);
+            throw new ServiceException("登录失败次数过多，账号已临时锁定 " + loginFailLockMinutes + " 分钟，请稍后再试");
+        }
+    }
+
+    /** 记录一次登录失败；达到阈值时告警（缓存按锁定时长自动过期 = 自动解锁） */
+    private void recordLoginFail(String username) {
+        if (StrUtils.isBlank(username)) {
+            return;
+        }
+        Integer count = loginFailCache.get(FAIL_KEY_PREFIX + username, k -> 0) + 1;
+        loginFailCache.put(FAIL_KEY_PREFIX + username, count);
+        if (count >= loginFailMax) {
+            log.warn("登录失败达到锁定阈值：username={}, 连续失败={}/{}, 锁定{}分钟",
+                    username, count, loginFailMax, loginFailLockMinutes);
+        }
     }
 
     /** 登出：删除令牌缓存 */

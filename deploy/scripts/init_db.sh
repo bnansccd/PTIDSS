@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# PTIDSS 数据库初始化脚本（V2.5）
+# PTIDSS 数据库初始化脚本（V3.0）
 # 功能：创建数据库/用户 → 依次执行 01~15 基线 DDL（全部幂等，可重复执行）
 # 用法：sudo ./init_db.sh [PG_HOST] [PG_PORT] [PG_SUPERUSER]
 #   默认：127.0.0.1 5432 postgres（本机 peer/trust 认证可直接执行）

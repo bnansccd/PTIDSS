@@ -1,13 +1,42 @@
 # ============================================================
-# PTIDSS Nginx 配置模板（V1.7）
+# PTIDSS Nginx 配置模板（V3.0，等保三级加固）
 # 职责：前端静态托管（frontend/dist）+ /ptidss 反向代理后端 :9080
+# 安全：强制 HTTPS（TLSv1.2/1.3）+ 安全响应头 + 上传体积收紧
 # 部署：将本文件复制到 /etc/nginx/conf.d/ptidss.conf 后
 #       nginx -t && systemctl reload nginx
+# 证书：将证书/私钥放置 /etc/nginx/ssl/ptidss.{crt,key}（chmod 600），
+#       或用 certbot 签发后替换下述 ssl_certificate 路径
 # 说明：前端生产构建 VITE_API_BASE=/ptidss（同源，无跨域）
 # ============================================================
+
+# ── HTTP：强制跳转 HTTPS ─────────────────────────────────────
 server {
     listen       80;
-    server_name  _;
+    server_name  ptidss.example.com;
+    return 301 https://$host$request_uri;
+}
+
+# ── HTTPS：主站点 ────────────────────────────────────────────
+server {
+    listen       443 ssl;
+    http2        on;
+    server_name  ptidss.example.com;
+
+    ssl_certificate     /etc/nginx/ssl/ptidss.crt;
+    ssl_certificate_key /etc/nginx/ssl/ptidss.key;
+    ssl_protocols       TLSv1.2 TLSv1.3;
+    ssl_ciphers         ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384;
+    ssl_prefer_server_ciphers off;
+    ssl_session_cache   shared:SSL:10m;
+    ssl_session_timeout 10m;
+
+    # ── 安全响应头（等保 8.1.8.1 安全加固） ─────────────────
+    add_header X-Content-Type-Options nosniff always;
+    add_header X-Frame-Options SAMEORIGIN always;
+    add_header Referrer-Policy strict-origin-when-cross-origin always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'self'" always;
 
     # ── 后端反向代理（context-path /ptidss） ────────────────
     location /ptidss/ {
@@ -17,7 +46,7 @@ server {
         proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header   X-Forwarded-Proto $scheme;
         proxy_read_timeout 60s;
-        client_max_body_size 100m;   # 对齐后端 multipart max-request-size
+        client_max_body_size 25m;   # 对齐后端 multipart max-request-size
     }
 
     # ── 前端静态资源（Vue3 history 路由回退） ───────────────
@@ -27,11 +56,13 @@ server {
         try_files $uri $uri/ /index.html;
     }
 
-    # 静态资源缓存（带 hash 的构建产物）
+    # 静态资源缓存（带 hash 的构建产物；补安全头避免 location 覆盖丢失）
     location /assets/ {
         root   /opt/ptidss/frontend/dist;
         expires 30d;
         add_header Cache-Control "public, immutable";
+        add_header X-Content-Type-Options nosniff always;
+        add_header X-Frame-Options SAMEORIGIN always;
     }
 
     gzip on;

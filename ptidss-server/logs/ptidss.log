@@ -1,0 +1,539 @@
+2026-08-23T22:23:00.191+08:00  INFO 16522 --- [ptidss-server] [main] com.ptidss.PtidssApplication             : Starting PtidssApplication v1.0.0 using Java 21.0.12.1 with PID 16522 (/home/odoo/workspace/PTIDSS/ptidss-server/target/ptidss-server.jar started by odoo in /home/odoo/workspace/PTIDSS/ptidss-server)
+2026-08-23T22:23:00.193+08:00  INFO 16522 --- [ptidss-server] [main] com.ptidss.PtidssApplication             : The following 1 profile is active: "prod"
+2026-08-23T22:23:02.129+08:00  INFO 16522 --- [ptidss-server] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 9081 (http)
+2026-08-23T22:23:02.149+08:00  INFO 16522 --- [ptidss-server] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-08-23T22:23:02.149+08:00  INFO 16522 --- [ptidss-server] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-23T22:23:02.178+08:00  INFO 16522 --- [ptidss-server] [main] o.a.c.c.C.[.[localhost].[/ptidss]        : Initializing Spring embedded WebApplicationContext
+2026-08-23T22:23:02.178+08:00  INFO 16522 --- [ptidss-server] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1926 ms
+2026-08-23T22:23:03.270+08:00  WARN 16522 --- [ptidss-server] [main] c.b.m.core.metadata.TableInfoHelper      : Can not find table primary key in Class: "com.ptidss.system.domain.SysUserRegion".
+2026-08-23T22:23:03.271+08:00  WARN 16522 --- [ptidss-server] [main] c.b.m.core.injector.DefaultSqlInjector   : class com.ptidss.system.domain.SysUserRegion Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2026-08-23T22:23:03.290+08:00  WARN 16522 --- [ptidss-server] [main] c.b.m.core.metadata.TableInfoHelper      : Can not find table primary key in Class: "com.ptidss.system.domain.SysRoleRegion".
+2026-08-23T22:23:03.291+08:00  WARN 16522 --- [ptidss-server] [main] c.b.m.core.injector.DefaultSqlInjector   : class com.ptidss.system.domain.SysRoleRegion Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2026-08-23T22:23:03.345+08:00  INFO 16522 --- [ptidss-server] [main] c.ptidss.common.security.TokenService    : TokenService 初始化完成：expire=120min, refreshThreshold=10min
+2026-08-23T22:23:03.472+08:00  INFO 16522 --- [ptidss-server] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-08-23T22:23:04.540+08:00  WARN 16522 --- [ptidss-server] [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authController' defined in URL [jar:nested:/home/odoo/workspace/PTIDSS/ptidss-server/target/ptidss-server.jar/!BOOT-INF/classes/!/com/ptidss/auth/controller/AuthController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'sysLoginService': Invocation of init method failed
+2026-08-23T22:23:04.554+08:00  INFO 16522 --- [ptidss-server] [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-08-23T22:23:04.576+08:00  INFO 16522 --- [ptidss-server] [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-08-23T22:23:04.594+08:00 ERROR 16522 --- [ptidss-server] [main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authController' defined in URL [jar:nested:/home/odoo/workspace/PTIDSS/ptidss-server/target/ptidss-server.jar/!BOOT-INF/classes/!/com/ptidss/auth/controller/AuthController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'sysLoginService': Invocation of init method failed
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1393) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1230) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.instantiateSingleton(DefaultListableBeanFactory.java:1235) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingleton(DefaultListableBeanFactory.java:1201) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:1130) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:991) ~[spring-context-6.2.19.jar!/:6.2.19]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:628) ~[spring-context-6.2.19.jar!/:6.2.19]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.5.16.jar!/:3.5.16]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.5.16.jar!/:3.5.16]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.16.jar!/:3.5.16]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.16.jar!/:3.5.16]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.5.16.jar!/:3.5.16]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.5.16.jar!/:3.5.16]
+	at com.ptidss.PtidssApplication.main(PtidssApplication.java:22) ~[!/:1.0.0]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:106) ~[ptidss-server.jar:1.0.0]
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:64) ~[ptidss-server.jar:1.0.0]
+	at org.springframework.boot.loader.launch.JarLauncher.main(JarLauncher.java:40) ~[ptidss-server.jar:1.0.0]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sysLoginService': Invocation of init method failed
+	at org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor.postProcessBeforeInitialization(InitDestroyAnnotationBeanPostProcessor.java:222) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInitialization(AbstractAutowireCapableBeanFactory.java:429) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1816) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1715) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1660) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	... 26 common frames omitted
+Caused by: org.mybatis.spring.MyBatisSystemException: 
+### Error querying database.  Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection
+### The error may exist in com/ptidss/system/mapper/SysUserMapper.java (best guess)
+### The error may involve com.ptidss.system.mapper.SysUserMapper.selectList
+### The error occurred while executing a query
+### Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:101) ~[mybatis-spring-3.0.5.jar!/:3.0.5]
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:347) ~[mybatis-spring-3.0.5.jar!/:3.0.5]
+	at jdk.proxy2/jdk.proxy2.$Proxy81.selectList(Unknown Source) ~[na:na]
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:194) ~[mybatis-spring-3.0.5.jar!/:3.0.5]
+	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.executeForMany(MybatisMapperMethod.java:186) ~[mybatis-plus-core-3.5.17.jar!/:na]
+	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.execute(MybatisMapperMethod.java:99) ~[mybatis-plus-core-3.5.17.jar!/:na]
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$PlainMethodInvoker.invoke(MybatisMapperProxy.java:156) ~[mybatis-plus-core-3.5.17.jar!/:na]
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:93) ~[mybatis-plus-core-3.5.17.jar!/:na]
+	at jdk.proxy2/jdk.proxy2.$Proxy95.selectList(Unknown Source) ~[na:na]
+	at com.ptidss.auth.service.SysLoginService.initPlaceholderPasswords(SysLoginService.java:222) ~[!/:1.0.0]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor$LifecycleMethod.invoke(InitDestroyAnnotationBeanPostProcessor.java:457) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor$LifecycleMetadata.invokeInitMethods(InitDestroyAnnotationBeanPostProcessor.java:401) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	at org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor.postProcessBeforeInitialization(InitDestroyAnnotationBeanPostProcessor.java:219) ~[spring-beans-6.2.19.jar!/:6.2.19]
+	... 38 common frames omitted
+Caused by: org.apache.ibatis.exceptions.PersistenceException: 
+### Error querying database.  Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection
+### The error may exist in com/ptidss/system/mapper/SysUserMapper.java (best guess)
+### The error may involve com.ptidss.system.mapper.SysUserMapper.selectList
+### The error occurred while executing a query
+### Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection
+	at org.apache.ibatis.exceptions.ExceptionFactory.wrapException(ExceptionFactory.java:30) ~[mybatis-3.5.19.jar!/:3.5.19]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:156) ~[mybatis-3.5.19.jar!/:3.5.19]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:147) ~[mybatis-3.5.19.jar!/:3.5.19]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:142) ~[mybatis-3.5.19.jar!/:3.5.19]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:333) ~[mybatis-spring-3.0.5.jar!/:3.0.5]
+	... 51 common frames omitted
+Caused by: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:84) ~[spring-jdbc-6.2.19.jar!/:6.2.19]
+	at org.mybatis.spring.transaction.SpringManagedTransaction.openConnection(SpringManagedTransaction.java:77) ~[mybatis-spring-3.0.5.jar!/:3.0.5]
+	at org.mybatis.spring.transaction.SpringManagedTransaction.getConnection(SpringManagedTransaction.java:64) ~[mybatis-spring-3.0.5.jar!/:3.0.5]
+	at org.apache.ibatis.executor.BaseExecutor.getConnection(BaseExecutor.java:348) ~[mybatis-3.5.19.jar!/:3.5.19]
+	at org.apache.ibatis.executor.SimpleExecutor.prepareStatement(SimpleExecutor.java:89) ~[mybatis-3.5.19.jar!/:3.5.19]
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:64) ~[mybatis-3.5.19.jar!/:3.5.19]
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:336) ~[mybatis-3.5.19.jar!/:3.5.19]
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:158) ~[mybatis-3.5.19.jar!/:3.5.19]
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:110) ~[mybatis-3.5.19.jar!/:3.5.19]
+	at com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor.intercept(MybatisPlusInterceptor.java:81) ~[mybatis-plus-extension-3.5.17.jar!/:na]
+	at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:59) ~[mybatis-3.5.19.jar!/:3.5.19]
+	at jdk.proxy2/jdk.proxy2.$Proxy106.query(Unknown Source) ~[na:na]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:154) ~[mybatis-3.5.19.jar!/:3.5.19]
+	... 56 common frames omitted
+Caused by: org.postgresql.util.PSQLException: Connection to 127.0.0.1:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:427) ~[postgresql-42.7.13.jar!/:42.7.13]
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:52) ~[postgresql-42.7.13.jar!/:42.7.13]
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:295) ~[postgresql-42.7.13.jar!/:42.7.13]
+	at org.postgresql.Driver.makeConnection(Driver.java:437) ~[postgresql-42.7.13.jar!/:42.7.13]
+	at org.postgresql.Driver.connect(Driver.java:305) ~[postgresql-42.7.13.jar!/:42.7.13]
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144) ~[HikariCP-6.3.3.jar!/:na]
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370) ~[HikariCP-6.3.3.jar!/:na]
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207) ~[HikariCP-6.3.3.jar!/:na]
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488) ~[HikariCP-6.3.3.jar!/:na]
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:576) ~[HikariCP-6.3.3.jar!/:na]
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:97) ~[HikariCP-6.3.3.jar!/:na]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111) ~[HikariCP-6.3.3.jar!/:na]
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:160) ~[spring-jdbc-6.2.19.jar!/:6.2.19]
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:118) ~[spring-jdbc-6.2.19.jar!/:6.2.19]
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:81) ~[spring-jdbc-6.2.19.jar!/:6.2.19]
+	... 68 common frames omitted
+Caused by: java.net.ConnectException: 连接被拒绝
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:694) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:592) ~[na:na]
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:751) ~[na:na]
+	at org.postgresql.core.PGStream.createSocket(PGStream.java:270) ~[postgresql-42.7.13.jar!/:42.7.13]
+	at org.postgresql.core.PGStream.<init>(PGStream.java:131) ~[postgresql-42.7.13.jar!/:42.7.13]
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:221) ~[postgresql-42.7.13.jar!/:42.7.13]
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:367) ~[postgresql-42.7.13.jar!/:42.7.13]
+	... 82 common frames omitted
+
+2026-08-23T22:25:06.412+08:00  INFO 17825 --- [ptidss-server] [main] com.ptidss.PtidssApplication             : Starting PtidssApplication v1.0.0 using Java 21.0.12.1 with PID 17825 (/home/odoo/workspace/PTIDSS/ptidss-server/target/ptidss-server.jar started by odoo in /home/odoo/workspace/PTIDSS/ptidss-server)
+2026-08-23T22:25:06.414+08:00  INFO 17825 --- [ptidss-server] [main] com.ptidss.PtidssApplication             : The following 1 profile is active: "prod"
+2026-08-23T22:25:08.125+08:00  INFO 17825 --- [ptidss-server] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 9081 (http)
+2026-08-23T22:25:08.142+08:00  INFO 17825 --- [ptidss-server] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-08-23T22:25:08.143+08:00  INFO 17825 --- [ptidss-server] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-23T22:25:08.171+08:00  INFO 17825 --- [ptidss-server] [main] o.a.c.c.C.[.[localhost].[/ptidss]        : Initializing Spring embedded WebApplicationContext
+2026-08-23T22:25:08.171+08:00  INFO 17825 --- [ptidss-server] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1677 ms
+2026-08-23T22:25:09.160+08:00  WARN 17825 --- [ptidss-server] [main] c.b.m.core.metadata.TableInfoHelper      : Can not find table primary key in Class: "com.ptidss.system.domain.SysUserRegion".
+2026-08-23T22:25:09.161+08:00  WARN 17825 --- [ptidss-server] [main] c.b.m.core.injector.DefaultSqlInjector   : class com.ptidss.system.domain.SysUserRegion Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2026-08-23T22:25:09.189+08:00  WARN 17825 --- [ptidss-server] [main] c.b.m.core.metadata.TableInfoHelper      : Can not find table primary key in Class: "com.ptidss.system.domain.SysRoleRegion".
+2026-08-23T22:25:09.190+08:00  WARN 17825 --- [ptidss-server] [main] c.b.m.core.injector.DefaultSqlInjector   : class com.ptidss.system.domain.SysRoleRegion Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2026-08-23T22:25:09.261+08:00  INFO 17825 --- [ptidss-server] [main] c.ptidss.common.security.TokenService    : TokenService 初始化完成：expire=120min, refreshThreshold=10min
+2026-08-23T22:25:09.389+08:00  INFO 17825 --- [ptidss-server] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-08-23T22:25:09.632+08:00  INFO 17825 --- [ptidss-server] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@768f4b42
+2026-08-23T22:25:09.633+08:00  INFO 17825 --- [ptidss-server] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-08-23T22:25:09.642+08:00 DEBUG 17825 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.selectList    : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (password_hash LIKE ?)
+2026-08-23T22:25:09.660+08:00 DEBUG 17825 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.selectList    : ==> Parameters: %PLACEHOLDER%(String)
+2026-08-23T22:25:09.801+08:00 DEBUG 17825 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.selectList    : <==      Total: 4
+2026-08-23T22:25:09.910+08:00 DEBUG 17825 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET password_hash=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-23T22:25:09.914+08:00 DEBUG 17825 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: $2a$10$5WghSbjD9RBSl9cjK1lEROioUyKzPg3qAARJwP215TzqZNSKcPeo.(String), 2026-08-23 22:25:09.909(Timestamp), 1(Long)
+2026-08-23T22:25:09.917+08:00 DEBUG 17825 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-23T22:25:09.917+08:00  INFO 17825 --- [ptidss-server] [main] c.ptidss.auth.service.SysLoginService    : 初始化账号密码：admin（默认密码，请首次登录后修改）
+2026-08-23T22:25:09.994+08:00 DEBUG 17825 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET password_hash=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-23T22:25:09.994+08:00 DEBUG 17825 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: $2a$10$Fb/GGHKTJuy/e7EeBhv.U.VAsYHWPSnRo1/dzlT6Vaz4.apz/ow0O(String), 2026-08-23 22:25:09.993(Timestamp), 2(Long)
+2026-08-23T22:25:09.996+08:00 DEBUG 17825 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-23T22:25:09.996+08:00  INFO 17825 --- [ptidss-server] [main] c.ptidss.auth.service.SysLoginService    : 初始化账号密码：trader01（默认密码，请首次登录后修改）
+2026-08-23T22:25:10.073+08:00 DEBUG 17825 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET password_hash=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-23T22:25:10.074+08:00 DEBUG 17825 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: $2a$10$y/SUxPhePx4BtiASCronR.PjrZo4koaK9iLJkm90IYbs4uQ35P0fW(String), 2026-08-23 22:25:10.073(Timestamp), 3(Long)
+2026-08-23T22:25:10.076+08:00 DEBUG 17825 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-23T22:25:10.076+08:00  INFO 17825 --- [ptidss-server] [main] c.ptidss.auth.service.SysLoginService    : 初始化账号密码：settle01（默认密码，请首次登录后修改）
+2026-08-23T22:25:10.156+08:00 DEBUG 17825 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET password_hash=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-23T22:25:10.156+08:00 DEBUG 17825 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: $2a$10$oM46vG.kIrvda6aIktK6UOg0/3HOf./CiRO4R5dMkMsvyZiawiX66(String), 2026-08-23 22:25:10.156(Timestamp), 4(Long)
+2026-08-23T22:25:10.158+08:00 DEBUG 17825 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-23T22:25:10.158+08:00  INFO 17825 --- [ptidss-server] [main] c.ptidss.auth.service.SysLoginService    : 初始化账号密码：manager01（默认密码，请首次登录后修改）
+2026-08-23T22:25:10.637+08:00  INFO 17825 --- [ptidss-server] [main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：forecast（特征序列预测（96 点价格））
+2026-08-23T22:25:10.638+08:00  INFO 17825 --- [ptidss-server] [main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：market_analysis（情报舆情情感加权分析）
+2026-08-23T22:25:10.638+08:00  INFO 17825 --- [ptidss-server] [main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：optimize（混合整数规划联合优化）
+2026-08-23T22:25:10.638+08:00  INFO 17825 --- [ptidss-server] [main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：quote_strategy（分段聚合报价策略）
+2026-08-23T22:25:10.638+08:00  INFO 17825 --- [ptidss-server] [main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：review（复盘知识库四段式归纳）
+2026-08-23T22:25:10.639+08:00  INFO 17825 --- [ptidss-server] [main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：risk_measure（蒙特卡洛 CVaR 风险度量）
+2026-08-23T22:25:10.639+08:00  INFO 17825 --- [ptidss-server] [main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：rule_engine（合规规则引擎仲裁）
+2026-08-23T22:25:10.639+08:00  INFO 17825 --- [ptidss-server] [main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：settlement（偏差考核结算测算）
+2026-08-23T22:25:12.139+08:00  INFO 17825 --- [ptidss-server] [main] b.m.s.MybatisPlusApplicationContextAware : Register ApplicationContext instances org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@7c098bb3
+2026-08-23T22:25:12.321+08:00  INFO 17825 --- [ptidss-server] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 9081 (http) with context path '/ptidss'
+2026-08-23T22:25:12.335+08:00  INFO 17825 --- [ptidss-server] [main] com.ptidss.PtidssApplication             : Started PtidssApplication in 6.545 seconds (process running for 7.048)
+2026-08-23T22:25:22.402+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条，触发决策会话情报重评 0 个
+2026-08-23T22:25:35.405+08:00  INFO 17825 --- [ptidss-server] [http-nio-9081-exec-1] o.a.c.c.C.[.[localhost].[/ptidss]        : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-23T22:25:35.405+08:00  INFO 17825 --- [ptidss-server] [http-nio-9081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-08-23T22:25:35.407+08:00  INFO 17825 --- [ptidss-server] [http-nio-9081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-08-23T22:25:35.970+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysUserMapper.selectWithCursor   : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (username = ?)
+2026-08-23T22:25:35.970+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysUserMapper.selectWithCursor   : ==> Parameters: admin(String)
+2026-08-23T22:25:35.973+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysUserMapper.selectWithCursor   : <==      Total: 1
+2026-08-23T22:25:36.052+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.mapper.SysRoleMapper.selectByIds   : ==>  Preparing: SELECT id,role_code,role_name,description,status,version,deleted,created_at,updated_at FROM sys_role WHERE id IN ( ? ) AND deleted=false
+2026-08-23T22:25:36.052+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.mapper.SysRoleMapper.selectByIds   : ==> Parameters: 4(Long)
+2026-08-23T22:25:36.055+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.mapper.SysRoleMapper.selectByIds   : <==      Total: 1
+2026-08-23T22:25:36.057+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysPermissionMapper.selectList   : ==>  Preparing: SELECT id,perm_code,perm_name,resource_type,resource_pattern,status,version,deleted,created_at,updated_at FROM sys_permission WHERE deleted=false AND (status = ? AND EXISTS (SELECT 1 FROM sys_role_permission rp WHERE rp.permission_id = sys_permission.id AND rp.role_id = ?))
+2026-08-23T22:25:36.057+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysPermissionMapper.selectList   : ==> Parameters: active(String), 4(Long)
+2026-08-23T22:25:36.063+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysPermissionMapper.selectList   : <==      Total: 18
+2026-08-23T22:25:36.065+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysUserRegionMapper.selectList   : ==>  Preparing: SELECT user_id,region_code FROM sys_user_region WHERE (user_id = ?)
+2026-08-23T22:25:36.065+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysUserRegionMapper.selectList   : ==> Parameters: 1(Long)
+2026-08-23T22:25:36.067+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysUserRegionMapper.selectList   : <==      Total: 4
+2026-08-23T22:25:36.069+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.S.selectWithCursor               : ==>  Preparing: SELECT id,region_code,region_name,market_support,exchange_channel,settlement_period,status,launch_order,version,deleted,created_at,updated_at FROM sys_region WHERE deleted=false AND (region_code = ? AND status = ?)
+2026-08-23T22:25:36.070+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.S.selectWithCursor               : ==> Parameters: CN-31(String), enabled(String)
+2026-08-23T22:25:36.073+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.S.selectWithCursor               : <==      Total: 1
+2026-08-23T22:25:36.155+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET last_login_at=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-23T22:25:36.156+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: 2026-08-23 22:25:36.155(Timestamp), 2026-08-23 22:25:36.155(Timestamp), 1(Long)
+2026-08-23T22:25:36.158+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-23T22:25:36.163+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, ip, user_agent, result, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-23T22:25:36.164+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 217288167533973504(Long), 6281f8d9364240e6(String), 0(Long), admin(String), login(String), auth(String), LoginBody(username=admin, password=Ptidss@2026, captchaKey=null,(String), 127.0.0.1(String), curl/8.5.0(String), success(String), 2026-08-23 22:25:36.16(Timestamp)
+2026-08-23T22:25:36.167+08:00 DEBUG 17825 --- [ptidss-server] [http-nio-9081-exec-2] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-23T22:25:42.355+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PROV-JS 生成模拟情报
+2026-08-23T22:25:42.360+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-NEA 生成模拟情报
+2026-08-23T22:25:42.369+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-GRID-JS 生成模拟情报
+2026-08-23T22:25:42.375+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-MET-CMA 生成模拟情报
+2026-08-23T22:25:42.385+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-NEM 生成模拟情报
+2026-08-23T22:25:42.390+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-PROV 生成模拟情报
+2026-08-23T22:25:42.396+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-ANN-GRID 生成模拟情报
+2026-08-23T22:25:42.401+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-OPI-MEDIA 生成模拟情报
+2026-08-23T22:25:42.407+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-POL-ENERGY 生成模拟情报
+2026-08-23T22:25:42.411+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-SD-DEMAND 生成模拟情报
+2026-08-23T22:25:42.418+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-SD 生成模拟情报
+2026-08-23T22:25:42.423+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-SX 生成模拟情报
+2026-08-23T22:25:42.428+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-GD 生成模拟情报
+2026-08-23T22:25:42.433+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-GS 生成模拟情报
+2026-08-23T22:25:42.438+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-MX 生成模拟情报
+2026-08-23T22:25:42.442+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-ANN-SD 生成模拟情报
+2026-08-23T22:25:42.447+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-SD-SD 生成模拟情报
+2026-08-23T22:25:42.452+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-SD-MX 生成模拟情报
+2026-08-23T22:25:42.457+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-POL-PROV 生成模拟情报
+2026-08-23T22:25:42.462+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-SC 生成模拟情报
+2026-08-23T22:25:42.462+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 行情采集执行完成：到期 20 个（成功 20 / 失败 0 / 跳过未到期 0）
+2026-08-23T22:25:52.435+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条，触发决策会话情报重评 0 个
+2026-08-23T22:26:22.472+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条，触发决策会话情报重评 0 个
+2026-08-23T22:26:42.481+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 行情采集执行完成：到期 0 个（成功 0 / 失败 0 / 跳过未到期 20）
+2026-08-23T22:26:52.503+08:00  INFO 17825 --- [ptidss-server] [scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条，触发决策会话情报重评 0 个
+2026-08-23T22:27:19.791+08:00  INFO 17825 --- [ptidss-server] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-23T22:27:19.793+08:00  INFO 17825 --- [ptidss-server] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-08-23T22:27:19.802+08:00  INFO 17825 --- [ptidss-server] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-08-23T22:27:19.805+08:00  INFO 17825 --- [ptidss-server] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-08-23T22:48:26.614+08:00  INFO 20464 --- [ptidss-server] [main] com.ptidss.PtidssApplication             : Starting PtidssApplication v1.0.0 using Java 21.0.12.1 with PID 20464 (/home/odoo/workspace/PTIDSS/ptidss-server/target/ptidss-server.jar started by odoo in /home/odoo/workspace/PTIDSS/ptidss-server)
+2026-08-23T22:48:26.617+08:00  INFO 20464 --- [ptidss-server] [main] com.ptidss.PtidssApplication             : The following 1 profile is active: "prod"
+2026-08-23T22:48:28.462+08:00  INFO 20464 --- [ptidss-server] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 9081 (http)
+2026-08-23T22:48:28.481+08:00  INFO 20464 --- [ptidss-server] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-08-23T22:48:28.482+08:00  INFO 20464 --- [ptidss-server] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-23T22:48:28.512+08:00  INFO 20464 --- [ptidss-server] [main] o.a.c.c.C.[.[localhost].[/ptidss]        : Initializing Spring embedded WebApplicationContext
+2026-08-23T22:48:28.512+08:00  INFO 20464 --- [ptidss-server] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1827 ms
+2026-08-23T22:48:29.501+08:00  WARN 20464 --- [ptidss-server] [main] c.b.m.core.metadata.TableInfoHelper      : Can not find table primary key in Class: "com.ptidss.system.domain.SysUserRegion".
+2026-08-23T22:48:29.501+08:00  WARN 20464 --- [ptidss-server] [main] c.b.m.core.injector.DefaultSqlInjector   : class com.ptidss.system.domain.SysUserRegion Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2026-08-23T22:48:29.523+08:00  WARN 20464 --- [ptidss-server] [main] c.b.m.core.metadata.TableInfoHelper      : Can not find table primary key in Class: "com.ptidss.system.domain.SysRoleRegion".
+2026-08-23T22:48:29.524+08:00  WARN 20464 --- [ptidss-server] [main] c.b.m.core.injector.DefaultSqlInjector   : class com.ptidss.system.domain.SysRoleRegion Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2026-08-23T22:48:29.578+08:00  INFO 20464 --- [ptidss-server] [main] c.ptidss.common.security.TokenService    : TokenService 初始化完成：expire=120min, refreshThreshold=10min
+2026-08-23T22:48:29.589+08:00  INFO 20464 --- [ptidss-server] [main] c.ptidss.auth.service.SysLoginService    : 登录失败锁定已启用：连续 5 次失败锁定 10 分钟
+2026-08-23T22:48:29.698+08:00  INFO 20464 --- [ptidss-server] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-08-23T22:48:29.921+08:00  INFO 20464 --- [ptidss-server] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@59f76e56
+2026-08-23T22:48:29.924+08:00  INFO 20464 --- [ptidss-server] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-08-23T22:48:29.936+08:00 DEBUG 20464 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.selectList    : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (password_hash LIKE ?)
+2026-08-23T22:48:29.966+08:00 DEBUG 20464 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.selectList    : ==> Parameters: %PLACEHOLDER%(String)
+2026-08-23T22:48:30.143+08:00 DEBUG 20464 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.selectList    : <==      Total: 4
+2026-08-23T22:48:30.257+08:00 DEBUG 20464 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET password_hash=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-23T22:48:30.260+08:00 DEBUG 20464 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: $2a$10$Y/HorCyf3/H12qlrKp4j1.ua8h1oUR1WyzYxNOcabdu8p1UwA9jwy(String), 2026-08-23 22:48:30.256(Timestamp), 1(Long)
+2026-08-23T22:48:30.265+08:00 DEBUG 20464 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-23T22:48:30.265+08:00  INFO 20464 --- [ptidss-server] [main] c.ptidss.auth.service.SysLoginService    : 初始化账号密码：admin（默认密码，请首次登录后修改）
+2026-08-23T22:48:30.348+08:00 DEBUG 20464 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET password_hash=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-23T22:48:30.348+08:00 DEBUG 20464 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: $2a$10$88y.bIkd8t3VFTebscqkbeiFPKIWipmqIlMIeu7yK7YxSCUxR2s3O(String), 2026-08-23 22:48:30.347(Timestamp), 2(Long)
+2026-08-23T22:48:30.350+08:00 DEBUG 20464 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-23T22:48:30.351+08:00  INFO 20464 --- [ptidss-server] [main] c.ptidss.auth.service.SysLoginService    : 初始化账号密码：trader01（默认密码，请首次登录后修改）
+2026-08-23T22:48:30.430+08:00 DEBUG 20464 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET password_hash=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-23T22:48:30.431+08:00 DEBUG 20464 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: $2a$10$P7lGN7YRHCWP6sn883pbVuzflsk8hVxgXuMdt4AvUzP3FDazzBWOG(String), 2026-08-23 22:48:30.43(Timestamp), 3(Long)
+2026-08-23T22:48:30.433+08:00 DEBUG 20464 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-23T22:48:30.434+08:00  INFO 20464 --- [ptidss-server] [main] c.ptidss.auth.service.SysLoginService    : 初始化账号密码：settle01（默认密码，请首次登录后修改）
+2026-08-23T22:48:30.512+08:00 DEBUG 20464 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET password_hash=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-23T22:48:30.512+08:00 DEBUG 20464 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: $2a$10$i.fCVkVgA.XAZk4p0vlAR.0dlT0GiHDrkqn6DD4N70VVPJ6/imJ8m(String), 2026-08-23 22:48:30.512(Timestamp), 4(Long)
+2026-08-23T22:48:30.514+08:00 DEBUG 20464 --- [ptidss-server] [main] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-23T22:48:30.514+08:00  INFO 20464 --- [ptidss-server] [main] c.ptidss.auth.service.SysLoginService    : 初始化账号密码：manager01（默认密码，请首次登录后修改）
+2026-08-23T22:48:30.929+08:00  INFO 20464 --- [ptidss-server] [main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：forecast（特征序列预测（96 点价格））
+2026-08-23T22:48:30.930+08:00  INFO 20464 --- [ptidss-server] [main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：market_analysis（情报舆情情感加权分析）
+2026-08-23T22:48:30.930+08:00  INFO 20464 --- [ptidss-server] [main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：optimize（混合整数规划联合优化）
+2026-08-23T22:48:30.930+08:00  INFO 20464 --- [ptidss-server] [main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：quote_strategy（分段聚合报价策略）
+2026-08-23T22:48:30.930+08:00  INFO 20464 --- [ptidss-server] [main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：review（复盘知识库四段式归纳）
+2026-08-23T22:48:30.931+08:00  INFO 20464 --- [ptidss-server] [main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：risk_measure（蒙特卡洛 CVaR 风险度量）
+2026-08-23T22:48:30.931+08:00  INFO 20464 --- [ptidss-server] [main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：rule_engine（合规规则引擎仲裁）
+2026-08-23T22:48:30.931+08:00  INFO 20464 --- [ptidss-server] [main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：settlement（偏差考核结算测算）
+2026-08-23T22:48:32.310+08:00  INFO 20464 --- [ptidss-server] [main] b.m.s.MybatisPlusApplicationContextAware : Register ApplicationContext instances org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@1d0d6318
+2026-08-23T22:48:32.488+08:00  INFO 20464 --- [ptidss-server] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 9081 (http) with context path '/ptidss'
+2026-08-23T22:48:32.506+08:00  INFO 20464 --- [ptidss-server] [main] com.ptidss.PtidssApplication             : Started PtidssApplication in 6.585 seconds (process running for 7.117)
+2026-08-23T22:48:33.496+08:00  INFO 20464 --- [ptidss-server] [http-nio-9081-exec-1] o.a.c.c.C.[.[localhost].[/ptidss]        : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-23T22:48:33.496+08:00  INFO 20464 --- [ptidss-server] [http-nio-9081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-08-23T22:48:33.498+08:00  INFO 20464 --- [ptidss-server] [http-nio-9081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-08-23T22:48:40.035+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysUserMapper.selectWithCursor   : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (username = ?)
+2026-08-23T22:48:40.035+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysUserMapper.selectWithCursor   : ==> Parameters: admin(String)
+2026-08-23T22:48:40.040+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysUserMapper.selectWithCursor   : <==      Total: 1
+2026-08-23T22:48:40.129+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, ip, user_agent, result, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-23T22:48:40.130+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 217293972308103168(Long), c5af0eec78bb4737(String), 0(Long), admin(String), login(String), auth(String), LoginBody(username=admin, password=wrong-pass, captchaKey=null, (String), 127.0.0.1(String), curl/8.5.0(String), fail(String), 2026-08-23 22:48:40.125(Timestamp)
+2026-08-23T22:48:40.134+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-23T22:48:40.151+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-4] c.p.s.m.SysUserMapper.selectWithCursor   : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (username = ?)
+2026-08-23T22:48:40.152+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-4] c.p.s.m.SysUserMapper.selectWithCursor   : ==> Parameters: admin(String)
+2026-08-23T22:48:40.153+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-4] c.p.s.m.SysUserMapper.selectWithCursor   : <==      Total: 1
+2026-08-23T22:48:40.234+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-4] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, ip, user_agent, result, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-23T22:48:40.235+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-4] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 217293972761088000(Long), 70f99a3f95ac4390(String), 0(Long), admin(String), login(String), auth(String), LoginBody(username=admin, password=wrong-pass, captchaKey=null, (String), 127.0.0.1(String), curl/8.5.0(String), fail(String), 2026-08-23 22:48:40.234(Timestamp)
+2026-08-23T22:48:40.237+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-4] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-23T22:48:40.250+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-6] c.p.s.m.SysUserMapper.selectWithCursor   : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (username = ?)
+2026-08-23T22:48:40.250+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-6] c.p.s.m.SysUserMapper.selectWithCursor   : ==> Parameters: admin(String)
+2026-08-23T22:48:40.252+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-6] c.p.s.m.SysUserMapper.selectWithCursor   : <==      Total: 1
+2026-08-23T22:48:40.333+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-6] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, ip, user_agent, result, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-23T22:48:40.334+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-6] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 217293973176324096(Long), 858700559b3f41b8(String), 0(Long), admin(String), login(String), auth(String), LoginBody(username=admin, password=wrong-pass, captchaKey=null, (String), 127.0.0.1(String), curl/8.5.0(String), fail(String), 2026-08-23 22:48:40.332(Timestamp)
+2026-08-23T22:48:40.336+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-6] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-23T22:48:40.348+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysUserMapper.selectWithCursor   : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (username = ?)
+2026-08-23T22:48:40.349+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysUserMapper.selectWithCursor   : ==> Parameters: admin(String)
+2026-08-23T22:48:40.350+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysUserMapper.selectWithCursor   : <==      Total: 1
+2026-08-23T22:48:40.431+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, ip, user_agent, result, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-23T22:48:40.431+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 217293973587365888(Long), 9ce5a6a3839b43f4(String), 0(Long), admin(String), login(String), auth(String), LoginBody(username=admin, password=wrong-pass, captchaKey=null, (String), 127.0.0.1(String), curl/8.5.0(String), fail(String), 2026-08-23 22:48:40.43(Timestamp)
+2026-08-23T22:48:40.432+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-23T22:48:40.444+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysUserMapper.selectWithCursor   : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (username = ?)
+2026-08-23T22:48:40.444+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysUserMapper.selectWithCursor   : ==> Parameters: admin(String)
+2026-08-23T22:48:40.446+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysUserMapper.selectWithCursor   : <==      Total: 1
+2026-08-23T22:48:40.525+08:00  WARN 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.ptidss.auth.service.SysLoginService    : 登录失败达到锁定阈值：username=admin, 连续失败=5/5, 锁定10分钟
+2026-08-23T22:48:40.527+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, ip, user_agent, result, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-23T22:48:40.527+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 217293973990019072(Long), 059651eb9beb4cc5(String), 0(Long), admin(String), login(String), auth(String), LoginBody(username=admin, password=wrong-pass, captchaKey=null, (String), 127.0.0.1(String), curl/8.5.0(String), fail(String), 2026-08-23 22:48:40.526(Timestamp)
+2026-08-23T22:48:40.530+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-23T22:48:40.541+08:00  WARN 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.ptidss.auth.service.SysLoginService    : 账号临时锁定拒绝登录：username=admin, 连续失败=5
+2026-08-23T22:48:40.542+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, ip, user_agent, result, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-23T22:48:40.542+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 217293974052933632(Long), 9777b45f78234838(String), 0(Long), admin(String), login(String), auth(String), LoginBody(username=admin, password=wrong-pass, captchaKey=null, (String), 127.0.0.1(String), curl/8.5.0(String), fail(String), 2026-08-23 22:48:40.541(Timestamp)
+2026-08-23T22:48:40.544+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-23T22:48:40.555+08:00  WARN 20464 --- [ptidss-server] [http-nio-9081-exec-4] c.ptidss.auth.service.SysLoginService    : 账号临时锁定拒绝登录：username=admin, 连续失败=5
+2026-08-23T22:48:40.556+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-4] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, ip, user_agent, result, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-23T22:48:40.557+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-4] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 217293974115848192(Long), b462fe92c5644225(String), 0(Long), admin(String), login(String), auth(String), LoginBody(username=admin, password=Ptidss@2026, captchaKey=null,(String), 127.0.0.1(String), curl/8.5.0(String), fail(String), 2026-08-23 22:48:40.556(Timestamp)
+2026-08-23T22:48:40.558+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-4] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-23T22:48:42.542+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条，触发决策会话情报重评 0 个
+2026-08-23T22:48:52.804+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysUserMapper.selectWithCursor   : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (username = ?)
+2026-08-23T22:48:52.804+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysUserMapper.selectWithCursor   : ==> Parameters: trader01(String)
+2026-08-23T22:48:52.807+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysUserMapper.selectWithCursor   : <==      Total: 1
+2026-08-23T22:48:52.892+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.mapper.SysRoleMapper.selectByIds   : ==>  Preparing: SELECT id,role_code,role_name,description,status,version,deleted,created_at,updated_at FROM sys_role WHERE id IN ( ? , ? ) AND deleted=false
+2026-08-23T22:48:52.892+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.mapper.SysRoleMapper.selectByIds   : ==> Parameters: 1(Long), 7(Long)
+2026-08-23T22:48:52.896+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.mapper.SysRoleMapper.selectByIds   : <==      Total: 2
+2026-08-23T22:48:52.898+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysPermissionMapper.selectList   : ==>  Preparing: SELECT id,perm_code,perm_name,resource_type,resource_pattern,status,version,deleted,created_at,updated_at FROM sys_permission WHERE deleted=false AND (status = ? AND EXISTS (SELECT 1 FROM sys_role_permission rp WHERE rp.permission_id = sys_permission.id AND rp.role_id = ?))
+2026-08-23T22:48:52.898+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysPermissionMapper.selectList   : ==> Parameters: active(String), 1(Long)
+2026-08-23T22:48:52.903+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysPermissionMapper.selectList   : <==      Total: 9
+2026-08-23T22:48:52.904+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysPermissionMapper.selectList   : ==>  Preparing: SELECT id,perm_code,perm_name,resource_type,resource_pattern,status,version,deleted,created_at,updated_at FROM sys_permission WHERE deleted=false AND (status = ? AND EXISTS (SELECT 1 FROM sys_role_permission rp WHERE rp.permission_id = sys_permission.id AND rp.role_id = ?))
+2026-08-23T22:48:52.904+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysPermissionMapper.selectList   : ==> Parameters: active(String), 7(Long)
+2026-08-23T22:48:52.906+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysPermissionMapper.selectList   : <==      Total: 5
+2026-08-23T22:48:52.907+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysUserRegionMapper.selectList   : ==>  Preparing: SELECT user_id,region_code FROM sys_user_region WHERE (user_id = ?)
+2026-08-23T22:48:52.908+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysUserRegionMapper.selectList   : ==> Parameters: 2(Long)
+2026-08-23T22:48:52.909+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysUserRegionMapper.selectList   : <==      Total: 1
+2026-08-23T22:48:52.911+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysRoleRegionMapper.selectList   : ==>  Preparing: SELECT role_id,region_code FROM sys_role_region WHERE (role_id = ?)
+2026-08-23T22:48:52.911+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysRoleRegionMapper.selectList   : ==> Parameters: 1(Long)
+2026-08-23T22:48:52.912+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysRoleRegionMapper.selectList   : <==      Total: 0
+2026-08-23T22:48:52.914+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysRoleRegionMapper.selectList   : ==>  Preparing: SELECT role_id,region_code FROM sys_role_region WHERE (role_id = ?)
+2026-08-23T22:48:52.914+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysRoleRegionMapper.selectList   : ==> Parameters: 7(Long)
+2026-08-23T22:48:52.915+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.SysRoleRegionMapper.selectList   : <==      Total: 0
+2026-08-23T22:48:52.917+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.S.selectWithCursor               : ==>  Preparing: SELECT id,region_code,region_name,market_support,exchange_channel,settlement_period,status,launch_order,version,deleted,created_at,updated_at FROM sys_region WHERE deleted=false AND (region_code = ? AND status = ?)
+2026-08-23T22:48:52.918+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.S.selectWithCursor               : ==> Parameters: CN-32(String), enabled(String)
+2026-08-23T22:48:52.921+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.m.S.selectWithCursor               : <==      Total: 1
+2026-08-23T22:48:53.000+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET last_login_at=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-23T22:48:53.000+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: 2026-08-23 22:48:52.999(Timestamp), 2026-08-23 22:48:53.0(Timestamp), 2(Long)
+2026-08-23T22:48:53.003+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-23T22:48:53.005+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, ip, user_agent, result, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-23T22:48:53.005+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 217294026326544384(Long), f3d85f740d864b3f(String), 0(Long), trader01(String), login(String), auth(String), LoginBody(username=trader01, password=Ptidss@2026, captchaKey=nu(String), 127.0.0.1(String), curl/8.5.0(String), success(String), 2026-08-23 22:48:53.005(Timestamp)
+2026-08-23T22:48:53.007+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-10] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-23T22:49:01.907+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysUserMapper.selectWithCursor   : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (username = ?)
+2026-08-23T22:49:01.907+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysUserMapper.selectWithCursor   : ==> Parameters: trader01(String)
+2026-08-23T22:49:01.909+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysUserMapper.selectWithCursor   : <==      Total: 1
+2026-08-23T22:49:01.993+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.mapper.SysRoleMapper.selectByIds   : ==>  Preparing: SELECT id,role_code,role_name,description,status,version,deleted,created_at,updated_at FROM sys_role WHERE id IN ( ? , ? ) AND deleted=false
+2026-08-23T22:49:01.994+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.mapper.SysRoleMapper.selectByIds   : ==> Parameters: 1(Long), 7(Long)
+2026-08-23T22:49:01.995+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.mapper.SysRoleMapper.selectByIds   : <==      Total: 2
+2026-08-23T22:49:01.996+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysPermissionMapper.selectList   : ==>  Preparing: SELECT id,perm_code,perm_name,resource_type,resource_pattern,status,version,deleted,created_at,updated_at FROM sys_permission WHERE deleted=false AND (status = ? AND EXISTS (SELECT 1 FROM sys_role_permission rp WHERE rp.permission_id = sys_permission.id AND rp.role_id = ?))
+2026-08-23T22:49:01.997+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysPermissionMapper.selectList   : ==> Parameters: active(String), 1(Long)
+2026-08-23T22:49:01.999+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysPermissionMapper.selectList   : <==      Total: 9
+2026-08-23T22:49:02.000+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysPermissionMapper.selectList   : ==>  Preparing: SELECT id,perm_code,perm_name,resource_type,resource_pattern,status,version,deleted,created_at,updated_at FROM sys_permission WHERE deleted=false AND (status = ? AND EXISTS (SELECT 1 FROM sys_role_permission rp WHERE rp.permission_id = sys_permission.id AND rp.role_id = ?))
+2026-08-23T22:49:02.001+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysPermissionMapper.selectList   : ==> Parameters: active(String), 7(Long)
+2026-08-23T22:49:02.003+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysPermissionMapper.selectList   : <==      Total: 5
+2026-08-23T22:49:02.004+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysUserRegionMapper.selectList   : ==>  Preparing: SELECT user_id,region_code FROM sys_user_region WHERE (user_id = ?)
+2026-08-23T22:49:02.004+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysUserRegionMapper.selectList   : ==> Parameters: 2(Long)
+2026-08-23T22:49:02.005+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysUserRegionMapper.selectList   : <==      Total: 1
+2026-08-23T22:49:02.006+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysRoleRegionMapper.selectList   : ==>  Preparing: SELECT role_id,region_code FROM sys_role_region WHERE (role_id = ?)
+2026-08-23T22:49:02.006+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysRoleRegionMapper.selectList   : ==> Parameters: 1(Long)
+2026-08-23T22:49:02.007+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysRoleRegionMapper.selectList   : <==      Total: 0
+2026-08-23T22:49:02.008+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysRoleRegionMapper.selectList   : ==>  Preparing: SELECT role_id,region_code FROM sys_role_region WHERE (role_id = ?)
+2026-08-23T22:49:02.008+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysRoleRegionMapper.selectList   : ==> Parameters: 7(Long)
+2026-08-23T22:49:02.009+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.SysRoleRegionMapper.selectList   : <==      Total: 0
+2026-08-23T22:49:02.011+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.S.selectWithCursor               : ==>  Preparing: SELECT id,region_code,region_name,market_support,exchange_channel,settlement_period,status,launch_order,version,deleted,created_at,updated_at FROM sys_region WHERE deleted=false AND (region_code = ? AND status = ?)
+2026-08-23T22:49:02.011+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.S.selectWithCursor               : ==> Parameters: CN-32(String), enabled(String)
+2026-08-23T22:49:02.012+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.m.S.selectWithCursor               : <==      Total: 1
+2026-08-23T22:49:02.014+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET last_login_at=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-23T22:49:02.014+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: 2026-08-23 22:49:02.013(Timestamp), 2026-08-23 22:49:02.014(Timestamp), 2(Long)
+2026-08-23T22:49:02.017+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-23T22:49:02.018+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, ip, user_agent, result, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-23T22:49:02.018+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 217294064134000640(Long), 4dcf41cff1f5424b(String), 0(Long), trader01(String), login(String), auth(String), LoginBody(username=trader01, password=Ptidss@2026, captchaKey=nu(String), 127.0.0.1(String), curl/8.5.0(String), success(String), 2026-08-23 22:49:02.018(Timestamp)
+2026-08-23T22:49:02.020+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-2] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-23T22:49:02.085+08:00 ERROR 20464 --- [ptidss-server] [http-nio-9081-exec-6] c.p.c.exception.GlobalExceptionHandler   : 系统异常：GET /ptidss/market/overview
+
+org.springframework.web.servlet.resource.NoResourceFoundException: No static resource market/overview.
+	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585) ~[spring-webmvc-6.2.19.jar!/:6.2.19]
+	at org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:52) ~[spring-webmvc-6.2.19.jar!/:6.2.19]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.2.19.jar!/:6.2.19]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.19.jar!/:6.2.19]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.19.jar!/:6.2.19]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.2.19.jar!/:6.2.19]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.19.jar!/:6.2.19]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.55.jar!/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.19.jar!/:6.2.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.19.jar!/:6.2.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.19.jar!/:6.2.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.19.jar!/:6.2.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.19.jar!/:6.2.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.19.jar!/:6.2.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1797) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+
+2026-08-23T22:49:02.101+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysUserMapper.selectWithCursor   : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (username = ?)
+2026-08-23T22:49:02.102+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysUserMapper.selectWithCursor   : ==> Parameters: trader01(String)
+2026-08-23T22:49:02.103+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysUserMapper.selectWithCursor   : <==      Total: 1
+2026-08-23T22:49:02.185+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.mapper.SysRoleMapper.selectByIds   : ==>  Preparing: SELECT id,role_code,role_name,description,status,version,deleted,created_at,updated_at FROM sys_role WHERE id IN ( ? , ? ) AND deleted=false
+2026-08-23T22:49:02.186+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.mapper.SysRoleMapper.selectByIds   : ==> Parameters: 1(Long), 7(Long)
+2026-08-23T22:49:02.187+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.mapper.SysRoleMapper.selectByIds   : <==      Total: 2
+2026-08-23T22:49:02.188+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysPermissionMapper.selectList   : ==>  Preparing: SELECT id,perm_code,perm_name,resource_type,resource_pattern,status,version,deleted,created_at,updated_at FROM sys_permission WHERE deleted=false AND (status = ? AND EXISTS (SELECT 1 FROM sys_role_permission rp WHERE rp.permission_id = sys_permission.id AND rp.role_id = ?))
+2026-08-23T22:49:02.188+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysPermissionMapper.selectList   : ==> Parameters: active(String), 1(Long)
+2026-08-23T22:49:02.191+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysPermissionMapper.selectList   : <==      Total: 9
+2026-08-23T22:49:02.192+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysPermissionMapper.selectList   : ==>  Preparing: SELECT id,perm_code,perm_name,resource_type,resource_pattern,status,version,deleted,created_at,updated_at FROM sys_permission WHERE deleted=false AND (status = ? AND EXISTS (SELECT 1 FROM sys_role_permission rp WHERE rp.permission_id = sys_permission.id AND rp.role_id = ?))
+2026-08-23T22:49:02.192+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysPermissionMapper.selectList   : ==> Parameters: active(String), 7(Long)
+2026-08-23T22:49:02.194+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysPermissionMapper.selectList   : <==      Total: 5
+2026-08-23T22:49:02.195+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysUserRegionMapper.selectList   : ==>  Preparing: SELECT user_id,region_code FROM sys_user_region WHERE (user_id = ?)
+2026-08-23T22:49:02.195+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysUserRegionMapper.selectList   : ==> Parameters: 2(Long)
+2026-08-23T22:49:02.196+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysUserRegionMapper.selectList   : <==      Total: 1
+2026-08-23T22:49:02.197+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysRoleRegionMapper.selectList   : ==>  Preparing: SELECT role_id,region_code FROM sys_role_region WHERE (role_id = ?)
+2026-08-23T22:49:02.197+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysRoleRegionMapper.selectList   : ==> Parameters: 1(Long)
+2026-08-23T22:49:02.198+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysRoleRegionMapper.selectList   : <==      Total: 0
+2026-08-23T22:49:02.198+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysRoleRegionMapper.selectList   : ==>  Preparing: SELECT role_id,region_code FROM sys_role_region WHERE (role_id = ?)
+2026-08-23T22:49:02.199+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysRoleRegionMapper.selectList   : ==> Parameters: 7(Long)
+2026-08-23T22:49:02.199+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.SysRoleRegionMapper.selectList   : <==      Total: 0
+2026-08-23T22:49:02.200+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.S.selectWithCursor               : ==>  Preparing: SELECT id,region_code,region_name,market_support,exchange_channel,settlement_period,status,launch_order,version,deleted,created_at,updated_at FROM sys_region WHERE deleted=false AND (region_code = ? AND status = ?)
+2026-08-23T22:49:02.201+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.S.selectWithCursor               : ==> Parameters: CN-32(String), enabled(String)
+2026-08-23T22:49:02.202+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.m.S.selectWithCursor               : <==      Total: 1
+2026-08-23T22:49:02.203+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET last_login_at=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-23T22:49:02.203+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: 2026-08-23 22:49:02.203(Timestamp), 2026-08-23 22:49:02.203(Timestamp), 2(Long)
+2026-08-23T22:49:02.205+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-23T22:49:02.206+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, ip, user_agent, result, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-23T22:49:02.206+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 217294064918335488(Long), b9ae306d450142f9(String), 0(Long), trader01(String), login(String), auth(String), LoginBody(username=trader01, password=Ptidss@2026, captchaKey=nu(String), 127.0.0.1(String), curl/8.5.0(String), success(String), 2026-08-23 22:49:02.206(Timestamp)
+2026-08-23T22:49:02.208+08:00 DEBUG 20464 --- [ptidss-server] [http-nio-9081-exec-8] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-23T22:49:02.228+08:00 ERROR 20464 --- [ptidss-server] [http-nio-9081-exec-9] c.p.c.exception.GlobalExceptionHandler   : 系统异常：GET /ptidss/market/overview
+
+org.springframework.web.servlet.resource.NoResourceFoundException: No static resource market/overview.
+	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585) ~[spring-webmvc-6.2.19.jar!/:6.2.19]
+	at org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:52) ~[spring-webmvc-6.2.19.jar!/:6.2.19]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.2.19.jar!/:6.2.19]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.19.jar!/:6.2.19]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.19.jar!/:6.2.19]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.2.19.jar!/:6.2.19]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.19.jar!/:6.2.19]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.55.jar!/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.19.jar!/:6.2.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.19.jar!/:6.2.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.19.jar!/:6.2.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.19.jar!/:6.2.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.19.jar!/:6.2.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.19.jar!/:6.2.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:492) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1272) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1797) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.55.jar!/:na]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+
+2026-08-23T22:49:02.522+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PROV-JS 生成模拟情报
+2026-08-23T22:49:02.527+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-NEA 生成模拟情报
+2026-08-23T22:49:02.535+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-GRID-JS 生成模拟情报
+2026-08-23T22:49:02.539+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-MET-CMA 生成模拟情报
+2026-08-23T22:49:02.547+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-NEM 生成模拟情报
+2026-08-23T22:49:02.551+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-PROV 生成模拟情报
+2026-08-23T22:49:02.556+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-ANN-GRID 生成模拟情报
+2026-08-23T22:49:02.561+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-OPI-MEDIA 生成模拟情报
+2026-08-23T22:49:02.566+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-POL-ENERGY 生成模拟情报
+2026-08-23T22:49:02.570+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-SD-DEMAND 生成模拟情报
+2026-08-23T22:49:02.576+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-SD 生成模拟情报
+2026-08-23T22:49:02.580+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-SX 生成模拟情报
+2026-08-23T22:49:02.585+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-GD 生成模拟情报
+2026-08-23T22:49:02.590+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-GS 生成模拟情报
+2026-08-23T22:49:02.596+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-MX 生成模拟情报
+2026-08-23T22:49:02.602+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-ANN-SD 生成模拟情报
+2026-08-23T22:49:02.607+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-SD-SD 生成模拟情报
+2026-08-23T22:49:02.613+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-SD-MX 生成模拟情报
+2026-08-23T22:49:02.618+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-POL-PROV 生成模拟情报
+2026-08-23T22:49:02.624+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-SC 生成模拟情报
+2026-08-23T22:49:02.624+08:00  INFO 20464 --- [ptidss-server] [scheduling-1] c.p.intel.service.IntelFetchService      : 行情采集执行完成：到期 20 个（成功 20 / 失败 0 / 跳过未到期 0）
+2026-08-23T22:49:07.458+08:00  INFO 20464 --- [ptidss-server] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-23T22:49:07.460+08:00  INFO 20464 --- [ptidss-server] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-08-23T22:49:07.467+08:00  INFO 20464 --- [ptidss-server] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-08-23T22:49:07.469+08:00  INFO 20464 --- [ptidss-server] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

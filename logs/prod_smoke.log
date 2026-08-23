@@ -1,0 +1,113 @@
+nohup: 忽略输入
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-08-23T22:25:06.412+08:00  INFO 17825 --- [ptidss-server] [           main] com.ptidss.PtidssApplication             : Starting PtidssApplication v1.0.0 using Java 21.0.12.1 with PID 17825 (/home/odoo/workspace/PTIDSS/ptidss-server/target/ptidss-server.jar started by odoo in /home/odoo/workspace/PTIDSS/ptidss-server)
+2026-08-23T22:25:06.414+08:00  INFO 17825 --- [ptidss-server] [           main] com.ptidss.PtidssApplication             : The following 1 profile is active: "prod"
+2026-08-23T22:25:08.125+08:00  INFO 17825 --- [ptidss-server] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 9081 (http)
+2026-08-23T22:25:08.142+08:00  INFO 17825 --- [ptidss-server] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-08-23T22:25:08.143+08:00  INFO 17825 --- [ptidss-server] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-23T22:25:08.171+08:00  INFO 17825 --- [ptidss-server] [           main] o.a.c.c.C.[.[localhost].[/ptidss]        : Initializing Spring embedded WebApplicationContext
+2026-08-23T22:25:08.171+08:00  INFO 17825 --- [ptidss-server] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1677 ms
+2026-08-23T22:25:09.160+08:00  WARN 17825 --- [ptidss-server] [           main] c.b.m.core.metadata.TableInfoHelper      : Can not find table primary key in Class: "com.ptidss.system.domain.SysUserRegion".
+2026-08-23T22:25:09.161+08:00  WARN 17825 --- [ptidss-server] [           main] c.b.m.core.injector.DefaultSqlInjector   : class com.ptidss.system.domain.SysUserRegion Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2026-08-23T22:25:09.189+08:00  WARN 17825 --- [ptidss-server] [           main] c.b.m.core.metadata.TableInfoHelper      : Can not find table primary key in Class: "com.ptidss.system.domain.SysRoleRegion".
+2026-08-23T22:25:09.190+08:00  WARN 17825 --- [ptidss-server] [           main] c.b.m.core.injector.DefaultSqlInjector   : class com.ptidss.system.domain.SysRoleRegion Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2026-08-23T22:25:09.261+08:00  INFO 17825 --- [ptidss-server] [           main] c.ptidss.common.security.TokenService    : TokenService 初始化完成：expire=120min, refreshThreshold=10min
+2026-08-23T22:25:09.389+08:00  INFO 17825 --- [ptidss-server] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-08-23T22:25:09.632+08:00  INFO 17825 --- [ptidss-server] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@768f4b42
+2026-08-23T22:25:09.633+08:00  INFO 17825 --- [ptidss-server] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-08-23T22:25:09.642+08:00 DEBUG 17825 --- [ptidss-server] [           main] c.p.s.mapper.SysUserMapper.selectList    : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (password_hash LIKE ?)
+2026-08-23T22:25:09.660+08:00 DEBUG 17825 --- [ptidss-server] [           main] c.p.s.mapper.SysUserMapper.selectList    : ==> Parameters: %PLACEHOLDER%(String)
+2026-08-23T22:25:09.801+08:00 DEBUG 17825 --- [ptidss-server] [           main] c.p.s.mapper.SysUserMapper.selectList    : <==      Total: 4
+2026-08-23T22:25:09.910+08:00 DEBUG 17825 --- [ptidss-server] [           main] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET password_hash=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-23T22:25:09.914+08:00 DEBUG 17825 --- [ptidss-server] [           main] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: $2a$10$5WghSbjD9RBSl9cjK1lEROioUyKzPg3qAARJwP215TzqZNSKcPeo.(String), 2026-08-23 22:25:09.909(Timestamp), 1(Long)
+2026-08-23T22:25:09.917+08:00 DEBUG 17825 --- [ptidss-server] [           main] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-23T22:25:09.917+08:00  INFO 17825 --- [ptidss-server] [           main] c.ptidss.auth.service.SysLoginService    : 初始化账号密码：admin（默认密码，请首次登录后修改）
+2026-08-23T22:25:09.994+08:00 DEBUG 17825 --- [ptidss-server] [           main] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET password_hash=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-23T22:25:09.994+08:00 DEBUG 17825 --- [ptidss-server] [           main] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: $2a$10$Fb/GGHKTJuy/e7EeBhv.U.VAsYHWPSnRo1/dzlT6Vaz4.apz/ow0O(String), 2026-08-23 22:25:09.993(Timestamp), 2(Long)
+2026-08-23T22:25:09.996+08:00 DEBUG 17825 --- [ptidss-server] [           main] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-23T22:25:09.996+08:00  INFO 17825 --- [ptidss-server] [           main] c.ptidss.auth.service.SysLoginService    : 初始化账号密码：trader01（默认密码，请首次登录后修改）
+2026-08-23T22:25:10.073+08:00 DEBUG 17825 --- [ptidss-server] [           main] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET password_hash=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-23T22:25:10.074+08:00 DEBUG 17825 --- [ptidss-server] [           main] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: $2a$10$y/SUxPhePx4BtiASCronR.PjrZo4koaK9iLJkm90IYbs4uQ35P0fW(String), 2026-08-23 22:25:10.073(Timestamp), 3(Long)
+2026-08-23T22:25:10.076+08:00 DEBUG 17825 --- [ptidss-server] [           main] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-23T22:25:10.076+08:00  INFO 17825 --- [ptidss-server] [           main] c.ptidss.auth.service.SysLoginService    : 初始化账号密码：settle01（默认密码，请首次登录后修改）
+2026-08-23T22:25:10.156+08:00 DEBUG 17825 --- [ptidss-server] [           main] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET password_hash=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-23T22:25:10.156+08:00 DEBUG 17825 --- [ptidss-server] [           main] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: $2a$10$oM46vG.kIrvda6aIktK6UOg0/3HOf./CiRO4R5dMkMsvyZiawiX66(String), 2026-08-23 22:25:10.156(Timestamp), 4(Long)
+2026-08-23T22:25:10.158+08:00 DEBUG 17825 --- [ptidss-server] [           main] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-23T22:25:10.158+08:00  INFO 17825 --- [ptidss-server] [           main] c.ptidss.auth.service.SysLoginService    : 初始化账号密码：manager01（默认密码，请首次登录后修改）
+2026-08-23T22:25:10.637+08:00  INFO 17825 --- [ptidss-server] [           main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：forecast（特征序列预测（96 点价格））
+2026-08-23T22:25:10.638+08:00  INFO 17825 --- [ptidss-server] [           main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：market_analysis（情报舆情情感加权分析）
+2026-08-23T22:25:10.638+08:00  INFO 17825 --- [ptidss-server] [           main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：optimize（混合整数规划联合优化）
+2026-08-23T22:25:10.638+08:00  INFO 17825 --- [ptidss-server] [           main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：quote_strategy（分段聚合报价策略）
+2026-08-23T22:25:10.638+08:00  INFO 17825 --- [ptidss-server] [           main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：review（复盘知识库四段式归纳）
+2026-08-23T22:25:10.639+08:00  INFO 17825 --- [ptidss-server] [           main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：risk_measure（蒙特卡洛 CVaR 风险度量）
+2026-08-23T22:25:10.639+08:00  INFO 17825 --- [ptidss-server] [           main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：rule_engine（合规规则引擎仲裁）
+2026-08-23T22:25:10.639+08:00  INFO 17825 --- [ptidss-server] [           main] c.ptidss.model.spi.AlgorithmSpiRegistry  : 算法 SPI 执行器已注册：settlement（偏差考核结算测算）
+2026-08-23T22:25:12.139+08:00  INFO 17825 --- [ptidss-server] [           main] b.m.s.MybatisPlusApplicationContextAware : Register ApplicationContext instances org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@7c098bb3
+2026-08-23T22:25:12.321+08:00  INFO 17825 --- [ptidss-server] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 9081 (http) with context path '/ptidss'
+2026-08-23T22:25:12.335+08:00  INFO 17825 --- [ptidss-server] [           main] com.ptidss.PtidssApplication             : Started PtidssApplication in 6.545 seconds (process running for 7.048)
+===============================================
+  PTIDSS Server 启动成功: http://localhost:9080/ptidss
+===============================================
+2026-08-23T22:25:22.402+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条，触发决策会话情报重评 0 个
+2026-08-23T22:25:35.405+08:00  INFO 17825 --- [ptidss-server] [nio-9081-exec-1] o.a.c.c.C.[.[localhost].[/ptidss]        : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-23T22:25:35.405+08:00  INFO 17825 --- [ptidss-server] [nio-9081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-08-23T22:25:35.407+08:00  INFO 17825 --- [ptidss-server] [nio-9081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-08-23T22:25:35.970+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.s.m.SysUserMapper.selectWithCursor   : ==>  Preparing: SELECT id,username,display_name,password_hash,role_ids,org_code,phone,email,status,last_login_at,version,deleted,created_at,updated_at FROM sys_user WHERE deleted=false AND (username = ?)
+2026-08-23T22:25:35.970+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.s.m.SysUserMapper.selectWithCursor   : ==> Parameters: admin(String)
+2026-08-23T22:25:35.973+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.s.m.SysUserMapper.selectWithCursor   : <==      Total: 1
+2026-08-23T22:25:36.052+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.s.mapper.SysRoleMapper.selectByIds   : ==>  Preparing: SELECT id,role_code,role_name,description,status,version,deleted,created_at,updated_at FROM sys_role WHERE id IN ( ? ) AND deleted=false
+2026-08-23T22:25:36.052+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.s.mapper.SysRoleMapper.selectByIds   : ==> Parameters: 4(Long)
+2026-08-23T22:25:36.055+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.s.mapper.SysRoleMapper.selectByIds   : <==      Total: 1
+2026-08-23T22:25:36.057+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.s.m.SysPermissionMapper.selectList   : ==>  Preparing: SELECT id,perm_code,perm_name,resource_type,resource_pattern,status,version,deleted,created_at,updated_at FROM sys_permission WHERE deleted=false AND (status = ? AND EXISTS (SELECT 1 FROM sys_role_permission rp WHERE rp.permission_id = sys_permission.id AND rp.role_id = ?))
+2026-08-23T22:25:36.057+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.s.m.SysPermissionMapper.selectList   : ==> Parameters: active(String), 4(Long)
+2026-08-23T22:25:36.063+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.s.m.SysPermissionMapper.selectList   : <==      Total: 18
+2026-08-23T22:25:36.065+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.s.m.SysUserRegionMapper.selectList   : ==>  Preparing: SELECT user_id,region_code FROM sys_user_region WHERE (user_id = ?)
+2026-08-23T22:25:36.065+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.s.m.SysUserRegionMapper.selectList   : ==> Parameters: 1(Long)
+2026-08-23T22:25:36.067+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.s.m.SysUserRegionMapper.selectList   : <==      Total: 4
+2026-08-23T22:25:36.069+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.s.m.S.selectWithCursor               : ==>  Preparing: SELECT id,region_code,region_name,market_support,exchange_channel,settlement_period,status,launch_order,version,deleted,created_at,updated_at FROM sys_region WHERE deleted=false AND (region_code = ? AND status = ?)
+2026-08-23T22:25:36.070+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.s.m.S.selectWithCursor               : ==> Parameters: CN-31(String), enabled(String)
+2026-08-23T22:25:36.073+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.s.m.S.selectWithCursor               : <==      Total: 1
+2026-08-23T22:25:36.155+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.s.mapper.SysUserMapper.updateById    : ==>  Preparing: UPDATE sys_user SET last_login_at=?, updated_at=? WHERE id=? AND deleted=false
+2026-08-23T22:25:36.156+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.s.mapper.SysUserMapper.updateById    : ==> Parameters: 2026-08-23 22:25:36.155(Timestamp), 2026-08-23 22:25:36.155(Timestamp), 1(Long)
+2026-08-23T22:25:36.158+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.s.mapper.SysUserMapper.updateById    : <==    Updates: 1
+2026-08-23T22:25:36.163+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.system.mapper.AuditLogMapper.insert  : ==>  Preparing: INSERT INTO audit_log ( id, trace_id, user_id, username, action, target_type, target_id, ip, user_agent, result, created_at ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+2026-08-23T22:25:36.164+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.system.mapper.AuditLogMapper.insert  : ==> Parameters: 217288167533973504(Long), 6281f8d9364240e6(String), 0(Long), admin(String), login(String), auth(String), LoginBody(username=admin, password=Ptidss@2026, captchaKey=null,(String), 127.0.0.1(String), curl/8.5.0(String), success(String), 2026-08-23 22:25:36.16(Timestamp)
+2026-08-23T22:25:36.167+08:00 DEBUG 17825 --- [ptidss-server] [nio-9081-exec-2] c.p.system.mapper.AuditLogMapper.insert  : <==    Updates: 1
+2026-08-23T22:25:42.355+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PROV-JS 生成模拟情报
+2026-08-23T22:25:42.360+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-NEA 生成模拟情报
+2026-08-23T22:25:42.369+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-GRID-JS 生成模拟情报
+2026-08-23T22:25:42.375+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-MET-CMA 生成模拟情报
+2026-08-23T22:25:42.385+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-NEM 生成模拟情报
+2026-08-23T22:25:42.390+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-PROV 生成模拟情报
+2026-08-23T22:25:42.396+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-ANN-GRID 生成模拟情报
+2026-08-23T22:25:42.401+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-OPI-MEDIA 生成模拟情报
+2026-08-23T22:25:42.407+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-POL-ENERGY 生成模拟情报
+2026-08-23T22:25:42.411+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-SD-DEMAND 生成模拟情报
+2026-08-23T22:25:42.418+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-SD 生成模拟情报
+2026-08-23T22:25:42.423+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-SX 生成模拟情报
+2026-08-23T22:25:42.428+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-GD 生成模拟情报
+2026-08-23T22:25:42.433+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-GS 生成模拟情报
+2026-08-23T22:25:42.438+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-MX 生成模拟情报
+2026-08-23T22:25:42.442+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-ANN-SD 生成模拟情报
+2026-08-23T22:25:42.447+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-SD-SD 生成模拟情报
+2026-08-23T22:25:42.452+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-SD-MX 生成模拟情报
+2026-08-23T22:25:42.457+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-POL-PROV 生成模拟情报
+2026-08-23T22:25:42.462+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 情报源模拟采集：INTL-PRICE-SC 生成模拟情报
+2026-08-23T22:25:42.462+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 行情采集执行完成：到期 20 个（成功 20 / 失败 0 / 跳过未到期 0）
+2026-08-23T22:25:52.435+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条，触发决策会话情报重评 0 个
+2026-08-23T22:26:22.472+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条，触发决策会话情报重评 0 个
+2026-08-23T22:26:42.481+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] c.p.intel.service.IntelFetchService      : 行情采集执行完成：到期 0 个（成功 0 / 失败 0 / 跳过未到期 20）
+2026-08-23T22:26:52.503+08:00  INFO 17825 --- [ptidss-server] [   scheduling-1] com.ptidss.intel.service.IntelService    : 情报推送执行完成：匹配情报 0 条，派发消息 0 条，触发决策会话情报重评 0 个
+2026-08-23T22:27:19.791+08:00  INFO 17825 --- [ptidss-server] [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-23T22:27:19.793+08:00  INFO 17825 --- [ptidss-server] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-08-23T22:27:19.802+08:00  INFO 17825 --- [ptidss-server] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-08-23T22:27:19.805+08:00  INFO 17825 --- [ptidss-server] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

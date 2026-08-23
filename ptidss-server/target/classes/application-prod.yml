@@ -6,7 +6,10 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${DB_HOST:127.0.0.1}:${DB_PORT:5432}/${DB_NAME:ptidss}
+    # 云 RDS/自建 PostgreSQL：通过环境变量覆盖连接信息
+    #   DB_SSLMODE：云 RDS 通常强制 SSL，阿里云/腾讯云/AWS 用 require；需校验证书用 verify-ca/verify-full（附 sslrootcert）
+    #   自建内网 pgsql 保持 disable 即可
+    url: "jdbc:postgresql://${DB_HOST:127.0.0.1}:${DB_PORT:5432}/${DB_NAME:ptidss}?sslmode=${DB_SSLMODE:disable}&connectTimeout=${DB_CONNECT_TIMEOUT:10}&socketTimeout=${DB_SOCKET_TIMEOUT:60}"
     username: ${DB_USER:ptidss}
     password: ${DB_PASSWORD:ptidss}
     hikari:
@@ -14,6 +17,10 @@ spring:
       minimum-idle: ${DB_POOL_MIN:4}
       connection-init-sql: SET app.region_code = ''
       connection-timeout: 10000
+      # 云网络环境建议：连接空闲 30 分钟自动回收 + 60 秒保活探测，避免被云防火墙/代理静默掐断
+      max-lifetime: ${DB_MAX_LIFETIME:1800000}
+      keepalive-time: ${DB_KEEPALIVE_TIME:60000}
+      validation-timeout: 3000
 
 logging:
   level:
@@ -36,3 +43,19 @@ ptidss:
   # 生产开启验证码
   captcha:
     enabled: ${CAPTCHA_ENABLED:true}
+  # 本地文件存储根目录（政策原文/算法包等上传文件落盘位置；云部署建议挂载持久卷/对象存储网关目录）
+  storage:
+    path: ${STORAGE_PATH:./data/ptidss}
+  # LLM 推理网关：开启后 endpoint+apiKeyRef 就绪的模型走 OpenAI 兼容真实调用
+  # 密钥经环境变量 LLM_API_KEY_<REF> 注入（如 LLM_API_KEY_DEEPSEEK），生产勿写入配置文件
+  llm:
+    gateway-enabled: ${LLM_GATEWAY_ENABLED:true}
+  # 连接参数字段级加密（AES-128-CBC）：密钥派生种子，生产必须经 CONFIG_SECRET_KEY 覆盖为独立随机串
+  security:
+    config-secret-key: ${CONFIG_SECRET_KEY:ptidss-config-secret-key-2026-dev-change-in-production}
+    # 跨域白名单（逗号分隔；等保边界防护：生产必须配置为实际前端域名，禁止保留 *）
+    cors-allowed-origins: ${CORS_ALLOWED_ORIGINS:*}
+  # 登录失败锁定（等保 8.1.4.1 身份鉴别）：连续失败次数限制 + 临时锁定
+  login:
+    fail-max: ${LOGIN_FAIL_MAX:5}
+    fail-lock-minutes: ${LOGIN_FAIL_LOCK_MINUTES:10}

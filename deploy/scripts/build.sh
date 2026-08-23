@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# PTIDSS 构建脚本（V2.0）
+# PTIDSS 构建脚本（V3.0）
 # 功能：后端 mvn package（跳过测试）+ 前端 npm build（产物 frontend/dist）
 # 用法：./build.sh
 # 环境：JDK 21（JAVA_HOME 可覆盖）、Node 18+、Maven 3.9+

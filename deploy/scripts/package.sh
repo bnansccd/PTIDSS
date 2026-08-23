@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# PTIDSS 部署包打包脚本（V2.6）
+# PTIDSS 部署包打包脚本（V3.0）
 # 功能：将 jar + 前端 dist + 小程序 mini-program + deploy 脚本 + DDL
 #       + 关键文档 + 长期验证脚本 组装为保持仓库相对布局的一键部署包（tar.gz）
 # 用法：./package.sh [版本]        # 默认版本 v3.0，产物 dist/ptidss-deploy-v3.0.tar.gz

@@ -17,7 +17,9 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD:-ptidss}
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ../../docs/ddl:/docker-entrypoint-initdb.d:ro   # 首次启动自动执行 01~15
+      # 初始化包装：执行 docs/ddl 01~15（排除 02 TDengine 时序脚本），首次启动自动执行
+      - ./init-db.sh:/docker-entrypoint-initdb.d/00-init-db.sh:ro
+      - ../../docs/ddl:/docker-entrypoint-initdb.d-src:ro
     ports:
       - "127.0.0.1:5432:5432"
     healthcheck:

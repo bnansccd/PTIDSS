@@ -3,8 +3,10 @@
 # PTIDSS 生产启动脚本（V1.7）
 # 功能：以 prod profile 启动后端（java -jar），支持环境变量覆盖配置
 # 用法：./start.sh [PORT]
-# 环境变量：DB_HOST/DB_PORT/DB_NAME/DB_USER/DB_PASSWORD/TOKEN_SECRET/
-#          CAPTCHA_ENABLED/INIT_DEFAULT_PASSWORD（缺省见 application-prod.yml）
+# 环境变量：DB_HOST/DB_PORT/DB_NAME/DB_USER/DB_PASSWORD/DB_SSLMODE/DB_POOL_MAX/DB_POOL_MIN/
+#          TOKEN_SECRET/CAPTCHA_ENABLED/INIT_DEFAULT_PASSWORD/CONFIG_SECRET_KEY/STORAGE_PATH/
+#          LLM_GATEWAY_ENABLED/LLM_API_KEY_*/CORS_ALLOWED_ORIGINS/LOGIN_FAIL_MAX/LOGIN_FAIL_LOCK_MINUTES
+#          （缺省见 application-prod.yml；CORS_ALLOWED_ORIGINS 生产必须配置为前端域名白名单）
 # ============================================================
 set -euo pipefail
 

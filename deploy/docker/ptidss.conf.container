@@ -1,7 +1,16 @@
 # PTIDSS 容器内 Nginx 配置（docker-compose 挂载，反代容器网络内 ptidss-server）
+# 等保加固：安全响应头 + 上传体积收紧；TLS 由外部负载均衡/网关终止（生产前置 LB 配置 443，
+# 本容器保持 80 供 LB 后端转发；若直接对外暴露需在 LB 层强制 HTTPS）
 server {
     listen       80;
     server_name  _;
+
+    # ── 安全响应头（等保 8.1.8.1 安全加固） ─────────────────
+    add_header X-Content-Type-Options nosniff always;
+    add_header X-Frame-Options SAMEORIGIN always;
+    add_header Referrer-Policy strict-origin-when-cross-origin always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'self'" always;
 
     location /ptidss/ {
         proxy_pass         http://ptidss-server:9080;
@@ -10,7 +19,7 @@ server {
         proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header   X-Forwarded-Proto $scheme;
         proxy_read_timeout 60s;
-        client_max_body_size 100m;
+        client_max_body_size 25m;   # 对齐后端 multipart max-request-size
     }
 
     location / {
@@ -19,10 +28,13 @@ server {
         try_files $uri $uri/ /index.html;
     }
 
+    # 静态资源缓存（带 hash 的构建产物；补安全头避免 location 覆盖丢失）
     location /assets/ {
         root   /opt/ptidss/frontend/dist;
         expires 30d;
         add_header Cache-Control "public, immutable";
+        add_header X-Content-Type-Options nosniff always;
+        add_header X-Frame-Options SAMEORIGIN always;
     }
 
     gzip on;
