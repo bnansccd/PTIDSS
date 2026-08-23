@@ -5,7 +5,7 @@ import com.mybatisflex.core.audit.ConsoleMessageCollector;
 import com.mybatisflex.core.audit.MessageCollector;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 /**
  * @author chenxl

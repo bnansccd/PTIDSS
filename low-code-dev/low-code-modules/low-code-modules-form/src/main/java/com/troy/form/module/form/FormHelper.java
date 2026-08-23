@@ -1,7 +1,7 @@
 package com.troy.form.module.form;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.JSONWriter;
 import com.troy.common.core.enums.DictValueEnums;
 import com.troy.common.core.enums.ResultEnum;
 import com.troy.common.core.exception.ServiceException;
@@ -83,7 +83,7 @@ public class FormHelper {
         }
         try {
             Object instance = clazz.newInstance();
-            return JSONObject.toJSONString(instance, SerializerFeature.WriteMapNullValue);
+            return JSONObject.toJSONString(instance, JSONWriter.Feature.WriteMapNullValue);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

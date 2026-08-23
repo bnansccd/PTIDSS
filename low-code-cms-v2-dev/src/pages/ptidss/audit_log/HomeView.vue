@@ -191,7 +191,7 @@ onMounted(load);
                 <el-table-column prop="ip" label="IP" width="130" />
                 <el-table-column label="操作" width="80" fixed="right">
                     <template #default="{ row }">
-                        <el-button type="primary" link @click="openDetail(row)">详情</el-button>
+                        <el-button type="primary" link @click="openDetail(row as LogRow)">详情</el-button>
                     </template>
                 </el-table-column>
             </el-table>

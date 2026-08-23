@@ -271,7 +271,7 @@ onBeforeUnmount(() => {
     posChart?.dispose();
 });
 
-const onTabChange = (name: string) => {
+const onTabChange = (name: string | number) => {
     if (name === "results") loadResults();
     if (name === "positions") loadPositions();
 };

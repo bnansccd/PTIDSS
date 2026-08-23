@@ -1,6 +1,6 @@
 package com.troy.form.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.mybatisflex.core.datasource.DataSourceKey;
 import com.troy.common.core.constant.Constants;
 import com.troy.common.core.context.SecurityContextHolder;

@@ -3,7 +3,7 @@ package com.troy.form.domain.DTO;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * <p>

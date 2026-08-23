@@ -11,7 +11,7 @@ import org.apache.rocketmq.client.producer.SendStatus;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.slf4j.MDC;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.time.Instant;
 
 /**

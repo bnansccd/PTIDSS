@@ -4,7 +4,7 @@ package com.troy.common.core.utils;
 import com.troy.common.core.anotation.NotRepeatSubmit;
 import org.springframework.web.method.HandlerMethod;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;

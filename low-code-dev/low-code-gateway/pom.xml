@@ -17,10 +17,10 @@
 
     <dependencies>
 
-        <!-- SpringCloud Gateway -->
+        <!-- SpringCloud Gateway（2025.x 起 gateway starter 更名为 -server-webflux） -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway</artifactId>
+            <artifactId>spring-cloud-starter-gateway-server-webflux</artifactId>
         </dependency>
 
         <!-- SpringCloud Alibaba Nacos -->
@@ -76,10 +76,16 @@
             <artifactId>spring-cloud-loadbalancer</artifactId>
         </dependency>
 
-        <!--验证码 -->
+        <!--验证码（仅使用 Producer/Config，排除其传递的 javax.servlet-api） -->
         <dependency>
             <groupId>com.github.penggle</groupId>
             <artifactId>kaptcha</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 <!--        &lt;!&ndash; low-code Common Redis&ndash;&gt;-->

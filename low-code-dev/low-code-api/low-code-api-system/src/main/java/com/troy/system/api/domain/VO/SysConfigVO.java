@@ -1,6 +1,6 @@
 package com.troy.system.api.domain.VO;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.troy.common.core.web.VO.BaseVO;
 import io.swagger.annotations.ApiModel;

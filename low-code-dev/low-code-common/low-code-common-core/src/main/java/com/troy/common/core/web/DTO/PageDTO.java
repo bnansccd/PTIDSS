@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.Min;
+import jakarta.validation.constraints.Min;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

@@ -48,7 +48,7 @@ services:
     restart: unless-stopped
 
   nginx:
-    image: nginx:1.27-alpine
+    image: nginx:stable-alpine
     container_name: ptidss-nginx
     volumes:
       - ./ptidss.conf.container:/etc/nginx/conf.d/default.conf:ro

@@ -17,7 +17,7 @@ deploy/
 │   └── ptidss.conf.example   # Nginx 配置模板（静态托管 + /ptidss 反代）
 └── docker/                   # 容器化可选方案
     ├── docker-compose.yml    # postgres18 + ptidss-server + nginx 三服务编排
-    ├── Dockerfile.server     # 后端镜像（eclipse-temurin:8-jre）
+    ├── Dockerfile.server     # 后端镜像（eclipse-temurin:21-jre）
     └── ptidss.conf.container # 容器内 Nginx 配置
 ```
 

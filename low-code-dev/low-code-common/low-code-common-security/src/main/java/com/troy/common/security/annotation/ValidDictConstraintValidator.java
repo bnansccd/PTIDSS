@@ -4,8 +4,8 @@ import com.troy.common.core.utils.StringUtils;
 import com.troy.common.security.utils.DictUtils;
 import com.troy.system.api.domain.VO.SysDictVO;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

@@ -335,8 +335,8 @@ onMounted(load);
                     <template #default="{ row }">
                         <el-button v-if="row.type === 'hq'" type="primary" link @click="openCreate">新建区域</el-button>
                         <template v-else-if="row.type === 'region'">
-                            <el-button type="primary" link @click="openEdit(row)">编辑</el-button>
-                            <el-button type="danger" link @click="remove(row)">删除</el-button>
+                            <el-button type="primary" link @click="openEdit(row as OrgNode)">编辑</el-button>
+                            <el-button type="danger" link @click="remove(row as OrgNode)"> 删除</el-button>
                         </template>
                         <span v-else class="muted">—</span>
                     </template>

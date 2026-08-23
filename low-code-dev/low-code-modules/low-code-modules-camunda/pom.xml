@@ -18,6 +18,14 @@
 
     <dependencies>
 
+        <!-- Jakarta Servlet API（Boot 3.x BOM 管理版本） -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+
         <!-- SpringCloud Alibaba Nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

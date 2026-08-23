@@ -16,6 +16,14 @@
     </description>
 
     <dependencies>
+
+        <!-- Jakarta Servlet API（Boot 3.x BOM 管理版本） -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.troy</groupId>
             <artifactId>low-code-common-security</artifactId>

@@ -5,8 +5,11 @@ import com.troy.common.core.constant.TokenConstants;
 import com.troy.common.core.text.Convert;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.Map;
 
 /**
@@ -24,7 +27,10 @@ public class JwtUtils {
      * @return 令牌
      */
     public static String createToken(Map<String, Object> claims) {
-        String token = Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS512, secret).compact();
+        String token = Jwts.builder()
+                .claims(claims)
+                .signWith(signingKey())
+                .compact();
         return token;
     }
 
@@ -35,7 +41,7 @@ public class JwtUtils {
      * @return 数据声明
      */
     public static Claims parseToken(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parser().verifyWith(signingKey()).build().parseSignedClaims(token).getPayload();
     }
 
     /**
@@ -135,5 +141,20 @@ public class JwtUtils {
      */
     public static String getValue(Claims claims, String key) {
         return Convert.toStr(claims.get(key), "");
+    }
+
+    /**
+     * 构造签名密钥（jjwt 0.13：HS256 要求密钥 ≥32 字节，短密钥 SHA-256 派生兼容）
+     */
+    private static SecretKey signingKey() {
+        byte[] raw = secret.getBytes(StandardCharsets.UTF_8);
+        try {
+            if (raw.length < 32) {
+                raw = MessageDigest.getInstance("SHA-256").digest(raw);
+            }
+        } catch (Exception e) {
+            throw new IllegalStateException("JWT 密钥派生失败", e);
+        }
+        return Keys.hmacShaKeyFor(raw);
     }
 }

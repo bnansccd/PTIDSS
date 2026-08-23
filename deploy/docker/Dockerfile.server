@@ -1,10 +1,10 @@
 # ============================================================
-# PTIDSS 后端镜像（V1.7）
+# PTIDSS 后端镜像（V2.0）
 # 前置：deploy/scripts/build.sh 已产出 ptidss-server/target/*.jar
 # 构建：docker build -f deploy/docker/Dockerfile.server -t ptidss-server .
 # 运行配置：环境变量见 application-prod.yml（DB_HOST/TOKEN_SECRET 等）
 # ============================================================
-FROM eclipse-temurin:8-jre
+FROM eclipse-temurin:21-jre
 
 LABEL maintainer="PTIDSS Team" description="电力交易智能辅助决策系统后端"
 

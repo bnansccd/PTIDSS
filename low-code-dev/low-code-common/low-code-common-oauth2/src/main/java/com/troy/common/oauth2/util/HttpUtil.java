@@ -2,7 +2,7 @@ package com.troy.common.oauth2.util;
 
 import lombok.SneakyThrows;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 

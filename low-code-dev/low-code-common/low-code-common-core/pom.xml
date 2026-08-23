@@ -41,6 +41,19 @@
             <artifactId>spring-web</artifactId>
         </dependency>
 
+        <!-- AOP（DataMaskingAspect/LesseeAspectConfig 使用 @Aspect） -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!-- Jakarta Servlet API（ServletUtils/FileUtils 等使用，Boot 3.x BOM 管理版本） -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Transmittable ThreadLocal -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -65,28 +78,32 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
-        <!-- Alibaba Fastjson -->
+        <!-- Alibaba Fastjson（fastjson2 2.x 统一；fastjson 1.x 已停止维护并含安全风险） -->
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.83</version>
-        </dependency>
-
-        <!-- Jwt -->
+        <!-- Jwt（jjwt 0.13：api/impl/jackson 三件套，不再需要 jaxb-api） -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
+            <artifactId>jjwt-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
-        <!-- Jaxb -->
+        <!-- Apache HttpClient5（Spring Framework 6 的 HttpComponentsClientHttpRequestFactory 基于 hc5） -->
         <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
         </dependency>
 
         <!-- Apache Lang3 -->
@@ -107,11 +124,7 @@
             <artifactId>commons-fileupload</artifactId>
         </dependency>
 
-        <!-- Java Servlet -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-        </dependency>
+        <!-- Java Servlet（Boot 3.x 由 spring-boot-starter-web 提供 jakarta.servlet-api，无需显式声明） -->
 
         <!-- Swagger -->
         <dependency>

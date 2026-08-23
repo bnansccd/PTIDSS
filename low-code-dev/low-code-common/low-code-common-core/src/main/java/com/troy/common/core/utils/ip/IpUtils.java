@@ -2,7 +2,7 @@ package com.troy.common.core.utils.ip;
 
 import com.troy.common.core.utils.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 

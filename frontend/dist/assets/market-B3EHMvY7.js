@@ -1,1 +1,0 @@
-import{G as e}from"./index-zkXjEhPm.js";function a(t){return e({url:"/market/price/spot",method:"get",params:t})}function m(t){return e({url:"/market/supply-demand",method:"get",params:t})}function u(t){return e({url:"/market/heatmap",method:"get",params:t})}export{u as a,m as b,a as g};

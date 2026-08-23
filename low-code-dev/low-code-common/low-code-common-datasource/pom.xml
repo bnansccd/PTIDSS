@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
+            <artifactId>druid-spring-boot-3-starter</artifactId>
         </dependency>
 
         <dependency>
@@ -67,16 +67,26 @@
             <artifactId>seata-spring-boot-starter</artifactId>
         </dependency>
 
-        <!--忠县密码机-->
+        <!--忠县密码机（私有 nexus 不可达，已平替为 Bouncy Castle 国密实现，见 PasswordTestConfig.java）-->
+        <!--
         <dependency>
             <groupId>com.sansec.sdk</groupId>
             <artifactId>sansec-sdk-java</artifactId>
         </dependency>
+        -->
+        <!-- 国密算法平替（SM4/SM3，替代江南天安密码机 SDK，版本由根 pom 管理） -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+        </dependency>
 
+        <!--中移物联网 API（私有 nexus 不可达，已平替为内部接口+本地实现，见 com.troy.uniRoad 包）-->
+        <!--
         <dependency>
             <groupId>com.troy</groupId>
             <artifactId>uniRoad-api-system</artifactId>
         </dependency>
+        -->
 
         <dependency>
             <groupId>com.dameng</groupId>

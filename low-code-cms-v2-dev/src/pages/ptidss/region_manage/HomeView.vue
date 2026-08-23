@@ -211,8 +211,8 @@ onMounted(load);
                 <el-table-column prop="launchOrder" label="接入顺序" width="90" />
                 <el-table-column label="操作" width="150" fixed="right">
                     <template #default="{ row }">
-                        <el-button type="primary" link @click="openEdit(row)">编辑</el-button>
-                        <el-button type="danger" link @click="remove(row)">删除</el-button>
+                        <el-button type="primary" link @click="openEdit(row as Region)">编辑</el-button>
+                        <el-button type="danger" link @click="remove(row as Region)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>

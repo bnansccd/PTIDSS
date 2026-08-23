@@ -3,14 +3,14 @@
 # PTIDSS 部署包打包脚本（V2.6）
 # 功能：将 jar + 前端 dist + 小程序 mini-program + deploy 脚本 + DDL
 #       + 关键文档 + 长期验证脚本 组装为保持仓库相对布局的一键部署包（tar.gz）
-# 用法：./package.sh [版本]        # 默认版本 v2.6，产物 dist/ptidss-deploy-v2.6.tar.gz
+# 用法：./package.sh [版本]        # 默认版本 v3.0，产物 dist/ptidss-deploy-v3.0.tar.gz
 # 前置：先执行 ./build.sh 产出 ptidss-server/target/*.jar 与 frontend/dist
 # ============================================================
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-VERSION="${1:-v2.6}"
+VERSION="${1:-v3.0}"
 PKG_NAME="ptidss-deploy-$VERSION"
 STAGE="$ROOT_DIR/dist/$PKG_NAME"
 OUT="$ROOT_DIR/dist/$PKG_NAME.tar.gz"

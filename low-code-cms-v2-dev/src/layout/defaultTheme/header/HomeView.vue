@@ -27,7 +27,7 @@ watch(
 const editableTabs = computed(() => sysConfig.tabs);
 
 // 移除tab
-const removeTab = (targetName: string) => {
+const removeTab = (targetName: string | number) => {
     let tabs = sysConfig.tabs;
     if (tabs.length <= 1) {
         // 只剩最后一个 不可删除
@@ -64,8 +64,8 @@ const removeTab = (targetName: string) => {
 };
 
 // 点击tab
-const onTabChange = (targetName: string) => {
-    router.push({ path: targetName });
+const onTabChange = (targetName: string | number) => {
+    router.push({ path: String(targetName) });
 
     sysConfig.tabsValue = editableTabsValue.value;
 };

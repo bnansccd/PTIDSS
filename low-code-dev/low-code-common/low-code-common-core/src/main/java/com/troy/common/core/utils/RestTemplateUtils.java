@@ -1,7 +1,7 @@
 package com.troy.common.core.utils;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -46,12 +46,39 @@ public class RestTemplateUtils {
      * @return
      */
     public <T> T doPostFormData(String url, Map<String, Object> param, Map<String, String> headersMap, Class<T> clazz) {
-        return doPostFormData(url, param, headersMap, new TypeReference<T>() {
-            @Override
-            public Type getType() {
-                return clazz;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        if (!CollectionUtils.isEmpty(headersMap)) {
+            for (Map.Entry<String, String> entry : headersMap.entrySet()) {
+                headers.set(entry.getKey(), entry.getValue());
             }
-        });
+        }
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<String, Object>();
+        try {
+            //表单中其他参数
+            if (!CollectionUtils.isEmpty(param)) {
+                for (Map.Entry<String, Object> entry : param.entrySet()) {
+                    Object value = entry.getValue();
+                    if (value instanceof File) {
+                        File file = (File) value;
+                        FileSystemResource fileResource = new FileSystemResource(file);
+                        body.add(entry.getKey(), fileResource);
+                    } else {
+                        body.add(entry.getKey(), value);
+                    }
+                }
+            }
+
+            //用HttpEntity封装整个请求报文
+            HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<>(body, headers);
+            // 执行POST请求
+            ResponseEntity<String> res = restTemplate.postForEntity(url, entity, String.class);// 执行提交
+            log.info("res:{}", res.getBody());
+            return JSON.parseObject(res.getBody()).toJavaObject(clazz);
+        } catch (Exception e) {
+            log.error("调用HttpPost失败！", e);
+        }
+        return null;
     }
 
     /**
@@ -108,12 +135,25 @@ public class RestTemplateUtils {
      * @return
      */
     public <T> T doPostJson(String url, Map<String, Object> param, Map<String, String> headersMap, Class<T> clazz) {
-        return doPostJson(url, param, headersMap, new TypeReference<T>() {
-            @Override
-            public Type getType() {
-                return clazz;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        if (!CollectionUtils.isEmpty(headersMap)) {
+            for (Map.Entry<String, String> entry : headersMap.entrySet()) {
+                headers.set(entry.getKey(), entry.getValue());
             }
-        });
+        }
+        try {
+
+            //用HttpEntity封装整个请求报文
+            HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity(param, headers);
+            // 执行POST请求
+            ResponseEntity<String> res = restTemplate.postForEntity(url, entity, String.class);// 执行提交
+            log.info("res:{}", res.getBody());
+            return JSON.parseObject(res.getBody()).toJavaObject(clazz);
+        } catch (Exception e) {
+            log.error("调用HttpPost失败！", e);
+        }
+        return null;
     }
 
     /**

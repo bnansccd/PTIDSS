@@ -1,5 +1,4 @@
 /// <reference types="vite/client" />
-/// <reference types="vite/client" />
 
 interface ImportMetaEnv {
     readonly VITE_APP_TITLE: string;
@@ -9,3 +8,6 @@ interface ImportMetaEnv {
 interface ImportMeta {
     readonly env: ImportMetaEnv;
 }
+
+// @wangeditor/editor-for-vue 5.x 未提供类型声明
+declare module "@wangeditor/editor-for-vue";

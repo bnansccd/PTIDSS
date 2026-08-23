@@ -8,8 +8,8 @@
 
 | 目录 | 说明 |
 |---|---|
-| `ptidss-server/` | 后端单体服务（Spring Boot 2.7 + JDK8 + MyBatis-Plus + PostgreSQL 18） |
-| `low-code-cms-v2-dev/` | 前端（Vue3 + Vite5 + Element Plus + Pinia，由 low-code-cms-v2-dev 基线改造） |
+| `ptidss-server/` | 后端单体服务（Spring Boot 3.5 + JDK21 + MyBatis-Plus + PostgreSQL 18） |
+| `low-code-cms-v2-dev/` | 前端（Vue3 + Vite7 + Element Plus + Pinia，由 low-code-cms-v2-dev 基线改造） |
 | `low-code-dev/` | 后端组织架构与权限管理参考基线（微服务模式：JWT + LoginUser + 切面鉴权 + 审计） |
 | `docs/` | 设计文档：DDL 基线 v1.0.3（01/03/06/09/07 执行序）、OpenAPI 契约 V1.1、评审记录、多省方案等 |
 | `开发过程规划文档_...V1.6.md` | 开发基线 V1.6（M0-M6 里程碑实施契约 C1-C6） |
@@ -31,7 +31,8 @@ psql -h localhost -p 5432 -U ptidss -d ptidss -f docs/ddl/01_postgres_schema.sql
 
 ```bash
 cd ptidss-server
-/tools/apache-maven-3.8.8/bin/mvn spring-boot:run
+export JAVA_HOME=/home/odoo/workspace/.tools/jdk-21.0.12.1+1
+/tools/apache-maven-3.9.16/bin/mvn spring-boot:run
 # 健康检查：curl http://localhost:9080/ptidss/auth/captcha
 ```
 

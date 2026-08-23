@@ -237,9 +237,9 @@ onMounted(load);
                 </el-table-column>
                 <el-table-column label="操作" width="220" fixed="right">
                     <template #default="{ row }">
-                        <el-button type="primary" link @click="openEdit(row)">编辑</el-button>
-                        <el-button type="success" link @click="openPermDialog(row)">权限分配</el-button>
-                        <el-button type="danger" link @click="remove(row)">删除</el-button>
+                        <el-button type="primary" link @click="openEdit(row as RoleRow)">编辑</el-button>
+                        <el-button type="success" link @click="openPermDialog(row as RoleRow)">权限分配</el-button>
+                        <el-button type="danger" link @click="remove(row as RoleRow)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>

@@ -1,0 +1,1 @@
+import{G as s}from"./index-AbfYv1lp.js";function t(e){return s({url:"/message/list",method:"get",params:e})}function a(e){return s({url:`/message/${e}/read`,method:"post"})}const o=t,g=a;export{t as a,o as g,g as m,a as p};

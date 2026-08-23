@@ -8,8 +8,8 @@ import "bpmn-js/dist/assets/bpmn-font/css/bpmn.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
 
-import "bpmn-js-properties-panel/dist/assets/element-templates.css";
-import "bpmn-js-properties-panel/dist/assets/properties-panel.css";
+// bpmn-js-properties-panel 5.x：样式移至 @bpmn-io/properties-panel，element-templates.css 已并入
+import "@bpmn-io/properties-panel/dist/assets/properties-panel.css";
 import App from "./App.vue";
 import router from "./router";
 

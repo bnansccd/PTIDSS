@@ -15,7 +15,7 @@ public class TraceMethodWebFilter implements WebFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        String method = exchange.getRequest().getMethodValue(); // 获取请求方法的字符串表示
+        String method = exchange.getRequest().getMethod().name(); // Spring 6.2+：getMethodValue() 已移除，改用 getMethod().name()
         ServerHttpResponse response = exchange.getResponse();
 
         // 禁用 TRACE 和 TRACK 方法

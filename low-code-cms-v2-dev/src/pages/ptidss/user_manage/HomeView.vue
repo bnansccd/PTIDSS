@@ -224,9 +224,9 @@ onMounted(() => {
                 <el-table-column prop="lastLoginAt" label="最后登录" width="170" />
                 <el-table-column label="操作" width="200" fixed="right">
                     <template #default="{ row }">
-                        <el-button type="primary" link @click="openEdit(row)">编辑</el-button>
-                        <el-button type="warning" link @click="resetPassword(row)">重置密码</el-button>
-                        <el-button type="danger" link @click="remove(row)">删除</el-button>
+                        <el-button type="primary" link @click="openEdit(row as UserRow)">编辑</el-button>
+                        <el-button type="warning" link @click="resetPassword(row as UserRow)">重置密码</el-button>
+                        <el-button type="danger" link @click="remove(row as UserRow)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>

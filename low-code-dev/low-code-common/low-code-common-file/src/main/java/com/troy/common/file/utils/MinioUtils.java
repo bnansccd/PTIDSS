@@ -8,7 +8,7 @@ import com.troy.common.core.utils.file.FileUtils;
 import com.troy.common.core.utils.uuid.UUID;
 import com.troy.common.file.config.MinioConfig;
 import io.minio.*;
-import io.minio.http.Method;
+import io.minio.Http.Method;
 import io.minio.messages.Item;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -142,7 +142,7 @@ public class MinioUtils {
             PutObjectArgs args = PutObjectArgs.builder()
                     .bucket(this.minioConfig.getBucketName())
                     .object(fileName)
-                    .stream(inputStream, size, -1)
+                    .stream(inputStream, size, -1L)
                     .contentType(contentType)
                     .build();
             this.minioClient.putObject(args);

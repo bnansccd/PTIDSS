@@ -8,7 +8,7 @@ import com.troy.common.core.utils.StringUtils;
 import com.troy.system.api.model.LoginUser;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @Auther: zhuqing

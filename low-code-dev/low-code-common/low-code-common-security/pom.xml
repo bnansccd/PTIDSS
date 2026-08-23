@@ -23,6 +23,13 @@
             <artifactId>spring-webmvc</artifactId>
         </dependency>
 
+        <!-- Jakarta Servlet API（TokenService/HeaderInterceptor 等使用） -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- LowCode Api System -->
         <dependency>
             <groupId>com.troy</groupId>

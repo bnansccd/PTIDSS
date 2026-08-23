@@ -29,8 +29,8 @@ public class WebSecurityConfigurer {
 
         return httpSecurity
                 .headers().frameOptions().disable()
-                .and().authorizeRequests()
-                .antMatchers(adminContextPath + "/assets/**"
+                .and().authorizeHttpRequests() // Spring Security 6.x：authorizeRequests() 已移除
+                .requestMatchers(adminContextPath + "/assets/**" // Spring Security 6.x：antMatchers() 已移除
                         , adminContextPath + "/login"
                         , adminContextPath + "/actuator/**"
                         , adminContextPath + "/instances/**"

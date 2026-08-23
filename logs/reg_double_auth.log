@@ -1,0 +1,33 @@
+
+[1;36m== 0) 管理员登录 ==[0m
+[32m  PASS[0m admin token 获取
+
+[1;36m== 1) 准备：用户 manager01 区域 = CN-11+CN-32；角色 manager 区域 = CN-32 ==[0m
+  PUT user regions → 操作成功
+  PUT role regions → 操作成功
+
+[1;36m== 2) 交集裁剪：manager01 登录 regions 应为 [CN-32] ==[0m
+[32m  PASS[0m 登录区域 = 用户区域 ∩ 角色区域（CN-11+CN-32 ∩ CN-32 = CN-32）
+
+[1;36m== 3) 越权拒绝：X-Region-Code: CN-11 → 业务码 14001 ==[0m
+[32m  PASS[0m 未授权区域 CN-11 被拒绝（code=14001）
+
+[1;36m== 4) 正常放行：CN-32 → 业务码 0；缺省头 → 默认区域 ==[0m
+[32m  PASS[0m 授权区域 CN-32 放行（code=0）
+[32m  PASS[0m 缺省区域头取首个授权区域（code=0）
+
+[1;36m== 5) 向后兼容：trader01（trader/mobile 角色未配置区域）→ 用户区域 CN-32 生效 ==[0m
+[32m  PASS[0m 角色未配置区域时以用户区域为准
+[32m  PASS[0m trader01 用户区域请求放行（code=0）
+
+[1;36m== 6) 会话失效：角色区域变更后旧 token 立即失效 ==[0m
+  PUT role regions += CN-11 → 操作成功
+[32m  PASS[0m 角色区域变更后旧会话失效（code=14001）
+[32m  PASS[0m 重新登录后交集 = CN-11+CN-32
+
+[1;36m== 7) 清理：用户 manager01 区域恢复 CN-32；角色 manager 区域恢复 CN-32 ==[0m
+[32m  PASS[0m 数据已恢复
+
+════════════════════════════════════════
+结果：PASS=10 FAIL=0
+全部通过 ✓
