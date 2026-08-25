@@ -2,6 +2,7 @@ package com.ptidss.system.controller;
 
 import com.ptidss.common.annotation.Log;
 import com.ptidss.common.annotation.RequiresPermissions;
+import com.ptidss.common.annotation.RequiresRoles;
 import com.ptidss.common.domain.Result;
 import com.ptidss.system.domain.SysRole;
 import com.ptidss.system.service.SysRoleService;
@@ -57,6 +58,7 @@ public class SysRoleController {
 
     @Log(action = "role_create", targetType = "sys_role")
     @PostMapping
+    @RequiresRoles("admin")
     public Result<Void> create(@RequestBody SysRole role) {
         sysRoleService.create(role);
         return Result.success();
@@ -64,6 +66,7 @@ public class SysRoleController {
 
     @Log(action = "role_update", targetType = "sys_role")
     @PutMapping
+    @RequiresRoles("admin")
     public Result<Void> update(@RequestBody SysRole role) {
         sysRoleService.update(role);
         return Result.success();
@@ -72,6 +75,7 @@ public class SysRoleController {
     /** 保存角色权限（全量覆盖） */
     @Log(action = "role_permission_save", targetType = "sys_role_permission")
     @PutMapping("/{id}/permissions")
+    @RequiresRoles("admin")
     public Result<Void> savePermissions(@PathVariable Long id, @RequestBody Map<String, List<Long>> body) {
         sysRoleService.savePermissions(id, body.get("permissionIds"));
         return Result.success();
@@ -79,6 +83,7 @@ public class SysRoleController {
 
     @Log(action = "role_delete", targetType = "sys_role")
     @DeleteMapping("/{id}")
+    @RequiresRoles("admin")
     public Result<Void> delete(@PathVariable Long id) {
         sysRoleService.delete(id);
         return Result.success();

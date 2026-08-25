@@ -7,8 +7,9 @@ import { defineStore } from 'pinia'
 
 const REGION_KEY = 'ptidss_region_code'
 
-/** 默认区域池：与 DDL v1.0 07_seed_data.sql 的 sys_region 种子对齐（契约 V1.0 无 regions 字段时的兜底） */
-export const DEFAULT_REGIONS = ['CN-11', 'CN-31', 'CN-32', 'CN-33', 'CN-41']
+/** 默认区域池：与 DDL v1.0 07_seed_data.sql + V2.4 14_market_regions_v2_4.sql 的 sys_region 种子对齐
+ * （契约 V1.0 无 regions 字段时的兜底；V3.1 补齐 V2.4 市场化省份 CN-37/CN-14/CN-44/CN-62/CN-15/CN-42） */
+export const DEFAULT_REGIONS = ['CN-11', 'CN-31', 'CN-32', 'CN-33', 'CN-41', 'CN-37', 'CN-14', 'CN-44', 'CN-62', 'CN-15', 'CN-42']
 
 export const useRegionStore = defineStore('region', {
   state: () => ({

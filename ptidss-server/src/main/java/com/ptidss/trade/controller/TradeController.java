@@ -2,6 +2,7 @@ package com.ptidss.trade.controller;
 
 import com.ptidss.common.annotation.Log;
 import com.ptidss.common.annotation.RequiresPermissions;
+import com.ptidss.common.annotation.RequiresRoles;
 import com.ptidss.common.domain.Result;
 import com.ptidss.trade.domain.Declaration;
 import com.ptidss.trade.domain.RollingPlan;
@@ -105,15 +106,17 @@ public class TradeController {
 
     // ---------- 交易网关配置（V2.4：URL/账户/密码图形化对接 + 状态监测） ----------
 
-    /** 当前区域网关配置（敏感字段脱敏；无配置返回 null） */
+    /** 当前区域网关配置（敏感字段脱敏；无配置返回 null；涉及连接信息泄露面，仅 admin） */
     @GetMapping("/gateway/config")
+    @RequiresRoles("admin")
     public Result<Map<String, Object>> gatewayConfig() {
         return Result.success(tradeGatewayService.getConfig());
     }
 
-    /** 保存网关配置（region_code 唯一 upsert；appSecret 加密落库） */
+    /** 保存网关配置（region_code 唯一 upsert；appSecret 加密落库；含密钥类敏感配置仅 admin，V3.1 对齐 V2.4 收紧） */
     @Log(action = "trade_gateway_save", targetType = "trade_gateway_config")
     @PutMapping("/gateway/config")
+    @RequiresRoles("admin")
     public Result<Map<String, Object>> saveGatewayConfig(@RequestBody Map<String, Object> body) {
         return Result.success(tradeGatewayService.saveConfig(
                 body.get("gatewayName") == null ? null : String.valueOf(body.get("gatewayName")),
@@ -123,9 +126,10 @@ public class TradeController {
                 body.get("status") == null ? null : String.valueOf(body.get("status"))));
     }
 
-    /** 网关连通性测试（记录延迟/结果） */
+    /** 网关连通性测试（记录延迟/结果；涉及密钥发起外部请求，仅 admin） */
     @Log(action = "trade_gateway_test", targetType = "trade_gateway_config")
     @PostMapping("/gateway/test")
+    @RequiresRoles("admin")
     public Result<Map<String, Object>> testGateway() {
         return Result.success(tradeGatewayService.testConnection());
     }

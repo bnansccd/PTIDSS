@@ -118,7 +118,11 @@ const visibleGroups = computed(() =>
 )
 
 // 结算口径展示：按当前区域（sys_region.settlement_period），响应式随切区更新
-const periodMode = computed(() => (region.currentRegion === 'CN-33' ? 'trading_month' : 'natural_month'))
+// V3.1：种子中 trading_month 口径省份为 CN-33 浙江 / CN-14 山西 / CN-15 蒙西（07_seed_data + 14_market_regions_v2_4），其余自然月
+const TRADING_MONTH_REGIONS = ['CN-33', 'CN-14', 'CN-15']
+const periodMode = computed(() =>
+  region.currentRegion && TRADING_MONTH_REGIONS.includes(region.currentRegion) ? 'trading_month' : 'natural_month',
+)
 
 function onRegionChange(e: Event) {
   region.setRegion((e.target as HTMLSelectElement).value)

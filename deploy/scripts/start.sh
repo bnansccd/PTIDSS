@@ -20,13 +20,33 @@ if [ -z "${JAR:-}" ]; then
   exit 1
 fi
 
+# 探测 JDK21（jar 由 Java 21 编译，class 65.0；系统默认 java 可能为 17 等旧版）
+JAVA_BIN=""
+if [ -n "${JAVA_HOME:-}" ] && [ -x "$JAVA_HOME/bin/java" ]; then
+  JAVA_BIN="$JAVA_HOME/bin/java"
+elif command -v java >/dev/null 2>&1 && java -version 2>&1 | grep -qE '"2[1-9]'; then
+  JAVA_BIN=java
+else
+  for cand in "$HOME"/.tools/jdk-21*/bin/java "$HOME"/workspace/.tools/jdk-21*/bin/java \
+              "$HOME"/jdk-21*/bin/java "$HOME"/.sdkman/candidates/java/*/bin/java \
+              /usr/lib/jvm/java-21-openjdk*/bin/java /usr/local/jdk-21*/bin/java /opt/jdk-21*/bin/java; do
+    if [ -x "$cand" ]; then JAVA_BIN="$cand"; break; fi
+  done
+fi
+if [ -z "${JAVA_BIN:-}" ]; then
+  echo "!! 未找到 JDK21：jar 由 Java 21 编译，请安装 JDK21 或设置 JAVA_HOME 指向 JDK21" >&2
+  exit 1
+fi
+
+echo "==> 使用 JDK：$JAVA_BIN（$($JAVA_BIN -version 2>&1 | head -1)）"
+
 if pgrep -f "ptidss-server.*spring.profiles.active=prod" >/dev/null; then
   echo "!! 后端已在运行（prod），如需重启请先 ./stop.sh" >&2
   exit 1
 fi
 
 mkdir -p "$ROOT_DIR/logs"
-nohup java -Xms512m -Xmx1024m \
+nohup "$JAVA_BIN" -Xms512m -Xmx1024m \
   -jar "$JAR" \
   --spring.profiles.active=prod \
   --server.port="$PORT" \

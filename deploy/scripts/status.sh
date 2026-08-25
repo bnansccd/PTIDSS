@@ -17,7 +17,10 @@ else
 fi
 
 echo "── 端口监听 ─────────────────────────────"
-ss -tlnp 2>/dev/null | grep -E ':(9080|30001)\b' || echo "9080/30001 均未监听"
+# 端口规范：后端 9080（唯一）、前端对外 80（nginx/容器，可按 FRONT_PORT 调整）、数据库 5432
+echo "后端 9080：$(ss -tlnp 2>/dev/null | grep -q ':9080\b' && echo 监听中 || echo 未监听)"
+echo "前端 80（对外入口）：$(ss -tlnp 2>/dev/null | grep -Eq ':(80|443)\b' && echo 监听中 || echo 未监听)"
+echo "数据库 5432：$(ss -tlnp 2>/dev/null | grep -q ':5432\b' && echo 监听中 || echo 未监听)"
 
 echo "── 数据库连通 ───────────────────────────"
 if psql -h 127.0.0.1 -U ptidss -d ptidss -A -t -c "SELECT 'ok' FROM sys_region LIMIT 1" 2>/dev/null | grep -q ok; then

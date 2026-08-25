@@ -3,6 +3,7 @@ package com.ptidss.system.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ptidss.common.annotation.Log;
 import com.ptidss.common.annotation.RequiresPermissions;
+import com.ptidss.common.annotation.RequiresRoles;
 import com.ptidss.common.domain.Result;
 import com.ptidss.common.utils.StrUtils;
 import com.ptidss.system.domain.SysPermission;
@@ -48,6 +49,7 @@ public class SysPermissionController {
 
     @Log(action = "permission_create", targetType = "sys_permission")
     @PostMapping
+    @RequiresRoles("admin")
     public Result<Void> create(@RequestBody SysPermission permission) {
         normalize(permission);
         sysPermissionMapper.insert(permission);
@@ -56,6 +58,7 @@ public class SysPermissionController {
 
     @Log(action = "permission_update", targetType = "sys_permission")
     @PutMapping
+    @RequiresRoles("admin")
     public Result<Void> update(@RequestBody SysPermission permission) {
         normalize(permission);
         sysPermissionMapper.updateById(permission);
@@ -74,6 +77,7 @@ public class SysPermissionController {
 
     @Log(action = "permission_delete", targetType = "sys_permission")
     @DeleteMapping("/{id}")
+    @RequiresRoles("admin")
     public Result<Void> delete(@PathVariable Long id) {
         sysPermissionMapper.deleteById(id);
         return Result.success();

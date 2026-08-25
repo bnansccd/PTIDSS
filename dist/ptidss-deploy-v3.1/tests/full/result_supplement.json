@@ -1,0 +1,117 @@
+{
+  "generated_at": "2026-08-20 23:29:49",
+  "base": "http://localhost:9080/ptidss",
+  "total": 9,
+  "passed": 9,
+  "failed": 0,
+  "results": [
+    {
+      "group": "auth",
+      "name": "令牌刷新(续期换新)",
+      "method": "POST",
+      "path": "/auth/refresh",
+      "http": 200,
+      "code": 0,
+      "expect": 0,
+      "elapsed_ms": 3,
+      "ok": true,
+      "note": ""
+    },
+    {
+      "group": "auth",
+      "name": "非法 refreshToken 被拒",
+      "method": "POST",
+      "path": "/auth/refresh",
+      "http": 200,
+      "code": 500,
+      "expect": 500,
+      "elapsed_ms": 3,
+      "ok": true,
+      "note": ""
+    },
+    {
+      "group": "auth",
+      "name": "空 refreshToken 被拒",
+      "method": "POST",
+      "path": "/auth/refresh",
+      "http": 200,
+      "code": 500,
+      "expect": 500,
+      "elapsed_ms": 3,
+      "ok": true,
+      "note": ""
+    },
+    {
+      "group": "admin",
+      "name": "新建角色(非7类被拒)",
+      "method": "POST",
+      "path": "/admin/roles",
+      "http": 200,
+      "code": 500,
+      "expect": 500,
+      "elapsed_ms": 12,
+      "ok": true,
+      "note": ""
+    },
+    {
+      "group": "admin",
+      "name": "角色列表(取新建id)",
+      "method": "GET",
+      "path": "/admin/roles",
+      "http": 200,
+      "code": 0,
+      "expect": 0,
+      "elapsed_ms": 6,
+      "ok": true,
+      "note": ""
+    },
+    {
+      "group": "admin",
+      "name": "新建权限",
+      "method": "POST",
+      "path": "/admin/permissions",
+      "http": 200,
+      "code": 0,
+      "expect": 0,
+      "elapsed_ms": 12,
+      "ok": true,
+      "note": ""
+    },
+    {
+      "group": "admin",
+      "name": "权限列表(取新建id)",
+      "method": "GET",
+      "path": "/admin/permissions",
+      "http": 200,
+      "code": 0,
+      "expect": 0,
+      "elapsed_ms": 5,
+      "ok": true,
+      "note": ""
+    },
+    {
+      "group": "admin",
+      "name": "修改权限",
+      "method": "PUT",
+      "path": "/admin/permissions",
+      "http": 200,
+      "code": 0,
+      "expect": 0,
+      "elapsed_ms": 8,
+      "ok": true,
+      "note": ""
+    },
+    {
+      "group": "admin",
+      "name": "删除权限",
+      "method": "DELETE",
+      "path": "/admin/permissions/216217165290934272",
+      "http": 200,
+      "code": 0,
+      "expect": 0,
+      "elapsed_ms": 6,
+      "ok": true,
+      "note": ""
+    }
+  ]
+}

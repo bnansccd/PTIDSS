@@ -15,6 +15,13 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 25MB
+  # 调度线程池（V3.1 性能优化）：@Scheduled 默认单线程，多任务（情报推送/情报采集/定时采集）
+  # 并发执行互不阻塞；各任务内部已做同步与幂等
+  task:
+    scheduling:
+      pool:
+        size: 4
+      thread-name-prefix: ptidss-sched-
 
 mybatis-plus:
   configuration:

@@ -24,6 +24,7 @@ import com.ptidss.system.mapper.SysUserMapper;
 import com.ptidss.system.mapper.SysUserRegionMapper;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.ptidss.system.service.SysConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -55,6 +56,7 @@ public class SysLoginService {
     private final SysUserRegionMapper sysUserRegionMapper;
     private final SysRoleRegionMapper sysRoleRegionMapper;
     private final TokenService tokenService;
+    private final SysConfigService sysConfigService;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -72,7 +74,7 @@ public class SysLoginService {
     public SysLoginService(SysUserMapper sysUserMapper, SysRoleMapper sysRoleMapper,
                            SysPermissionMapper sysPermissionMapper, SysRegionMapper sysRegionMapper,
                            SysUserRegionMapper sysUserRegionMapper, SysRoleRegionMapper sysRoleRegionMapper,
-                           TokenService tokenService) {
+                           TokenService tokenService, SysConfigService sysConfigService) {
         this.sysUserMapper = sysUserMapper;
         this.sysRoleMapper = sysRoleMapper;
         this.sysPermissionMapper = sysPermissionMapper;
@@ -80,6 +82,17 @@ public class SysLoginService {
         this.sysUserRegionMapper = sysUserRegionMapper;
         this.sysRoleRegionMapper = sysRoleRegionMapper;
         this.tokenService = tokenService;
+        this.sysConfigService = sysConfigService;
+    }
+
+    /** 登录失败锁定阈值（配置中心下发 security.loginFailMax，缺省回退 yml） */
+    private int effectiveFailMax() {
+        return sysConfigService.getInt("security.loginFailMax", loginFailMax);
+    }
+
+    /** 锁定时长（配置中心下发 security.loginLockMinutes，缺省回退 yml） */
+    private int effectiveLockMinutes() {
+        return sysConfigService.getInt("security.loginLockMinutes", loginFailLockMinutes);
     }
 
     @PostConstruct
@@ -89,6 +102,39 @@ public class SysLoginService {
                 .expireAfterWrite(loginFailLockMinutes, TimeUnit.MINUTES)
                 .build();
         log.info("登录失败锁定已启用：连续 {} 次失败锁定 {} 分钟", loginFailMax, loginFailLockMinutes);
+        ensureAnalystMarketPerms();
+    }
+
+    /**
+     * 权限矩阵幂等补种（V3.1 多角色对标）：PRD §4.1 分析师核心职责为"政策研判、行情分析、
+     * 预测结果解读"，但 07_seed_data.sql 基线中 analyst 角色缺 menu:market/menu:policy；
+     * 此处启动时幂等补齐（角色存在且权限码存在且未分配时插入），与种子基线无冲突，
+     * 同步建议：DBA 按本逻辑更新 07_seed_data.sql 基线（禁止改 DDL 文件故代码侧兜底）。
+     */
+    private void ensureAnalystMarketPerms() {
+        try {
+            SysRole analyst = sysRoleMapper.selectOne(new LambdaQueryWrapper<SysRole>()
+                    .eq(SysRole::getRoleCode, "analyst"));
+            if (analyst == null) {
+                return;
+            }
+            List<SysPermission> perms = sysPermissionMapper.selectList(new LambdaQueryWrapper<SysPermission>()
+                    .in(SysPermission::getPermCode, "menu:market", "menu:policy")
+                    .eq(SysPermission::getStatus, "active"));
+            if (perms.isEmpty()) {
+                return;
+            }
+            Set<Long> owned = new HashSet<>(sysPermissionMapper.selectPermissionIdsByRole(analyst.getId()));
+            for (SysPermission p : perms) {
+                if (!owned.contains(p.getId())) {
+                    sysRoleMapper.insertRolePermission(analyst.getId(), p.getId());
+                    log.info("权限矩阵补种：角色 analyst 补授权 {}（{}/{}）", p.getPermCode(), p.getId(), analyst.getId());
+                }
+            }
+        } catch (Exception e) {
+            // 补种失败不阻断启动（表结构异常等极端场景），登录期权限加载按现状兜底
+            log.warn("analyst 权限矩阵补种跳过：{}", e.getMessage());
+        }
     }
 
     /**
@@ -143,9 +189,9 @@ public class SysLoginService {
             return;
         }
         Integer fails = loginFailCache.getIfPresent(FAIL_KEY_PREFIX + username);
-        if (fails != null && fails >= loginFailMax) {
+        if (fails != null && fails >= effectiveFailMax()) {
             log.warn("账号临时锁定拒绝登录：username={}, 连续失败={}", username, fails);
-            throw new ServiceException("登录失败次数过多，账号已临时锁定 " + loginFailLockMinutes + " 分钟，请稍后再试");
+            throw new ServiceException("登录失败次数过多，账号已临时锁定 " + effectiveLockMinutes() + " 分钟，请稍后再试");
         }
     }
 
@@ -156,9 +202,10 @@ public class SysLoginService {
         }
         Integer count = loginFailCache.get(FAIL_KEY_PREFIX + username, k -> 0) + 1;
         loginFailCache.put(FAIL_KEY_PREFIX + username, count);
-        if (count >= loginFailMax) {
+        int failMax = effectiveFailMax();
+        if (count >= failMax) {
             log.warn("登录失败达到锁定阈值：username={}, 连续失败={}/{}, 锁定{}分钟",
-                    username, count, loginFailMax, loginFailLockMinutes);
+                    username, count, failMax, effectiveLockMinutes());
         }
     }
 

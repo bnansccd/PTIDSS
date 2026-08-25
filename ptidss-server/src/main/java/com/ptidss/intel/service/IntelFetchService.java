@@ -238,6 +238,16 @@ public class IntelFetchService {
 
     private void insertNews(IntelSource source, String title, String content, String regionCode,
                             List<String> tags, String importance) {
+        // 幂等查重（V3.1 性能/数据治理优化）：同一源近 3 分钟窗口内同标题已入库则跳过，
+        // 避免 mock/真实端点 60s 轮询在分钟窗口内重复插入造成情报表膨胀
+        Long exists = intelNewsMapper.selectCount(new LambdaQueryWrapper<IntelNews>()
+                .eq(IntelNews::getSourceCode, source.getSourceCode())
+                .eq(IntelNews::getTitle, title)
+                .gt(IntelNews::getPublishedAt, new Date(System.currentTimeMillis() - 180_000L)));
+        if (exists != null && exists > 0) {
+            log.debug("情报重复跳过：{} {}", source.getSourceCode(), title);
+            return;
+        }
         IntelNews news = new IntelNews();
         news.setSourceCode(source.getSourceCode());
         news.setTitle(title);

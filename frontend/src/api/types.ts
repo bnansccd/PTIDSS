@@ -135,6 +135,24 @@ export interface IntelPushRule {
   createdAt?: string
 }
 
+/** 采集状态监测（GET /intel/fetch-status） */
+export interface IntelFetchStatus {
+  id: string
+  sourceCode: string
+  sourceName: string
+  intelType: string
+  fetchMode: string
+  frequency: string
+  status: string
+  lastSuccessAt?: string | null
+  lastError?: string | null
+  consecutiveFailures: number
+  frequencyMinutes?: string
+  endpoint?: string
+  mock?: boolean
+  healthy: boolean
+}
+
 /** 报表模板（GET /report/templates） */
 export interface ReportTemplate {
   id: string
@@ -307,10 +325,18 @@ export interface QualityReport {
   timeliness: number
 }
 
-/** 血缘节点（GET /data/lineage） */
+/** 血缘节点（GET /data/lineage；V3.0 全量图谱：中文名/说明/业务域/数据分层） */
 export interface LineageNode {
   nodeId: string
   nodeType: string
+  /** V3.0 节点中文名 */
+  nodeName?: string
+  /** V3.0 中文说明 */
+  description?: string
+  /** V3.0 业务域（marketing/exchange/weather/common/trade/settle/policy/intel/forecast/decision/optimize/report/assess/model/system） */
+  domain?: string
+  /** V3.0 数据分层（source/collect/detail/indicator/model/report/business） */
+  layer?: string
   fieldMapping?: Record<string, unknown> | string
   upstream?: LineageNode[] | string[]
   downstream?: LineageNode[] | string[]

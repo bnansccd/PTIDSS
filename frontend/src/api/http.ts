@@ -60,27 +60,52 @@ http.interceptors.response.use(
             refreshing = false
           }
         }
-        forceLogout()
+        forceLogout('登录状态已失效，请重新登录')
       }
       return Promise.reject(new Error(body.message || `业务错误 ${body.code}`))
     }
     return response
   },
-  (error) => {
+  async (error) => {
     if (error.response?.status === 401) {
-      forceLogout()
+      const auth = useAuthStore()
+      // X-New-Token 丢失/令牌过期等极端场景：本地令牌失效但后端会话可能仍在，
+      // 先尝试一次续期并用新令牌重放原请求，成功则用户无感恢复，失败才登出
+      if (auth.accessToken && !refreshing) {
+        refreshing = true
+        try {
+          const newToken = await auth.refreshToken()
+          if (newToken) {
+            return await http.request<ApiResponse>({
+              ...error.config,
+              headers: { ...error.config.headers, Authorization: `Bearer ${newToken}` },
+            })
+          }
+        } catch {
+          // 续期失败，走登出
+        } finally {
+          refreshing = false
+        }
+      }
+      forceLogout('登录状态已失效，请重新登录')
     }
     return Promise.reject(error)
   },
 )
 
-/** 清空登录态并跳登录（带 redirect 回跳） */
-function forceLogout() {
+/** 清空登录态并跳登录（带 redirect 回跳与原因提示） */
+function forceLogout(msg?: string) {
   const auth = useAuthStore()
   const region = useRegionStore()
   auth.logout()
   region.reset()
-  router.push({ name: 'login', query: { redirect: router.currentRoute.value.fullPath } })
+  router.push({
+    name: 'login',
+    query: {
+      redirect: router.currentRoute.value.fullPath,
+      ...(msg ? { msg } : {}),
+    },
+  })
 }
 
 /** 契约请求：返回 data 负载（解包 ApiResponse） */

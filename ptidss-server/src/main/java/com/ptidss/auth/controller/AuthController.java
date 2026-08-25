@@ -9,6 +9,7 @@ import com.ptidss.auth.service.SysLoginService;
 import com.ptidss.common.annotation.Log;
 import com.ptidss.common.domain.Result;
 import com.ptidss.common.exception.ServiceException;
+import com.ptidss.common.exception.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,9 +72,13 @@ public class AuthController {
         return Result.success("刷新成功", sysLoginService.refresh(refreshToken));
     }
 
-    /** 当前用户信息 */
+    /** 当前用户信息（未登录返回 14001 统一错误码，对齐其他受保护端点契约） */
     @GetMapping("/current")
     public Result<CurrentUser> current() {
-        return Result.success(sysLoginService.currentUser());
+        CurrentUser cu = sysLoginService.currentUser();
+        if (cu == null) {
+            throw new UnauthorizedException("未登录或令牌已失效");
+        }
+        return Result.success(cu);
     }
 }

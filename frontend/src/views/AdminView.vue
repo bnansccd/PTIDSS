@@ -396,25 +396,129 @@
       </div>
     </template>
 
-    <!-- ═══ Tab 6 系统配置（评审决议项 · 与 DDL v1.0 sys_region 对齐） ═══ -->
+    <!-- ═══ Tab 6 系统配置（DDL 17 sys_config：PRD 规则参数化 + 评审决议 + 等保安全参数） ═══ -->
     <template v-else>
       <div class="card">
-        <h3>系统配置（评审决议项 · 与 DDL v1.0 sys_region 对齐）</h3>
+        <h3>系统配置（配置中心下发，保存即生效）</h3>
+        <div class="form-row">
+          <div class="cfg-tabs">
+            <button v-for="g in CONFIG_GROUPS" :key="g.key" class="cfg-tab"
+                    :class="{ active: configGroup === g.key }" @click="configGroup = g.key; loadConfigs()">
+              {{ g.label }}
+            </button>
+          </div>
+          <div style="flex: 1"></div>
+          <input v-model="configKeyword" placeholder="搜索名称 / 配置键" style="width: 220px" @keyup.enter="loadConfigs" />
+          <button class="btn" @click="loadConfigs">查询</button>
+          <button class="btn btn-primary" @click="openConfigCreate">新增配置</button>
+        </div>
         <table>
           <thead>
-            <tr><th>配置项</th><th>说明</th><th>当前值</th><th>枚举</th></tr>
+            <tr>
+              <th>配置名称</th><th>分组</th><th>类型</th><th>当前值</th><th>枚举</th>
+              <th>内置</th><th>状态</th><th>说明</th><th>操作</th>
+            </tr>
           </thead>
           <tbody>
-            <tr v-for="c in configs" :key="c.key">
-              <td class="mono">{{ c.key }}</td>
-              <td>{{ c.desc }}</td>
-              <td><span class="badge badge-blue">{{ c.value }}</span></td>
-              <td class="muted">{{ c.enum }}</td>
+            <tr v-for="c in configs" :key="c.id">
+              <td>
+                {{ c.configName }}
+                <div class="muted mono" style="font-size: 12px">{{ c.configKey }}</div>
+              </td>
+              <td><span class="badge badge-gray">{{ groupLabel(c.configGroup) }}</span></td>
+              <td><span class="badge" :class="typeBadgeClass(c.configType)">{{ CONFIG_TYPE_LABELS[c.configType] || c.configType }}</span></td>
+              <td><span class="badge" :class="c.isSensitive ? 'badge-red' : 'badge-blue'"
+                      :title="c.isSensitive ? '敏感项：加密存储，仅显示脱敏值' : ''">{{ c.value }}</span></td>
+              <td class="muted">{{ c.enumValues ? c.enumValues.join(' / ') : '-' }}</td>
+              <td><span v-if="c.isBuiltin" class="badge badge-purple">内置</span><span v-else class="muted">自定义</span></td>
+              <td>
+                <span class="badge" :class="c.status === 'enabled' ? 'badge-green' : 'badge-red'">
+                  {{ c.status === 'enabled' ? '启用' : '禁用' }}
+                </span>
+              </td>
+              <td class="muted" style="max-width: 260px">{{ c.description || '-' }}</td>
+              <td>
+                <button class="btn btn-mini" @click="openConfigEdit(c)">编辑</button>
+                <button class="btn btn-mini btn-danger" :disabled="!!c.isBuiltin" :title="c.isBuiltin ? '系统内置配置不可删除（可禁用）' : ''"
+                        @click="onDeleteConfig(c)">删除</button>
+              </td>
+            </tr>
+            <tr v-if="!configs.length">
+              <td colspan="9" class="muted" style="text-align: center; padding: 24px">暂无配置项</td>
             </tr>
           </tbody>
         </table>
         <div class="muted" style="margin-top: 8px">
-          正式实现：配置中心下发（exchange.channel / settlement.periodMode / region.mode），此处为骨架展示。
+          共 {{ configs.length }} 项 · 内置项（PRD 基线）不可删除可禁用 · 敏感项加密存储、编辑回显 ****** 表示保留原值 ·
+          登录锁定等安全参数保存后立即生效（业务侧动态读取）。
+        </div>
+      </div>
+
+      <!-- 配置新增/编辑弹窗 -->
+      <div v-if="configDialog" class="modal-mask" @click.self="configDialog = false">
+        <div class="modal-card">
+          <h3>{{ configForm.id ? '编辑配置' : '新增配置' }}</h3>
+          <div class="form-row">
+            <label class="f">配置键</label>
+            <input v-model="configForm.configKey" :disabled="!!configForm.id && configForm.isBuiltin"
+                   placeholder="如 rule.declareSegments（代码读取标识）" style="flex: 1" />
+          </div>
+          <div class="form-row">
+            <label class="f">配置名称</label>
+            <input v-model="configForm.configName" placeholder="中文名" style="flex: 1" />
+          </div>
+          <div class="form-row">
+            <label class="f">分组</label>
+            <select v-model="configForm.configGroup" style="width: 160px">
+              <option v-for="g in CONFIG_GROUPS.filter(x => x.key)" :key="g.key" :value="g.key">{{ g.label }}</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="f">类型</label>
+            <select v-model="configForm.configType" style="width: 140px" @change="onConfigTypeChange">
+              <option v-for="(l, k) in CONFIG_TYPE_LABELS" :key="k" :value="k">{{ l }}</option>
+            </select>
+            <span v-if="configForm.configType === 'select'" class="muted" style="margin-left: 8px">
+              枚举候选：
+              <input v-model="configForm.enumText" placeholder="逗号分隔，如 a,b" style="width: 200px" />
+            </span>
+          </div>
+          <div class="form-row">
+            <label class="f">配置值</label>
+            <input v-if="configForm.configType === 'string'" v-model="configForm.value" style="flex: 1" />
+            <input v-else-if="configForm.configType === 'number'" v-model="configForm.value" type="number" step="any" style="flex: 1" />
+            <select v-else-if="configForm.configType === 'boolean'" v-model="configForm.value" style="flex: 1">
+              <option value="true">true（开启）</option>
+              <option value="false">false（关闭）</option>
+            </select>
+            <select v-else-if="configForm.configType === 'select'" v-model="configForm.value" style="flex: 1">
+              <option v-for="e in configForm.enumValues" :key="e" :value="e">{{ e }}</option>
+            </select>
+            <textarea v-else v-model="configForm.value" rows="4" placeholder='JSON 对象，如 {"a":1}' style="flex: 1; font-family: monospace" />
+          </div>
+          <div class="form-row">
+            <label class="f">说明</label>
+            <input v-model="configForm.description" placeholder="配置用途说明" style="flex: 1" />
+          </div>
+          <div class="form-row">
+            <label class="f">排序</label>
+            <input v-model="configForm.sortOrder" type="number" style="width: 100px" />
+            <label class="f" style="margin-left: 20px">状态</label>
+            <select v-model="configForm.status" style="width: 110px">
+              <option value="enabled">启用</option>
+              <option value="disabled">禁用</option>
+            </select>
+            <label class="f" style="margin-left: 20px">
+              <input v-model="configForm.isSensitive" type="checkbox" :disabled="!!configForm.id && configForm.isBuiltin" /> 敏感项
+            </label>
+            <label v-if="!configForm.id" class="f" style="margin-left: 16px">
+              <input v-model="configForm.isBuiltin" type="checkbox" /> 内置（禁删）
+            </label>
+          </div>
+          <div class="form-row" style="justify-content: flex-end; margin-top: 16px">
+            <button class="btn" @click="configDialog = false">取消</button>
+            <button class="btn btn-primary" @click="submitConfig">保存</button>
+          </div>
         </div>
       </div>
     </template>
@@ -423,18 +527,16 @@
 
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
-import { useRegionStore } from '@/stores/region'
 import {
   createAdminPermission, createAdminRegion, createAdminRole, createAdminUser,
-  deleteAdminPermission, deleteAdminRegion, deleteAdminRole, deleteAdminUser,
-  getAdminPermissions, getAdminRegions, getAdminRolePermissions, getAdminRoles,
-  getAdminUser, getAdminUserRegions, getAdminUsers, getAuditLogs,
+  createSysConfig, deleteAdminPermission, deleteAdminRegion, deleteAdminRole, deleteAdminUser,
+  deleteSysConfig, getAdminPermissions, getAdminRegions, getAdminRolePermissions, getAdminRoles,
+  getAdminUser, getAdminUserRegions, getAdminUsers, getAuditLogs, getSysConfigs,
   resetAdminUserPassword, saveAdminRolePermissions, updateAdminPermission,
-  updateAdminRegion, updateAdminRole, updateAdminUser,
+  updateAdminRegion, updateAdminRole, updateAdminUser, updateSysConfig,
   type AdminPermission, type AdminRegion, type AdminRole, type AdminUser, type AuditLogItem,
+  type SysConfigItem,
 } from '@/api/admin'
-
-const region = useRegionStore()
 
 const tabs = [
   { key: 'users', label: '用户管理' },
@@ -452,6 +554,7 @@ function switchTab(k: string) {
   else if (k === 'perms') loadPerms()
   else if (k === 'regions') loadRegions()
   else if (k === 'logs') loadLogs(1)
+  else if (k === 'config') loadConfigs()
 }
 
 // ── 通用工具 ──
@@ -883,16 +986,150 @@ async function loadLogs(page: number) {
   }
 }
 
-// ── Tab6 系统配置 ──
-const configs = [
-  { key: 'exchange.channel', desc: '交易中心对接通道（评审决议①）', value: 'both', enum: 'rest / sftp / both' },
-  { key: 'settlement.periodMode', desc: '结算周期口径（评审决议③）', value: region.currentRegion === 'CN-33' ? 'trading_month' : 'natural_month', enum: 'natural_month / trading_month' },
-  { key: 'region.mode', desc: '多省模式（评审决议⑤）', value: 'multi', enum: 'single / multi' },
-  { key: 'optimize.solver', desc: '联合优化求解器（HiGHS 默认，Gurobi 兜底）', value: 'HiGHS', enum: 'HiGHS / SCIP / Gurobi' },
+// ── Tab6 系统配置（DDL 17 sys_config：PRD 规则参数化 + 评审决议 + 等保安全参数） ──
+const CONFIG_GROUPS = [
+  { key: '', label: '全部' },
+  { key: 'trade_rule', label: '交易规则' },
+  { key: 'settlement', label: '结算' },
+  { key: 'region', label: '多省' },
+  { key: 'optimize', label: '优化' },
+  { key: 'forecast', label: '预测' },
+  { key: 'model', label: '模型' },
+  { key: 'agent', label: '智能体' },
+  { key: 'security', label: '安全' },
+  { key: 'notification', label: '通知' },
 ]
+const CONFIG_TYPE_LABELS: Record<string, string> = {
+  string: '字符串', number: '数值', boolean: '布尔', select: '枚举', json: 'JSON',
+}
+const configs = ref<SysConfigItem[]>([])
+const configGroup = ref('')
+const configKeyword = ref('')
+const configDialog = ref(false)
+interface ConfigFormState {
+  id?: number
+  configKey: string
+  configName: string
+  configGroup: string
+  configType: string
+  enumText: string
+  enumValues: string[]
+  value: string
+  description: string
+  sortOrder: number
+  status: string
+  isSensitive: boolean
+  isBuiltin: boolean
+}
+function emptyConfigForm(): ConfigFormState {
+  return {
+    configKey: '', configName: '', configGroup: 'trade_rule', configType: 'string',
+    enumText: '', enumValues: [], value: '', description: '', sortOrder: 100,
+    status: 'enabled', isSensitive: false, isBuiltin: false,
+  }
+}
+const configForm = reactive<ConfigFormState>(emptyConfigForm())
+
+function groupLabel(group?: string) {
+  return CONFIG_GROUPS.find(g => g.key === group)?.label || group || '-'
+}
+function typeBadgeClass(t?: string) {
+  return { string: 'badge-blue', number: 'badge-orange', boolean: 'badge-green', select: 'badge-purple', json: 'badge-gray' }[t || ''] || 'badge-gray'
+}
+
+async function loadConfigs() {
+  try {
+    configs.value = await getSysConfigs({ group: configGroup.value || undefined, keyword: configKeyword.value || undefined })
+  } catch {
+    configs.value = []
+  }
+}
+
+function openConfigCreate() {
+  Object.assign(configForm, emptyConfigForm())
+  configDialog.value = true
+}
+
+function openConfigEdit(c: SysConfigItem) {
+  configForm.id = c.id
+  configForm.configKey = c.configKey
+  configForm.configName = c.configName
+  configForm.configGroup = c.configGroup
+  configForm.configType = c.configType
+  configForm.enumText = (c.enumValues || []).join(',')
+  configForm.enumValues = [...(c.enumValues || [])]
+  configForm.value = c.value ?? ''
+  configForm.description = c.description ?? ''
+  configForm.sortOrder = c.sortOrder ?? 100
+  configForm.status = c.status ?? 'enabled'
+  configForm.isSensitive = !!c.isSensitive
+  configForm.isBuiltin = !!c.isBuiltin
+  configDialog.value = true
+}
+
+function onConfigTypeChange() {
+  if (configForm.configType !== 'select') return
+  // 编辑时从枚举文本回填候选，保持下拉可用
+  configForm.enumValues = String(configForm.enumText || '').split(',').map(s => s.trim()).filter(Boolean)
+  if (!configForm.enumValues.includes(String(configForm.value || ''))) configForm.value = configForm.enumValues[0] || ''
+}
+async function submitConfig() {
+  if (!String(configForm.configKey || '').trim() || !String(configForm.configName || '').trim()) {
+    toast('配置键与配置名称必填', 'error')
+    return
+  }
+  if (configForm.configType === 'select') {
+    configForm.enumValues = String(configForm.enumText || '').split(',').map(s => s.trim()).filter(Boolean)
+    if (!configForm.enumValues.length) {
+      toast('select 类型必须填写枚举候选', 'error')
+      return
+    }
+  }
+  const payload = {
+    configKey: configForm.configKey.trim(),
+    configName: configForm.configName.trim(),
+    configGroup: configForm.configGroup,
+    configType: configForm.configType,
+    enumValues: configForm.configType === 'select' ? configForm.enumValues : undefined,
+    value: configForm.value.trim(),
+    description: configForm.description.trim() || undefined,
+    sortOrder: configForm.sortOrder || 100,
+    status: configForm.status,
+    isSensitive: configForm.isSensitive,
+    isBuiltin: configForm.isBuiltin,
+  }
+  try {
+    if (configForm.id) {
+      await updateSysConfig(configForm.id, payload)
+      toast('配置已更新，保存即生效')
+    } else {
+      await createSysConfig(payload)
+      toast('配置已新增')
+    }
+    configDialog.value = false
+    loadConfigs()
+  } catch (e) {
+    toast(e instanceof Error ? e.message : '保存失败', 'error')
+  }
+}
+
+function onDeleteConfig(c: SysConfigItem) {
+  if (c.isBuiltin) {
+    toast('系统内置配置不可删除（可禁用）', 'error')
+    return
+  }
+  if (!window.confirm(`确认删除配置「${c.configName}」（${c.configKey}）？删除后业务按默认值回退。`)) return
+  deleteSysConfig(c.id)
+    .then(() => {
+      toast('配置已删除')
+      loadConfigs()
+    })
+    .catch((e: unknown) => toast(e instanceof Error ? e.message : '删除失败', 'error'))
+}
 
 onMounted(() => {
   loadUsers(1)
   loadOptions()
+  loadConfigs()
 })
 </script>

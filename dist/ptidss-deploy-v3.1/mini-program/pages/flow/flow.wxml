@@ -1,0 +1,58 @@
+<view class="page">
+  <view class="seg">
+    <view class="seg-item {{activeScope === index ? 'active' : ''}}" wx:for="{{scopes}}" wx:key="key"
+      data-index="{{index}}" bindtap="onScope">{{item.name}}</view>
+  </view>
+
+  <view class="card" wx:for="{{list}}" wx:key="instanceId" data-id="{{item.instanceId}}" bindtap="onItemTap">
+    <view class="row">
+      <view class="row-left">
+        <view class="row-title">{{item.processName}}</view>
+        <view class="row-sub">
+          <text class="tag tag-blue">{{item.bizTypeName}}</text>
+          <text class="tag tag-gray">{{item.bizId}}</text>
+          <text class="tag {{item.status === 'running' ? 'tag-orange' : 'tag-gray'}}">{{item.statusName}}</text>
+        </view>
+        <view class="row-sub">发起人 {{item.startBy}} · {{item.startTime}}</view>
+      </view>
+      <view class="row-right">
+        <view wx:if="{{item.status === 'running'}}" class="muted">当前环节 {{item.currentNode}}</view>
+        <view wx:if="{{item.status === 'running'}}" class="muted">处理人 {{item.currentAssignee}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{!list.length && !loading}}" class="empty">暂无流程实例</view>
+  <view wx:if="{{loading}}" class="loading-more">加载中…</view>
+  <view wx:if="{{finished && list.length}}" class="loading-more">已加载全部</view>
+
+  <view class="fab" bindtap="openStart">＋ 发起流程</view>
+
+  <!-- 发起流程弹层 -->
+  <view class="mask" wx:if="{{showStart}}" bindtap="closeStart"></view>
+  <view class="sheet" wx:if="{{showStart}}">
+    <view class="sheet-title">发起审批流程</view>
+
+    <view class="form-label">业务类型</view>
+    <picker range="{{bizTypes}}" range-key="bizName" value="{{startBizType}}" bindchange="onStartBizPicker">
+      <view class="input">{{startBizName}}</view>
+    </picker>
+
+    <view class="form-label">审批流程</view>
+    <picker range="{{startDefs}}" range-key="processName" value="{{startDefIndex}}" bindchange="onStartDefPicker">
+      <view class="input">{{startDefName || '该类型无可用流程'}}</view>
+    </picker>
+
+    <view class="form-label">业务单号（选择已有单号或自动生成）</view>
+    <picker wx:if="{{!startAutoNo}}" range="{{startOptions}}" range-key="label" value="{{startOptionsIndex}}" bindchange="onStartOptionPicker">
+      <view class="input">{{startOptions[startOptionsIndex].label || '选择已有单号'}}</view>
+    </picker>
+    <view class="auto-row">
+      <switch checked="{{startAutoNo}}" bindchange="onAutoNoSwitch" color="#1f3a5f" />
+      <text class="muted">自动生成业务单号（{{startBizType}} 前缀）</text>
+    </view>
+
+    <button class="btn {{starting ? 'btn-disabled' : ''}}" bindtap="doStart">提 交 发 起</button>
+    <button class="btn btn-plain" bindtap="closeStart">取 消</button>
+  </view>
+</view>

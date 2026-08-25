@@ -164,3 +164,41 @@ export interface AuditLogItem {
 export function getAuditLogs(params: { pageNum?: number; pageSize?: number; action?: string; username?: string; regionCode?: string; result?: string }) {
   return request<PageResult<AuditLogItem>>({ url: '/admin/logs', method: 'get', params })
 }
+
+// ── 系统配置（DDL 17 sys_config，系统管理--系统配置 全面实现） ──
+export interface SysConfigItem {
+  id: number
+  configKey: string
+  configName: string
+  description?: string
+  configGroup: string
+  configType: string // string/number/boolean/select/json
+  enumValues?: string[]
+  value?: string
+  isSensitive?: boolean
+  isBuiltin?: boolean
+  status?: string
+  sortOrder?: number
+  createdAt?: string
+  updatedAt?: string
+}
+
+/** 配置列表（可按分组/关键字过滤；敏感项脱敏 ******） */
+export function getSysConfigs(params: { group?: string; keyword?: string }) {
+  return request<SysConfigItem[]>({ url: '/admin/configs', method: 'get', params })
+}
+
+/** 新增配置（admin；key 唯一；敏感项加密落库） */
+export function createSysConfig(payload: Record<string, unknown>) {
+  return request<unknown>({ url: '/admin/configs', method: 'post', data: payload })
+}
+
+/** 编辑配置（admin；内置项 key 不可改；敏感项 ****** 保留原值） */
+export function updateSysConfig(id: number, payload: Record<string, unknown>) {
+  return request<unknown>({ url: `/admin/configs/${id}`, method: 'put', data: payload })
+}
+
+/** 删除配置（admin；内置项禁删，可禁用） */
+export function deleteSysConfig(id: number) {
+  return request<unknown>({ url: `/admin/configs/${id}`, method: 'delete' })
+}

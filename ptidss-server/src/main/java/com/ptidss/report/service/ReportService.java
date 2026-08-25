@@ -186,13 +186,14 @@ public class ReportService {
         return resp;
     }
 
-    /** 报表实例列表（按区域隔离） */
+    /** 报表实例列表（按区域隔离；V3.1 性能优化：缺省最多返回 200 条，避免实例随生成次数增长后的无界查询） */
     public List<ReportInstance> listInstances(String period) {
         String regionCode = securityUtils.getRegionCode();
         LambdaQueryWrapper<ReportInstance> qw = new LambdaQueryWrapper<>();
         qw.eq(StrUtils.isNotBlank(regionCode), ReportInstance::getRegionCode, regionCode)
                 .eq(StrUtils.isNotBlank(period), ReportInstance::getPeriod, period)
-                .orderByDesc(ReportInstance::getCreatedAt);
+                .orderByDesc(ReportInstance::getCreatedAt)
+                .last("LIMIT 200");
         return reportInstanceMapper.selectList(qw);
     }
 

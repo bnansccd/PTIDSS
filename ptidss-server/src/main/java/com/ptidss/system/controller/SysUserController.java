@@ -3,6 +3,7 @@ package com.ptidss.system.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ptidss.common.annotation.Log;
 import com.ptidss.common.annotation.RequiresPermissions;
+import com.ptidss.common.annotation.RequiresRoles;
 import com.ptidss.common.domain.Result;
 import com.ptidss.common.utils.StrUtils;
 import com.ptidss.system.domain.SysUser;
@@ -54,6 +55,7 @@ public class SysUserController {
 
     @Log(action = "user_create", targetType = "sys_user")
     @PostMapping
+    @RequiresRoles("admin")
     public Result<Void> create(@RequestBody Map<String, Object> body) {
         SysUser user = buildUser(body);
         String password = (String) body.get("password");
@@ -65,6 +67,7 @@ public class SysUserController {
 
     @Log(action = "user_update", targetType = "sys_user")
     @PutMapping
+    @RequiresRoles("admin")
     public Result<Void> update(@RequestBody Map<String, Object> body) {
         SysUser user = buildUser(body);
         @SuppressWarnings("unchecked")
@@ -75,6 +78,7 @@ public class SysUserController {
 
     @Log(action = "user_reset_password", targetType = "sys_user")
     @PutMapping("/{id}/password")
+    @RequiresRoles("admin")
     public Result<Void> resetPassword(@PathVariable Long id, @RequestBody Map<String, String> body) {
         String newPassword = body.get("password");
         if (StrUtils.isBlank(newPassword) || newPassword.length() < 6) {
@@ -86,6 +90,7 @@ public class SysUserController {
 
     @Log(action = "user_delete", targetType = "sys_user")
     @DeleteMapping("/{id}")
+    @RequiresRoles("admin")
     public Result<Void> delete(@PathVariable Long id) {
         sysUserService.delete(id);
         return Result.success();

@@ -8,6 +8,7 @@ import com.ptidss.intel.domain.IntelNews;
 import com.ptidss.intel.domain.IntelPushRule;
 import com.ptidss.intel.service.IntelFetchService;
 import com.ptidss.intel.service.IntelService;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -102,6 +103,14 @@ public class IntelController {
                 body.get("connConfig") == null ? null : String.valueOf(body.get("connConfig")),
                 body.get("frequency") == null ? null : String.valueOf(body.get("frequency")),
                 body.get("status") == null ? null : String.valueOf(body.get("status"))));
+    }
+
+    /** 删除情报源台账（软删除；历史情报保留，采集自动跳过；仅 admin） */
+    @Log(action = "intel_source_delete", targetType = "intel_source")
+    @DeleteMapping("/sources/{id}")
+    @RequiresRoles("admin")
+    public Result<Map<String, Object>> deleteSource(@PathVariable Long id) {
+        return Result.success(intelService.deleteSource(id));
     }
 
     /** 推送规则列表（标签×重要度→角色/渠道） */

@@ -3,6 +3,7 @@ package com.ptidss.agent.controller;
 import com.ptidss.agent.service.AgentService;
 import com.ptidss.common.annotation.Log;
 import com.ptidss.common.annotation.RequiresPermissions;
+import com.ptidss.common.annotation.RequiresRoles;
 import com.ptidss.common.domain.Result;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,17 +50,19 @@ public class AgentController {
         return Result.success(agentService.metrics());
     }
 
-    /** 启停维护（active/disabled/maintenance） */
+    /** 启停维护（active/disabled/maintenance；管理类操作仅 admin，V3.1 对齐 V2.2 写操作收紧） */
     @Log(action = "agent_status_update", targetType = "agent_registry")
     @PostMapping("/registry/{id}/status")
+    @RequiresRoles("admin")
     public Result<Void> updateStatus(@PathVariable Long id, @RequestBody Map<String, String> body) {
         agentService.updateStatus(id, body.get("status"));
         return Result.success();
     }
 
-    /** 模型绑定（model_config.modelCode → model_registry / llmCode → llm_model；编排走推理+LLM 解读，PRD FR-TR-05） */
+    /** 模型绑定（model_config.modelCode → model_registry / llmCode → llm_model；编排走推理+LLM 解读，PRD FR-TR-05；管理类操作仅 admin） */
     @Log(action = "agent_model_bind", targetType = "agent_registry")
     @PostMapping("/registry/{id}/model-config")
+    @RequiresRoles("admin")
     public Result<Void> bindModel(@PathVariable Long id, @RequestBody Map<String, String> body) {
         agentService.bindModel(id, body.get("modelCode"), body.get("llmCode"));
         return Result.success();

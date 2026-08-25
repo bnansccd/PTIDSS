@@ -1,0 +1,20 @@
+{
+  "period": "weekly",
+  "weekEnd": "20260822",
+  "generatedAt": "2026-08-22T16:33:51.112486",
+  "metrics": {
+    "sourceFailingRate": 0.0,
+    "newsTotal": "66",
+    "qualityCompleteness": 0.995,
+    "qualityAccuracy": 0.95,
+    "qualityTimeliness": 0.95
+  },
+  "details": {
+    "statusDist": {
+      "enabled": 42,
+      "disabled": 21
+    },
+    "failingSources": [],
+    "totalSources": 42
+  }
+}

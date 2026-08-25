@@ -50,6 +50,12 @@ const captcha = ref<CaptchaResult | null>(null)
 const loading = ref(false)
 const error = ref('')
 
+// 登出/会话失效跳转提示（forceLogout 经 ?msg= 传入），登录页停留时展示
+const sessionMsg = (route.query.msg as string) || ''
+if (sessionMsg) {
+  error.value = sessionMsg
+}
+
 async function refreshCaptcha() {
   captcha.value = await getCaptcha()
   captchaCode.value = ''

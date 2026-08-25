@@ -141,20 +141,33 @@
 
     <!-- ── 数据血缘 ── -->
     <div class="card">
-      <h3>数据血缘全景（GET /data/lineage · 营销/交易中心 → 采集 → 明细 → 指标 → 模型/报表）</h3>
-      <table>
-        <thead>
-          <tr><th>节点</th><th>类型</th><th>字段映射</th></tr>
-        </thead>
-        <tbody>
-          <tr v-if="lineage.length === 0"><td colspan="3" class="muted">暂无数据</td></tr>
-          <tr v-for="n in lineage" :key="n.nodeId">
-            <td class="mono">{{ n.nodeId }}</td>
-            <td><span class="badge" :class="nodeTypeClass(n.nodeType)">{{ nodeTypeLabel(n.nodeType) }}</span></td>
-            <td class="muted">{{ mappingText(n.fieldMapping) }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <h3>数据血缘全景（GET /data/lineage · V3.0 全量图谱：外部源→采集→明细→指标→模型/报表→业务应用+系统支撑）</h3>
+      <div class="form-row">
+        <button class="btn" :class="lineageMode === 'table' ? 'btn-primary' : ''" @click="lineageMode = 'table'">表格模式</button>
+        <button class="btn" :class="lineageMode === 'graph' ? 'btn-primary' : ''" @click="lineageMode = 'graph'">全量图谱模式</button>
+        <template v-if="lineageMode === 'graph'">
+          <span class="muted" style="margin: 0 4px">|</span>
+          <button class="btn" :class="lineageView === 'data' ? 'btn-primary' : ''" @click="lineageView = 'data'">数据视角（分层）</button>
+          <button class="btn" :class="lineageView === 'business' ? 'btn-primary' : ''" @click="lineageView = 'business'">业务视角（分域）</button>
+        </template>
+      </div>
+      <template v-if="lineageMode === 'table'">
+        <table>
+          <thead>
+            <tr><th>节点</th><th>类型</th><th>业务域</th><th>字段映射</th></tr>
+          </thead>
+          <tbody>
+            <tr v-if="lineage.length === 0"><td colspan="4" class="muted">暂无数据</td></tr>
+            <tr v-for="n in lineage" :key="n.nodeId">
+              <td><span class="muted mono" style="font-size: 12px">{{ n.nodeId }}</span><br />{{ n.nodeName || n.nodeId }}</td>
+              <td><span class="badge" :class="nodeTypeClass(n.nodeType)">{{ nodeTypeLabel(n.nodeType) }}</span></td>
+              <td class="muted">{{ domainLabel(n.domain) }}</td>
+              <td class="muted">{{ mappingText(n.fieldMapping) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </template>
+      <LineageGraph v-else :nodes="lineage" :view="lineageView" />
     </div>
   </div>
 </template>
@@ -164,11 +177,14 @@ import { onMounted, reactive, ref } from 'vue'
 import { createDataSource, getDataSources, getLineage, getQualityReport, postCollectTask, updateDataSource } from '@/api/dataPlatform'
 import type { DataSourceInfo, LineageNode, QualityReport } from '@/api/types'
 import ConnConfigEditor from '@/components/ConnConfigEditor.vue'
+import LineageGraph from '@/components/LineageGraph.vue'
 
 const connTypes = ['api', 'jwt', 'oauth2', 'basic', 'file', 'poll']
 const sources = ref<DataSourceInfo[]>([])
 const quality = ref<QualityReport>({ completeness: 0, accuracy: 0, timeliness: 0 })
 const lineage = ref<LineageNode[]>([])
+const lineageMode = ref<'table' | 'graph'>('graph')
+const lineageView = ref<'data' | 'business'>('data')
 const taskType = ref('market')
 const force = ref(false)
 const collecting = ref(false)
@@ -216,13 +232,22 @@ function sourceTypeLabel(t: string): string {
 }
 
 function nodeTypeLabel(t: string): string {
-  const map: Record<string, string> = { table: '数据表', task: '采集/加工', model: '模型', report: '报表' }
+  const map: Record<string, string> = { table: '数据表', task: '采集/加工', model: '模型', report: '报表', business: '业务应用' }
   return map[t] ?? t
 }
 
 function nodeTypeClass(t: string): string {
-  const map: Record<string, string> = { table: 'badge-blue', task: 'badge-orange', model: 'badge-purple', report: 'badge-green' }
+  const map: Record<string, string> = { table: 'badge-blue', task: 'badge-orange', model: 'badge-purple', report: 'badge-green', business: 'badge-pink' }
   return map[t] ?? 'badge-gray'
+}
+
+function domainLabel(d?: string): string {
+  const map: Record<string, string> = {
+    marketing: '营销域', exchange: '交易中心域', weather: '气象域', common: '公共数据底座',
+    trade: '交易域', settle: '结算域', policy: '政策域', intel: '情报域', forecast: '预测域',
+    model: '模型域', decision: '决策域', optimize: '优化域', assess: '评估域', report: '报表域', system: '系统支撑',
+  }
+  return map[d ?? ''] ?? d ?? '-'
 }
 
 function pct(v: number | undefined): string {

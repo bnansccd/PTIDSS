@@ -5,6 +5,7 @@
         <button class="btn" :class="tab === 'news' ? 'btn-primary' : ''" @click="tab = 'news'">情报流</button>
         <button class="btn" :class="tab === 'sources' ? 'btn-primary' : ''" @click="tab = 'sources'">情报源台账</button>
         <button class="btn" :class="tab === 'rules' ? 'btn-primary' : ''" @click="tab = 'rules'">推送规则</button>
+        <button class="btn" :class="tab === 'monitor' ? 'btn-primary' : ''" @click="tab = 'monitor'">采集监控</button>
         <span class="muted">RE-01 P0 正式：采集 → 归一化标签/重要度分级 → 按规则推送（high 级 ≤30s）</span>
       </div>
     </div>
@@ -117,7 +118,7 @@
               <td><span class="badge" :class="s.connType && s.connType !== 'api' ? 'badge-blue' : 'badge-gray'">{{ connTypeLabel(s.connType || 'api') }}</span></td>
               <td class="mono">{{ s.frequency }}</td>
               <td><span class="badge" :class="s.status === 'enabled' ? 'badge-green' : 'badge-gray'">{{ sourceStatusLabel(s.status) }}（{{ s.status }}）</span></td>
-              <td><button class="btn btn-sm" @click="startEditSource(s)">编辑对接</button></td>
+              <td><button class="btn btn-sm" @click="startEditSource(s)">编辑对接</button> <button class="btn btn-sm" @click="onDeleteSource(s)">删除</button></td>
             </tr>
           </tbody>
         </table>
@@ -151,6 +152,43 @@
             </div>
           </div>
         </div>
+      </div>
+    </template>
+
+    <!-- ── 采集监控（V3.2：GAP-06 补全：采集状态 + admin 立即抓取，后端 /intel/fetch-status /intel/fetch 就绪） ── -->
+    <template v-else-if="tab === 'monitor'">
+      <div class="card">
+        <div class="form-row">
+          <h3>行情采集状态（GET /intel/fetch-status · 各源最近成功/失败原因/连续失败/频率/端点域名）</h3>
+          <button v-if="isAdmin" class="btn btn-primary" :disabled="fetching" @click="onFetchNow">
+            {{ fetching ? '采集中…' : '立即抓取（force 全量）' }}
+          </button>
+          <button v-else class="btn" disabled title="仅 admin 可手动触发采集">立即抓取（仅 admin）</button>
+          <span v-if="fetchMsg" class="muted">{{ fetchMsg }}</span>
+        </div>
+        <table>
+          <thead>
+            <tr><th>源编码</th><th>名称</th><th>类型</th><th>频率</th><th>状态</th><th>最近成功</th><th>连续失败</th><th>最近失败原因</th><th>端点</th></tr>
+          </thead>
+          <tbody>
+            <tr v-if="fetchStatuses.length === 0"><td colspan="9" class="muted">暂无数据</td></tr>
+            <tr v-for="s in fetchStatuses" :key="s.id">
+              <td class="mono">{{ s.sourceCode }}</td>
+              <td>{{ s.sourceName }}</td>
+              <td>{{ intelTypeLabel(s.intelType) }}</td>
+              <td class="mono">{{ s.frequency }}</td>
+              <td>
+                <span class="badge" :class="s.healthy ? 'badge-green' : 'badge-red'">
+                  {{ s.healthy ? '健康' : '异常' }}（{{ sourceStatusLabel(s.status) }}）
+                </span>
+              </td>
+              <td class="mono">{{ s.lastSuccessAt ?? '-' }}</td>
+              <td><span class="badge" :class="s.consecutiveFailures > 0 ? 'badge-red' : 'badge-gray'">{{ s.consecutiveFailures }}</span></td>
+              <td class="muted">{{ s.lastError ?? '-' }}</td>
+              <td class="mono muted">{{ s.endpoint || '-' }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </template>
 
@@ -195,11 +233,16 @@
 
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
-import { createIntelPushRule, createIntelSource, getIntelNews, getIntelPushRules, getIntelSources, updateIntelSource } from '@/api/intel'
-import type { IntelNews, IntelPushRule, IntelSource } from '@/api/types'
+import { createIntelPushRule, createIntelSource, deleteIntelSource, getIntelFetchStatus, getIntelNews, getIntelPushRules, getIntelSources, triggerIntelFetch, updateIntelSource } from '@/api/intel'
+import type { IntelFetchStatus, IntelNews, IntelPushRule, IntelSource } from '@/api/types'
 import ConnConfigEditor from '@/components/ConnConfigEditor.vue'
+import { useAuthStore } from '@/stores/auth'
 
-const tab = ref<'news' | 'sources' | 'rules'>('news')
+const tab = ref<'news' | 'sources' | 'rules' | 'monitor'>('news')
+
+const auth = useAuthStore()
+/** 采集手动触发仅 admin（后端 @RequiresRoles("admin") 兜底） */
+const isAdmin = computed(() => (auth.user?.roles ?? []).includes('admin'))
 
 const intelTypes = [
   { value: 'price', label: '价格' },
@@ -332,6 +375,18 @@ async function onSaveSource() {
   }
 }
 
+// ── 台账删除（软删除：历史情报保留，采集任务自动跳过；同编码可重新登记） ──
+async function onDeleteSource(s: IntelSource) {
+  if (!window.confirm(`确定删除情报源「${s.sourceCode} ${s.sourceName}」吗？历史情报保留，同编码后续可重新登记。`)) return
+  try {
+    await deleteIntelSource(s.id)
+    if (editingSource.value?.id === s.id) editingSource.value = null
+    await loadSources()
+  } catch (e) {
+    alert((e as Error).message || '删除失败')
+  }
+}
+
 // ── 推送规则 ──
 const rules = ref<IntelPushRule[]>([])
 const ruleForm = reactive({ ruleName: '', matchTags: '', importance: 'high' })
@@ -375,9 +430,39 @@ async function onCreateRule() {
   }
 }
 
+// ── 采集监控（V3.2 GAP-06：状态展示 + admin 手动抓取） ──
+const fetchStatuses = ref<IntelFetchStatus[]>([])
+const fetching = ref(false)
+const fetchMsg = ref('')
+
+async function loadFetchStatus() {
+  try {
+    fetchStatuses.value = await getIntelFetchStatus()
+  } catch {
+    fetchStatuses.value = []
+  }
+}
+
+async function onFetchNow() {
+  if (fetching.value) return
+  fetching.value = true
+  fetchMsg.value = ''
+  try {
+    const res = await triggerIntelFetch(true)
+    fetchMsg.value = (res as unknown as { message?: string }).message ?? '采集触发成功'
+    await loadFetchStatus()
+    await loadNews()
+  } catch (e) {
+    fetchMsg.value = (e as Error).message || '采集触发失败'
+  } finally {
+    fetching.value = false
+  }
+}
+
 onMounted(() => {
   loadNews()
   loadSources()
   loadRules()
+  loadFetchStatus()
 })
 </script>

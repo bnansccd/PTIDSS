@@ -170,11 +170,13 @@
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/settlement/mapper/SettlementTicketMapper.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/settlement/service/SettlementService.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/controller/AuditLogController.java
+/home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/controller/SysConfigController.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/controller/SysPermissionController.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/controller/SysRegionController.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/controller/SysRoleController.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/controller/SysUserController.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/domain/AuditLog.java
+/home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/domain/SysConfig.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/domain/SysPermission.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/domain/SysRegion.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/domain/SysRole.java
@@ -182,6 +184,7 @@
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/domain/SysUser.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/domain/SysUserRegion.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/mapper/AuditLogMapper.java
+/home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/mapper/SysConfigMapper.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/mapper/SysPermissionMapper.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/mapper/SysRegionMapper.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/mapper/SysRoleMapper.java
@@ -189,6 +192,7 @@
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/mapper/SysUserMapper.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/mapper/SysUserRegionMapper.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/service/AuditLogService.java
+/home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/service/SysConfigService.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/service/SysRegionService.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/service/SysRoleService.java
 /home/odoo/workspace/PTIDSS/ptidss-server/src/main/java/com/ptidss/system/service/SysUserService.java

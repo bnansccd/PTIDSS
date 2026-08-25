@@ -1,0 +1,57 @@
+<view class="page">
+  <block wx:if="{{detail}}">
+    <view class="card">
+      <view class="card-title">
+        <text class="tag tag-green">{{detail.reportTypeName}}</text>
+        <text class="tag {{detail.status === 'published' ? 'tag-blue' : 'tag-gray'}}">{{detail.statusName}}</text>
+      </view>
+      <view class="row"><view class="row-sub">统计周期</view><view class="row-title" style="font-size: 26rpx">{{detail.period}}</view></view>
+    </view>
+
+    <!-- 报告摘要 -->
+    <view class="card" wx:if="{{summaryRows.length}}">
+      <view class="card-title">报告摘要</view>
+      <view class="row" wx:for="{{summaryRows}}" wx:key="key">
+        <view class="row-left"><view class="row-sub">{{item.key}}</view></view>
+        <view class="row-right kv-value">{{item.value}}</view>
+      </view>
+    </view>
+
+    <!-- 三层归因 -->
+    <view class="card" wx:if="{{layers.length}}">
+      <view class="card-title">偏差三层归因</view>
+      <block wx:for="{{layers}}" wx:key="layer" wx:for-item="layer">
+        <view class="layer-title">{{layer.layerName}}</view>
+        <view class="row" wx:for="{{layer.items}}" wx:key="item">
+          <view class="row-left">
+            <view class="row-title">{{item.item}}</view>
+            <view class="row-sub">数值 {{item.value}} · 影响 {{item.impactAmount}} 元 · {{item.directionName}}</view>
+            <view class="row-sub" wx:if="{{item.reason}}">原因：{{item.reason}}</view>
+          </view>
+        </view>
+        <view wx:if="{{!layer.items.length}}" class="muted" style="padding: 8rpx 0">该层无归因明细</view>
+      </block>
+    </view>
+
+    <!-- 策略评估 -->
+    <view class="card" wx:if="{{strategyEvalRows.length}}">
+      <view class="card-title">策略评估</view>
+      <view class="row" wx:for="{{strategyEvalRows}}" wx:key="key">
+        <view class="row-left"><view class="row-sub">{{item.key}}</view></view>
+        <view class="row-right kv-value">{{item.value}}</view>
+      </view>
+    </view>
+
+    <!-- 改进建议 -->
+    <view class="card" wx:if="{{suggestions.length}}">
+      <view class="card-title">改进建议</view>
+      <view class="suggest" wx:for="{{suggestions}}" wx:key="*this">{{index + 1}}. {{item}}</view>
+    </view>
+
+    <view class="card share-tip">
+      <view class="muted">点击右上角「···」可将报告分享给同事（PRD FR-PL-05 ④ 查看与分享）</view>
+    </view>
+  </block>
+
+  <view wx:if="{{!loaded}}" class="empty">加载中…</view>
+</view>

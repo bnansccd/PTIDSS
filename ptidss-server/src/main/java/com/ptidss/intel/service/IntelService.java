@@ -1,6 +1,7 @@
 package com.ptidss.intel.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ptidss.common.domain.Result;
@@ -29,9 +30,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 情报中心（对齐 OpenAPI V1.1 /intel/**；FR-INT-04 情报中心 RE-01 P0）
@@ -90,10 +95,13 @@ public class IntelService {
 
     // ---------- 情报源台账 ----------
 
-    /** 情报源表为空时写入种子台账（幂等） */
+    /** 情报源表为空且无删除痕迹时写入种子台账（幂等；用户删除种子后不重新写入，
+     *  满足各省行情配置后续变化与系统增强） */
     private void ensureSources() {
         Long count = intelSourceMapper.selectCount(new LambdaQueryWrapper<IntelSource>());
-        if (count != null && count > 0) {
+        Long deletedCount = intelSourceMapper.selectCount(
+                new LambdaQueryWrapper<IntelSource>().eq(IntelSource::getDeleted, true));
+        if ((count != null && count > 0) || (deletedCount != null && deletedCount > 0)) {
             return;
         }
         for (String[] s : SEED_SOURCES) {
@@ -212,6 +220,22 @@ public class IntelService {
         update.setStatus(status);
         intelSourceMapper.updateById(update);
         return toSourceView(intelSourceMapper.selectById(id));
+    }
+
+    /**
+     * 删除情报源台账（软删除：历史情报按 region 展示不受影响，采集任务按源列表
+     * 自动跳过；部分唯一索引支持同编码后续重新登记；仅 admin）。
+     */
+    public Map<String, Object> deleteSource(Long id) {
+        IntelSource exist = intelSourceMapper.selectById(id);
+        if (exist == null) {
+            throw new ServiceException("情报源不存在");
+        }
+        intelSourceMapper.deleteById(id);
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("sourceCode", exist.getSourceCode());
+        result.put("message", "情报源已删除（历史情报保留，采集任务自动跳过）");
+        return result;
     }
 
     /** 台账脱敏视图（连接参数敏感字段 ******，密文不外泄） */
@@ -343,36 +367,60 @@ public class IntelService {
      * 执行全部 active 推送规则：匹配未推送情报（标签交集 × 重要度一致）→ 按目标角色
      * 派发个人消息（msg_type=intel_push，receiver_id=角色下全部用户）→ 更新情报推送状态。
      * 幂等：同情报同用户已派发则跳过（biz_ref=INTEL-{newsId}）
+     * 性能（V3.1 优化，适配数据量增长）：未推送情报一次性查询并按重要度分组、
+     * 用户按角色批量解析、幂等检查一次 IN 批量命中、推送状态批量更新——避免逐规则
+     * 全表扫描与逐条 selectCount/updateById 的 N+1 放大。
      */
     public synchronized Map<String, Object> executePushRules() {
         List<IntelPushRule> rules = intelPushRuleMapper.selectList(
                 new LambdaQueryWrapper<IntelPushRule>().eq(IntelPushRule::getStatus, "active"));
-        int matchedNews = 0;
-        int pushedMessages = 0;
-        boolean highIntelPushed = false;
+        if (rules.isEmpty()) {
+            Map<String, Object> empty = new LinkedHashMap<>();
+            empty.put("matchedNews", 0);
+            empty.put("pushedMessages", 0);
+            empty.put("intelReassessed", 0);
+            return empty;
+        }
+        // ① 未推送情报一次性加载并按重要度分组（单次查询，避免逐规则全表扫描）
+        Map<String, List<IntelNews>> pendingByImportance = new LinkedHashMap<>();
+        List<IntelNews> pendingAll = intelNewsMapper.selectList(
+                new LambdaQueryWrapper<IntelNews>().eq(IntelNews::getPushStatus, "none"));
+        for (IntelNews news : pendingAll) {
+            String key = news.getImportance() == null ? "medium" : news.getImportance().toLowerCase();
+            pendingByImportance.computeIfAbsent(key, k -> new ArrayList<>()).add(news);
+        }
+        // ② 目标角色 → 用户映射一次性解析（按角色编码分组，循环内复用）
+        Map<String, List<SysUser>> roleUsers = buildRoleUserMap();
+        // ③ 收集全部待派发 (newsId, userId) 候选对
+        List<Long> matchedNewsIds = new ArrayList<>();
+        List<MessageRecord> toInsert = new ArrayList<>();
+        Set<Long> consumedNewsIds = new HashSet<>(); // 保持原语义：同一条情报仅被首个命中规则推送
         for (IntelPushRule rule : rules) {
+            String impKey = rule.getImportanceFilter() == null ? "medium"
+                    : rule.getImportanceFilter().toLowerCase();
+            List<IntelNews> candidates = pendingByImportance.getOrDefault(impKey, Collections.emptyList());
             List<String> ruleTags = parseJsonArray(rule.getTagsFilter());
             List<String> channels = parseJsonArray(rule.getChannel());
             if (channels.isEmpty()) {
                 channels = Collections.singletonList("web");
             }
-            List<IntelNews> candidates = intelNewsMapper.selectList(
-                    new LambdaQueryWrapper<IntelNews>()
-                            .eq(IntelNews::getPushStatus, "none")
-                            .eq(IntelNews::getImportance, rule.getImportanceFilter()));
+            List<SysUser> receivers = new ArrayList<>();
+            for (String roleCode : parseJsonArray(rule.getTargetRoles())) {
+                List<SysUser> users = roleUsers.get(roleCode);
+                if (users != null) {
+                    receivers.addAll(users);
+                }
+            }
             for (IntelNews news : candidates) {
+                if (consumedNewsIds.contains(news.getId())) {
+                    continue;
+                }
                 if (Collections.disjoint(ruleTags, parseJsonArray(news.getNormalizedTags()))) {
                     continue; // 标签无交集，不推送
                 }
-                matchedNews++;
-                List<SysUser> receivers = findUsersByTargetRoles(parseJsonArray(rule.getTargetRoles()));
+                consumedNewsIds.add(news.getId());
+                matchedNewsIds.add(news.getId());
                 for (SysUser user : receivers) {
-                    Long exists = messageRecordMapper.selectCount(new LambdaQueryWrapper<MessageRecord>()
-                            .eq(MessageRecord::getReceiverId, user.getId())
-                            .eq(MessageRecord::getBizRef, "INTEL-" + news.getId()));
-                    if (exists != null && exists > 0) {
-                        continue; // 幂等：已派发过
-                    }
                     MessageRecord msg = new MessageRecord();
                     msg.setMsgType("intel_push");
                     msg.setReceiverId(user.getId());
@@ -381,18 +429,47 @@ public class IntelService {
                     msg.setChannel(toJson(channels));
                     msg.setReadStatus("unread");
                     msg.setBizRef("INTEL-" + news.getId());
-                    messageRecordMapper.insert(msg);
-                    pushedMessages++;
+                    toInsert.add(msg);
                 }
-                news.setPushStatus("pushed");
-                intelNewsMapper.updateById(news);
-                highIntelPushed = highIntelPushed
-                        || "high".equalsIgnoreCase(news.getImportance());
             }
+        }
+        // ④ 幂等检查：候选 (biz_ref, receiver_id) 一次 IN 批量命中已派发记录
+        if (!matchedNewsIds.isEmpty()) {
+            Set<String> already = new HashSet<>();
+            List<String> bizRefs = new ArrayList<>();
+            for (Long id : matchedNewsIds) {
+                bizRefs.add("INTEL-" + id);
+            }
+            for (MessageRecord exist : messageRecordMapper.selectList(
+                    new LambdaQueryWrapper<MessageRecord>()
+                            .in(MessageRecord::getBizRef, bizRefs)
+                            .select(MessageRecord::getBizRef, MessageRecord::getReceiverId))) {
+                already.add(exist.getBizRef() + "#" + exist.getReceiverId());
+            }
+            toInsert.removeIf(msg -> already.contains(msg.getBizRef() + "#" + msg.getReceiverId()));
+        } else {
+            toInsert.clear();
+        }
+        // ⑤ 批量落库消息 + 批量更新推送状态
+        int pushedMessages = 0;
+        for (MessageRecord msg : toInsert) {
+            messageRecordMapper.insert(msg);
+            pushedMessages++;
+        }
+        Set<Long> finallyPushedIds = new HashSet<>();
+        for (MessageRecord msg : toInsert) {
+            finallyPushedIds.add(parseNewsId(msg.getBizRef()));
+        }
+        if (!finallyPushedIds.isEmpty()) {
+            intelNewsMapper.update(null, new LambdaUpdateWrapper<IntelNews>()
+                    .in(IntelNews::getId, finallyPushedIds)
+                    .set(IntelNews::getPushStatus, "pushed"));
         }
         // 情报触发式重算（FR-INT-04 深化）：本轮推送含 high 重要度情报时，对近 24h 待审决策会话
         // 批量刷新情报评分快照（供人工确认前感知情报变化）；异常不阻断推送主流程
         int reassessed = 0;
+        boolean highIntelPushed = pendingByImportance.getOrDefault("high", Collections.emptyList())
+                .stream().anyMatch(n -> consumedNewsIds.contains(n.getId()));
         if (highIntelPushed) {
             try {
                 reassessed = decisionService.reassessPendingSessions();
@@ -401,9 +478,9 @@ public class IntelService {
             }
         }
         log.info("情报推送执行完成：匹配情报 {} 条，派发消息 {} 条，触发决策会话情报重评 {} 个",
-                matchedNews, pushedMessages, reassessed);
+                finallyPushedIds.size(), pushedMessages, reassessed);
         Map<String, Object> resp = new LinkedHashMap<>();
-        resp.put("matchedNews", matchedNews);
+        resp.put("matchedNews", finallyPushedIds.size());
         resp.put("pushedMessages", pushedMessages);
         resp.put("intelReassessed", reassessed);
         return resp;
@@ -419,19 +496,44 @@ public class IntelService {
         }
     }
 
-    /** 按目标角色编码集合查用户（role_ids JSONB 包含匹配） */
-    private List<SysUser> findUsersByTargetRoles(List<String> roleCodes) {
-        if (roleCodes.isEmpty()) {
-            return Collections.emptyList();
+    /** 全部角色 → 用户映射（按角色编码分组；单次角色查询 + 单次用户查询，供推送规则批量复用） */
+    private Map<String, List<SysUser>> buildRoleUserMap() {
+        Map<String, List<SysUser>> map = new HashMap<>();
+        List<SysRole> roles = sysRoleMapper.selectList(new LambdaQueryWrapper<SysRole>());
+        if (roles.isEmpty()) {
+            return map;
         }
-        List<SysRole> roles = sysRoleMapper.selectList(new LambdaQueryWrapper<SysRole>()
-                .in(SysRole::getRoleCode, roleCodes));
-        List<SysUser> users = new ArrayList<>();
-        for (SysRole role : roles) {
-            users.addAll(sysUserMapper.selectList(new LambdaQueryWrapper<SysUser>()
-                    .apply("role_ids @> {0}::jsonb", "[" + role.getId() + "]")));
+        // 注：role_ids ?| ARRAY[...] 的 ?| 运算符含 ?，PG JDBC 会将其误解析为参数占位符
+        // （未设定参数值 1），故改用 @> ANY (ARRAY[...]::jsonb[]) 语义等价写法；
+        // 值来自 sys_role.id 受控 Long，无注入风险。每个 jsonb 数组元素必须单独引号
+        // （ARRAY['[1]','[2]',...]），否则 PG 将整串当作单元素解析报 "Expected end of input"
+        String idsLiteral = roles.stream()
+                .map(r -> "[" + r.getId() + "]").collect(Collectors.joining("','", "'", "'"));
+        List<SysUser> allUsers = sysUserMapper.selectList(new LambdaQueryWrapper<SysUser>()
+                .apply("role_ids @> ANY (ARRAY[" + idsLiteral + "]::jsonb[])"));
+        for (SysUser user : allUsers) {
+            if (user.getRoleIds() == null) {
+                continue;
+            }
+            for (SysRole role : roles) {
+                if (user.getRoleIds().contains(role.getId())) {
+                    map.computeIfAbsent(role.getRoleCode(), k -> new ArrayList<>()).add(user);
+                }
+            }
         }
-        return users;
+        return map;
+    }
+
+    /** 从消息业务引用解析情报 ID（biz_ref 格式 INTEL-{newsId}） */
+    private Long parseNewsId(String bizRef) {
+        if (bizRef == null || !bizRef.startsWith("INTEL-")) {
+            return null;
+        }
+        try {
+            return Long.valueOf(bizRef.substring(6));
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 
     /** JSONB 数组字符串 → List<String>（兼容历史对象数组 [{"role":"trader"}]） */

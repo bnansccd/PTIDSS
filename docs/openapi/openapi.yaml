@@ -33,6 +33,8 @@ tags:
   - { name: flow, description: 流程引擎 }
   - { name: model, description: 模型平台 }
   - { name: intel, description: 情报中心 }
+  - { name: agent, description: 智能体编排（V2.1） }
+  - { name: admin, description: 系统管理（用户/角色/区域/配置中心） }
 security:
   - bearerAuth: []
 paths:
@@ -2134,6 +2136,940 @@ paths:
                           pushedMessages: { type: integer, description: 派发的个人消息条数 }
         '4XX': { $ref: '#/components/responses/BizError' }
 
+  # ==================== agent（智能体编排，V2.1） ====================
+  /agent/registry:
+    get:
+      operationId: getAgentRegistry
+      summary: 智能体注册表（7 大智能体：态势/预测/报价/合规/风险/收益/复盘）
+      tags: [agent]
+      responses:
+        '200':
+          description: 注册表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { type: object, description: agentCode/名称/模型绑定/状态/置信度 }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /agent/runs:
+    get:
+      operationId: getAgentRuns
+      summary: 智能体运行记录（输入快照/输出/置信度/耗时/状态）
+      tags: [agent]
+      responses:
+        '200':
+          description: 运行记录
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/AgentRun' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /agent/metrics:
+    get:
+      operationId: getAgentMetrics
+      summary: 智能体效果指标（成功率/平均耗时/调用次数）
+      tags: [agent]
+      responses:
+        '200':
+          description: 指标
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { type: object } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /agent/registry/{id}/status:
+    post:
+      operationId: postAgentStatus
+      summary: 智能体启停（仅 admin 角色，V3G-01 收紧）
+      tags: [agent]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: { status: { type: string, enum: [active, disabled] } }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /agent/registry/{id}/model-config:
+    post:
+      operationId: postAgentModelConfig
+      summary: 智能体模型/LLM 绑定（仅 admin 角色，V3G-02 收紧）
+      tags: [agent]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: { modelCode: { type: string } }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== trade 网关（V2.2，密钥类敏感配置） ====================
+  /trade/gateway/config:
+    get:
+      operationId: getTradeGatewayConfig
+      summary: 交易网关配置读取（含加密连接参数脱敏视图；仅 admin 角色，V3G-03 收紧）
+      tags: [trade]
+      responses:
+        '200':
+          description: 配置
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { type: object } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    put:
+      operationId: putTradeGatewayConfig
+      summary: 交易网关配置写入（appKey/appSecret 加密落库；仅 admin 角色，V3G-03 收紧）
+      tags: [trade]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                host: { type: string }
+                appKey: { type: string }
+                appSecret: { type: string }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /trade/gateway/test:
+    post:
+      operationId: postTradeGatewayTest
+      summary: 网关连通性测试（解密密钥发起外部请求；仅 admin 角色，V3G-04 收紧）
+      tags: [trade]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: { host: { type: string } }
+      responses:
+        '200':
+          description: 测试结果
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { type: object } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== admin 配置中心（V3.0，33 项内置） ====================
+  /admin/configs:
+    get:
+      operationId: getAdminConfigs
+      summary: 系统配置列表（分组/关键字搜索；敏感项脱敏 ******）
+      tags: [admin]
+      parameters:
+        - { name: group, in: query, schema: { type: string, description: 配置组编码 } }
+        - { name: keyword, in: query, schema: { type: string, description: 名称/键模糊搜索 } }
+      responses:
+        '200':
+          description: 配置列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/SysConfig' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    post:
+      operationId: postAdminConfigs
+      summary: 新建系统配置（仅 admin 角色，V3G-09 收紧）
+      tags: [admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SysConfig' }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /admin/configs/{id}:
+    get:
+      operationId: getAdminConfigsDetail
+      summary: 配置详情（敏感项脱敏）
+      tags: [admin]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        '200':
+          description: 详情
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/SysConfig' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    put:
+      operationId: putAdminConfigsDetail
+      summary: 更新配置值（内置项禁改 key 可改值/启停；仅 admin 角色，V3G-09 收紧）
+      tags: [admin]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SysConfig' }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    delete:
+      operationId: deleteAdminConfigsDetail
+      summary: 删除配置（内置项禁删；仅 admin 角色，V3G-09 收紧）
+      tags: [admin]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== intel 采集执行/状态（V2.5 后端就绪，V3.2 前端入口补全） ====================
+  /intel/fetch-status:
+    get:
+      operationId: getIntelFetchStatus
+      summary: 行情采集状态监测（各源最近成功/失败原因/连续失败/频率/端点域名）
+      tags: [intel]
+      responses:
+        '200':
+          description: 采集状态列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/IntelFetchStatus' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /intel/fetch:
+    post:
+      operationId: postIntelFetch
+      summary: 手动触发行情采集（force=true 忽略频率立即全量重跑；仅 admin 角色）
+      tags: [intel]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: { force: { type: boolean, description: true=忽略频率强制全量 } }
+      responses:
+        '200':
+          description: 采集结果
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { type: object } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== flow 流程引擎（V2.2 定义化） ====================
+  /flow/instances:
+    get:
+      operationId: getFlowInstances
+      summary: 流程实例列表（发起/待办/历史）
+      tags: [flow]
+      parameters:
+        - { name: processKey, in: query, schema: { type: string } }
+        - { name: status, in: query, schema: { type: string } }
+        - { $ref: '#/components/parameters/PageParam' }
+      responses:
+        '200':
+          description: 实例列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/PageResult' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /flow/instances/{instanceId}:
+    get:
+      operationId: getFlowInstanceDetail
+      summary: 流程实例详情（节点/审批链/状态）
+      tags: [flow]
+      parameters:
+        - { name: instanceId, in: path, required: true, schema: { type: integer } }
+      responses:
+        '200':
+          description: 详情
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { type: object } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /flow/instances/{instanceId}/advance:
+    post:
+      operationId: postFlowInstanceAdvance
+      summary: 审批推进（同意/驳回，留痕）
+      tags: [flow]
+      parameters:
+        - { name: instanceId, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action: { type: string, enum: [approve, reject] }
+                comment: { type: string }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /flow/biz-types:
+    get:
+      operationId: getFlowBizTypes
+      summary: 流程业务类型字典
+      tags: [flow]
+      responses:
+        '200':
+          description: 业务类型
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { type: array, items: { type: string } } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /flow/biz-options:
+    get:
+      operationId: getFlowBizOptions
+      summary: 流程业务选项（提交/驳回下拉）
+      tags: [flow]
+      responses:
+        '200':
+          description: 业务选项
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { type: array, items: { type: object } } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /flow/definitions:
+    get:
+      operationId: getFlowDefinitions
+      summary: 流程定义列表（节点/角色/条件配置化）
+      tags: [flow]
+      responses:
+        '200':
+          description: 定义列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { type: array, items: { type: object } } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    post:
+      operationId: postFlowDefinitions
+      summary: 新建流程定义（仅 admin 角色）
+      tags: [flow]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /flow/definitions/{id}:
+    put:
+      operationId: putFlowDefinitionsDetail
+      summary: 更新流程定义（版本化；仅 admin 角色）
+      tags: [flow]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== message 消息中心 ====================
+  /message/list:
+    get:
+      operationId: getMessageList
+      summary: 消息列表（按区域/类型/已读过滤；情报推送消息联动）
+      tags: [message]
+      parameters:
+        - { name: msgType, in: query, schema: { type: string } }
+        - { name: readStatus, in: query, schema: { type: string, enum: [read, unread] } }
+        - { $ref: '#/components/parameters/PageParam' }
+      responses:
+        '200':
+          description: 消息列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/PageResult' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /message/{id}/read:
+    post:
+      operationId: postMessageRead
+      summary: 标记消息已读
+      tags: [message]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== llm 模型管理（V2.2） ====================
+  /llm/models:
+    get:
+      operationId: getLlmModels
+      summary: LLM 模型列表
+      tags: [model]
+      responses:
+        '200':
+          description: 模型列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { type: array, items: { type: object } } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    post:
+      operationId: postLlmModels
+      summary: 注册 LLM 模型（仅 admin 角色）
+      tags: [model]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /llm/models/{id}:
+    put:
+      operationId: putLlmModelsDetail
+      summary: 更新 LLM 模型（含密钥引用切换；仅 admin 角色）
+      tags: [model]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== algorithm 算法包（V2.2/V3.0 SPI 插件化） ====================
+  /algorithm/registry:
+    get:
+      operationId: getAlgorithmRegistry
+      summary: 算法注册表（SPI 插件列表/版本/状态）
+      tags: [model]
+      responses:
+        '200':
+          description: 注册表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { type: array, items: { type: object } } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    post:
+      operationId: postAlgorithmRegistry
+      summary: 上传/注册算法包（仅 admin 角色）
+      tags: [model]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /algorithm/spis:
+    get:
+      operationId: getAlgorithmSpis
+      summary: 算法 SPI 接口清单
+      tags: [model]
+      responses:
+        '200':
+          description: SPI 清单
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { type: array, items: { type: object } } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /algorithm/parse-file:
+    post:
+      operationId: postAlgorithmParseFile
+      summary: 算法包文件解析（元信息提取；仅 admin 角色）
+      tags: [model]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '200':
+          description: 解析结果
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /algorithm/registry/{id}:
+    put:
+      operationId: putAlgorithmRegistryDetail
+      summary: 更新算法包状态/配置（仅 admin 角色）
+      tags: [model]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== model 任务（V2.4 任务报告） ====================
+  /model/tasks:
+    get:
+      operationId: getModelTasks
+      summary: 模型任务列表（训练/评估/推理留痕）
+      tags: [model]
+      parameters:
+        - { name: taskType, in: query, schema: { type: string, enum: [train, evaluate, inference] } }
+        - { $ref: '#/components/parameters/PageParam' }
+      responses:
+        '200':
+          description: 任务列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { $ref: '#/components/schemas/PageResult' } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    post:
+      operationId: postModelTasks
+      summary: 创建模型任务
+      tags: [model]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /model/tasks/{taskType}:
+    get:
+      operationId: getModelTasksByType
+      summary: 按类型查询模型任务
+      tags: [model]
+      parameters:
+        - { name: taskType, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: 任务列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { type: array, items: { type: object } } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /model/tasks/{id}:
+    get:
+      operationId: getModelTaskDetail
+      summary: 模型任务详情（含报告/日志）
+      tags: [model]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        '200':
+          description: 详情
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { type: object } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== data 数据源更新/删除 ====================
+  /data/sources/{id}:
+    put:
+      operationId: putDataSourcesDetail
+      summary: 更新数据源配置（连接参数/调度；仅 admin 角色）
+      tags: [data]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    delete:
+      operationId: deleteDataSourcesDetail
+      summary: 删除数据源（软删除；仅 admin 角色）
+      tags: [data]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== policy 上传/删除 ====================
+  /policy/upload:
+    post:
+      operationId: postPolicyUpload
+      summary: 政策文件上传（全文入库）
+      tags: [policy]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file: { type: string, format: binary }
+                title: { type: string }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /policy/upload-file:
+    post:
+      operationId: postPolicyUploadFile
+      summary: 政策附件上传（关联政策详情）
+      tags: [policy]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file: { type: string, format: binary }
+                policyId: { type: integer }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /policy/{id}/file:
+    get:
+      operationId: getPolicyFile
+      summary: 政策附件下载
+      tags: [policy]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        '200':
+          description: 文件流
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /policy/{id}:
+    put:
+      operationId: putPolicy
+      summary: 更新政策信息（仅 admin 角色）
+      tags: [policy]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+    delete:
+      operationId: deletePolicy
+      summary: 删除政策（软删除；仅 admin 角色）
+      tags: [policy]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== decision 人机协同补充端点 ====================
+  /decision/sessions/{sessionId}/reject:
+    post:
+      operationId: postDecisionSessionsReject
+      summary: 驳回决策会话（必填驳回原因）
+      tags: [decision]
+      parameters:
+        - { name: sessionId, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: { reason: { type: string } }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /decision/sessions/{sessionId}/rerun:
+    post:
+      operationId: postDecisionSessionsRerun
+      summary: 决策补跑（人工干预后重跑编排）
+      tags: [decision]
+      parameters:
+        - { name: sessionId, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /decision/sessions/{sessionId}/intel-reassess:
+    post:
+      operationId: postDecisionSessionsIntelReassess
+      summary: 情报触发式重算（pending 会话重评情报评分快照）
+      tags: [decision]
+      parameters:
+        - { name: sessionId, in: path, required: true, schema: { type: integer } }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
+  # ==================== assessment/report 补充端点 ====================
+  /assessment/indicators/all:
+    get:
+      operationId: getAssessmentIndicatorsAll
+      summary: 考核指标体系全量（不分页）
+      tags: [assessment]
+      responses:
+        '200':
+          description: 指标体系
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { type: array, items: { type: object } } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /assessment/indicators/{id}:
+    put:
+      operationId: putAssessmentIndicatorsDetail
+      summary: 更新考核指标（权重/阈值；仅 admin 角色）
+      tags: [assessment]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /report/templates/all:
+    get:
+      operationId: getReportTemplatesAll
+      summary: 报表模板全量（下拉用）
+      tags: [report]
+      responses:
+        '200':
+          description: 模板列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - { $ref: '#/components/schemas/ApiResponse' }
+                  - properties: { data: { type: array, items: { type: object } } }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /report/templates/{id}:
+    put:
+      operationId: putReportTemplatesDetail
+      summary: 更新报表模板（仅 admin 角色）
+      tags: [report]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+  /ocr/tasks:
+    post:
+      operationId: postOcrTasks
+      summary: 上传识别任务（结算单 OCR）
+      tags: [ocr]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file: { type: string, format: binary }
+                regionCode: { type: string }
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiResponse' }
+        '4XX': { $ref: '#/components/responses/BizError' }
+
 components:
   securitySchemes:
     bearerAuth:
@@ -2340,3 +3276,37 @@ components:
         checkItems: { type: array, items: { type: object } }
         diffAmount: { type: number }
         passRate: { type: number, description: ≥0.95 通过（结算核对指标） }
+    SysConfig:
+      type: object
+      description: 系统配置中心条目（V3.0，33 项内置种子；敏感项值加密存储/脱敏展示）
+      properties:
+        id: { type: integer }
+        groupCode: { type: string, description: 配置组：rule/settlement/region/optimize/forecast/model/agent/security/notice }
+        configKey: { type: string, description: 配置键（内置项禁改） }
+        configName: { type: string }
+        valueType: { type: string, enum: [string, number, boolean, select, json] }
+        value: { type: string, description: 敏感项返回 ****** }
+        defaultValue: { type: string }
+        options: { type: string, description: select 枚举范围，逗号分隔 }
+        enabled: { type: boolean }
+        builtIn: { type: boolean, description: true=内置项禁删禁改 key }
+        remark: { type: string }
+        updatedAt: { type: string }
+    IntelFetchStatus:
+      type: object
+      description: 行情采集状态监测项（V2.5）
+      properties:
+        id: { type: string }
+        sourceCode: { type: string }
+        sourceName: { type: string }
+        intelType: { type: string }
+        fetchMode: { type: string, enum: [api, crawl, file] }
+        frequency: { type: string }
+        status: { type: string, enum: [enabled, disabled] }
+        lastSuccessAt: { type: string, nullable: true }
+        lastError: { type: string, nullable: true }
+        consecutiveFailures: { type: integer }
+        frequencyMinutes: { type: string }
+        endpoint: { type: string, description: 端点域名（脱敏主机） }
+        mock: { type: boolean, description: true=模拟采集路径 }
+        healthy: { type: boolean, description: 启用且连续失败 < 阈值 }

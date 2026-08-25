@@ -45,6 +45,7 @@ com/ptidss/agent/domain/AgentRegistry.class
 com/ptidss/data/domain/DataSource.class
 com/ptidss/forecast/mapper/ForecastResultMapper.class
 com/ptidss/data/mapper/CollectTaskMapper.class
+com/ptidss/system/controller/SysConfigController.class
 com/ptidss/flow/domain/FlowDefinition.class
 com/ptidss/model/spi/impl/ReviewExecutor.class
 com/ptidss/agent/domain/AgentRun.class
@@ -58,6 +59,7 @@ com/ptidss/common/utils/SnowflakeIdGenerator.class
 com/ptidss/trade/domain/RollingPlan.class
 com/ptidss/data/mapper/DataSourceMapper.class
 com/ptidss/model/mapper/TrainingTaskMapper.class
+com/ptidss/system/mapper/SysConfigMapper.class
 com/ptidss/system/service/SysUserService.class
 com/ptidss/common/aspect/LogAspect.class
 com/ptidss/common/security/TokenService.class
@@ -172,6 +174,7 @@ com/ptidss/system/mapper/SysRegionMapper.class
 com/ptidss/policy/domain/PolicyDocument.class
 com/ptidss/system/domain/SysRoleRegion.class
 com/ptidss/common/utils/IdUtils.class
+com/ptidss/system/service/SysConfigService.class
 com/ptidss/trade/domain/Declaration.class
 com/ptidss/model/mapper/ModelTaskMapper.class
 com/ptidss/decision/domain/DecisionSession.class
@@ -191,6 +194,7 @@ com/ptidss/intel/service/IntelService.class
 com/ptidss/agent/mapper/AgentRegistryMapper.class
 com/ptidss/settlement/mapper/SettlementRecordMapper.class
 com/ptidss/data/domain/DataQualityRule.class
+com/ptidss/system/domain/SysConfig.class
 com/ptidss/model/gateway/LlmGatewayClient.class
 com/ptidss/intel/mapper/IntelSourceMapper.class
 com/ptidss/settlement/controller/OcrController.class

@@ -2,6 +2,7 @@ package com.ptidss.system.controller;
 
 import com.ptidss.common.annotation.Log;
 import com.ptidss.common.annotation.RequiresPermissions;
+import com.ptidss.common.annotation.RequiresRoles;
 import com.ptidss.common.domain.Result;
 import com.ptidss.system.domain.SysRegion;
 import com.ptidss.system.service.SysRegionService;
@@ -44,6 +45,7 @@ public class SysRegionController {
 
     @Log(action = "region_create", targetType = "sys_region")
     @PostMapping
+    @RequiresRoles("admin")
     public Result<Void> create(@RequestBody SysRegion region) {
         sysRegionService.create(region);
         return Result.success();
@@ -51,6 +53,7 @@ public class SysRegionController {
 
     @Log(action = "region_update", targetType = "sys_region")
     @PutMapping
+    @RequiresRoles("admin")
     public Result<Void> update(@RequestBody SysRegion region) {
         sysRegionService.update(region);
         return Result.success();
@@ -58,6 +61,7 @@ public class SysRegionController {
 
     @Log(action = "region_delete", targetType = "sys_region")
     @DeleteMapping("/{id}")
+    @RequiresRoles("admin")
     public Result<Void> delete(@PathVariable Long id) {
         sysRegionService.delete(id);
         return Result.success();
