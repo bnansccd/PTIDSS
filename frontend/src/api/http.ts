@@ -39,7 +39,12 @@ http.interceptors.response.use(
       useAuthStore().setToken(String(newToken))
     }
     const body = response.data as ApiResponse
-    if (body && typeof body.code === 'number' && body.code !== 0) {
+    // 非契约响应（如代理失效时返回的 SPA HTML / 网关错误页）：明确报错而非静默 undefined，
+    // 避免验证码等组件拿到空值导致界面空白且无法定位问题
+    if (!body || typeof body !== 'object' || typeof body.code !== 'number') {
+      return Promise.reject(new Error('服务响应格式异常（请确认后端 9080 可用且代理正常）'))
+    }
+    if (body.code !== 0) {
       if (body.code === 14001 && !refreshing) {
         const auth = useAuthStore()
         if (auth.accessToken) {

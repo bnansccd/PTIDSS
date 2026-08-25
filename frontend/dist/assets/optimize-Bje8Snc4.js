@@ -1,0 +1,1 @@
+import{H as e}from"./index-BcakO9v2.js";function s(t){return e({url:"/optimize/joint-tasks",method:"post",data:t})}function a(t){return e({url:`/optimize/joint-tasks/${t}`,method:"get"})}function i(t){return e({url:"/optimize/backtests",method:"post",data:t})}function r(){return e({url:"/optimize/strategies",method:"get"})}export{a,i as b,r as g,s as p};

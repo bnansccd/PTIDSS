@@ -1,2 +1,0 @@
-# PTIDSS 测试脚本依赖（Python 3.10+，requests 2026-08 主流版本）
-requests>=2.34,<3
