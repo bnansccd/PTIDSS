@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "决策审批",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "onReachBottomDistance": 80
+}

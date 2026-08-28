@@ -1,0 +1,70 @@
+<view class="page">
+  <block wx:if="{{detail}}">
+    <!-- 实例信息 -->
+    <view class="card">
+      <view class="card-title">{{detail.processName}}</view>
+      <view class="row">
+        <view class="row-left"><view class="row-sub">实例号</view><view class="row-title">{{detail.instanceNo}}</view></view>
+        <view class="row-right"><text class="tag {{detail.status === 'running' ? 'tag-orange' : 'tag-gray'}}">{{detail.statusName}}</text></view>
+      </view>
+      <view class="row">
+        <view class="row-left"><view class="row-sub">业务类型</view><view class="row-title">{{detail.bizTypeName}} · {{detail.bizId}}</view></view>
+      </view>
+      <view class="row">
+        <view class="row-left"><view class="row-sub">发起人</view><view class="row-title">{{detail.startBy}}</view></view>
+        <view class="row-right">
+          <view class="row-sub">发起时间</view>
+          <view class="row-title" style="font-size: 24rpx">{{detail.startTime}}</view>
+        </view>
+      </view>
+      <view class="row" wx:if="{{detail.status === 'running'}}">
+        <view class="row-left"><view class="row-sub">当前环节</view><view class="row-title">{{detail.currentNode}}</view></view>
+        <view class="row-right"><view class="row-sub">当前处理人</view><view class="row-title" style="font-size: 24rpx">{{detail.currentAssignee}}</view></view>
+      </view>
+    </view>
+
+    <!-- 环节进度 -->
+    <view class="card">
+      <view class="card-title">审批环节</view>
+      <view class="steps">
+        <view class="step" wx:for="{{stepNames}}" wx:key="*this">
+          <view class="step-dot {{stepStatus[index]}}"></view>
+          <view class="step-line" wx:if="{{index < stepNames.length - 1}}"></view>
+          <view class="step-name {{stepStatus[index] === 'current' ? 'current' : ''}}">{{item}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 审批留痕 -->
+    <view class="card" wx:if="{{actions.length}}">
+      <view class="card-title">审批留痕</view>
+      <view class="row" wx:for="{{actions}}" wx:key="index">
+        <view class="row-left">
+          <view class="row-title">{{item.operator}} · {{item.actionName}}</view>
+          <view class="row-sub">环节 {{item.node}} · {{item.time}}</view>
+          <view class="row-sub" wx:if="{{item.comment}}">意见：{{item.comment}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 办理操作（运行中） -->
+    <view class="action-bar" wx:if="{{detail.status === 'running'}}">
+      <button class="btn btn-danger action-btn" bindtap="openReject">驳 回</button>
+      <button class="btn action-btn" bindtap="openApprove">通 过</button>
+    </view>
+  </block>
+
+  <view wx:if="{{!detail}}" class="empty">加载中…</view>
+
+  <!-- 办理弹层 -->
+  <view class="mask" wx:if="{{showAction}}" bindtap="closeAction"></view>
+  <view class="sheet" wx:if="{{showAction}}">
+    <view class="sheet-title">{{actionType === 'approve' ? '通过审批' : '驳回流程'}}</view>
+    <textarea class="input comment" placeholder="{{actionType === 'reject' ? '驳回原因（必填）' : '审批意见（选填）'}}"
+      value="{{comment}}" bindinput="onComment" maxlength="200"></textarea>
+    <button class="btn {{actionType === 'reject' ? 'btn-danger' : ''}} {{submitting ? 'btn-disabled' : ''}}" bindtap="submitAction">
+      确认{{actionType === 'approve' ? '通过' : '驳回'}}
+    </button>
+    <button class="btn btn-plain" bindtap="closeAction">取 消</button>
+  </view>
+</view>

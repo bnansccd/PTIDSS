@@ -1,0 +1,72 @@
+.login-page {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #1f3a5f 0%, #2c5282 55%, #f5f6fa 55.5%);
+  padding: 0 64rpx;
+  box-sizing: border-box;
+}
+
+.logo {
+  padding-top: 140rpx;
+  text-align: center;
+  margin-bottom: 80rpx;
+}
+
+.logo-icon {
+  width: 120rpx;
+  height: 120rpx;
+  line-height: 120rpx;
+  border-radius: 28rpx;
+  background: #ffffff;
+  color: #1f3a5f;
+  font-size: 48rpx;
+  font-weight: 700;
+  margin: 0 auto 24rpx;
+}
+
+.logo-title {
+  color: #ffffff;
+  font-size: 34rpx;
+  font-weight: 600;
+}
+
+.logo-sub {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 24rpx;
+  margin-top: 12rpx;
+}
+
+.form {
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 40rpx 36rpx;
+  box-shadow: 0 8rpx 32rpx rgba(31, 58, 95, 0.12);
+}
+
+.captcha-row {
+  display: flex;
+  align-items: center;
+}
+
+.captcha-input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.captcha-img {
+  width: 200rpx;
+  height: 76rpx;
+  margin-left: 20rpx;
+  border-radius: 8rpx;
+  background: #eef0f4;
+}
+
+.captcha-link {
+  text-align: center;
+  margin-top: 8rpx;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 60rpx;
+  font-size: 22rpx;
+}

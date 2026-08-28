@@ -1,11 +1,13 @@
 # ============================================================
-# PTIDSS 容器化部署（V2.5，可选方案）
-# 三服务：postgres(18) + ptidss-server + nginx(前端静态 + 反代)
+# PTIDSS 容器化部署（V2.5，旧版可选方案）
+# ⚠️ 生产部署请使用自包含一键方案：deploy/docker-prod/
+#    （jar/dist/ddl 全部内置，拷贝目录 → docker compose up -d --build 即可）
+# 本编排依赖仓库布局（docs/ddl、frontend/dist、ptidss-server/target），
+# 仅供仓库内快速体验；三服务：postgres(18) + ptidss-server + nginx
 # 前置：./build.sh 产出 ptidss-server/target/*.jar 与 frontend/dist
 # 使用：cd deploy/docker && docker compose up -d --build
 # 数据持久化：named volume pgdata（容器删除不丢数据）
-# 说明：进程级部署（deploy/scripts/*.sh）为主推方案，本编排用于
-#       需要容器隔离/快速迁移的环境；TDengine 时序库不在此编排内。
+# 说明：TDengine 时序库不在此编排内。
 # ============================================================
 services:
   postgres:
@@ -16,8 +18,9 @@ services:
       POSTGRES_USER: ptidss
       POSTGRES_PASSWORD: ${DB_PASSWORD:-ptidss}
     volumes:
-      - pgdata:/var/lib/postgresql/data
-      # 初始化包装：执行 docs/ddl 01~15（排除 02 TDengine 时序脚本），首次启动自动执行
+      # postgres 18+ 要求挂载 /var/lib/postgresql（数据落于其 data 子目录）
+      - pgdata:/var/lib/postgresql
+      # 初始化包装：执行 docs/ddl 01~15（排除 02 TDengine 时序 脚本），首次启动自动执行
       - ./init-db.sh:/docker-entrypoint-initdb.d/00-init-db.sh:ro
       - ../../docs/ddl:/docker-entrypoint-initdb.d-src:ro
     ports:
